@@ -159,6 +159,8 @@ a{color:inherit}
   -webkit-mask:linear-gradient(#000 0 0) top/100% calc(100% - var(--z)) no-repeat, conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/calc(2*var(--z)) var(--z) repeat-x;
   mask:linear-gradient(#000 0 0) top/100% calc(100% - var(--z)) no-repeat, conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/calc(2*var(--z)) var(--z) repeat-x}
 .paper > img{height:20px;width:auto;margin:0 auto 6px}
+.rc-pic{display:none}
+.counter[data-receipt="open"] .rc-pic{display:block;width:min(260px,72%);height:auto;margin:-4px auto 12px;overflow:visible}
 .paper h2{margin:0 0 14px;text-align:center;font-weight:900;font-stretch:112%;font-size:15px;text-transform:uppercase;letter-spacing:.02em}
 .field{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
 .field label{font-weight:800;font-size:12px;white-space:nowrap}
@@ -576,6 +578,7 @@ html.dragging,html.dragging *{cursor:grabbing !important}
           <button class="rc-close" type="button" id="rc-close" aria-label="Close order"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg></button>
           <img src="img/brand/logo.png" alt="MidKid" width="600" height="117">
           <h2 id="rc-h">Build your own sandwich</h2>
+          <svg class="rc-pic" id="rc-pic" aria-hidden="true"></svg>
           <div class="field"><label for="cust-name">NAME</label><input id="cust-name" type="text" autocomplete="given-name" placeholder="Who's this for?"></div>
           <div class="lines-box" id="lines-box">
             <ul class="lines" id="lines"></ul>
@@ -648,7 +651,7 @@ html.dragging,html.dragging *{cursor:grabbing !important}
 <div id="print-slip" aria-hidden="true"></div>
 
 <script>
-const IMG = {"arugula":{"src":"img/layers/arugula.webp","w":900,"h":407},"bacon":{"src":"img/layers/bacon.webp","w":900,"h":378},"caramelized":{"src":"img/layers/caramelized.webp","w":900,"h":415},"cheddar":{"src":"img/layers/cheddar.webp","w":900,"h":561},"chicken":{"src":"img/layers/chicken.webp","w":900,"h":493},"cornedbeef":{"src":"img/layers/cornedbeef.webp","w":900,"h":597},"egg":{"src":"img/layers/egg.webp","w":900,"h":481},"gravlax":{"src":"img/layers/gravlax.webp","w":900,"h":406},"ham":{"src":"img/layers/ham.webp","w":900,"h":501},"ikura":{"src":"img/layers/ikura.webp","w":900,"h":377},"lettuce":{"src":"img/layers/lettuce.webp","w":900,"h":425},"pandesal_b":{"src":"img/layers/pandesal_b.webp","w":1100,"h":397},"pandesal_t":{"src":"img/layers/pandesal_t.webp","w":1099,"h":411},"pastrami":{"src":"img/layers/pastrami.webp","w":900,"h":443},"pbagel_b":{"src":"img/layers/pbagel_b.webp","w":900,"h":566},"pbagel_t":{"src":"img/layers/pbagel_t.webp","w":893,"h":494},"pbun_b":{"src":"img/layers/pbun_b.webp","w":900,"h":495},"pbun_t":{"src":"img/layers/pbun_t.webp","w":897,"h":500},"pickles":{"src":"img/layers/pickles.webp","w":900,"h":215},"potato_b":{"src":"img/layers/potato_b.webp","w":900,"h":485},"potato_t":{"src":"img/layers/potato_t.webp","w":895,"h":509},"redonion":{"src":"img/layers/redonion.webp","w":900,"h":406},"salmonfill":{"src":"img/layers/salmonfill.webp","w":900,"h":438},"sauerkraut":{"src":"img/layers/sauerkraut.webp","w":900,"h":434},"sausage":{"src":"img/layers/sausage.webp","w":900,"h":352},"sour_b":{"src":"img/layers/sour_b.webp","w":900,"h":440},"sour_t":{"src":"img/layers/sour_t.webp","w":900,"h":424},"tobiko":{"src":"img/layers/tobiko.webp","w":900,"h":352},"tomato":{"src":"img/layers/tomato.webp","w":900,"h":399},"wagyu":{"src":"img/layers/wagyu.webp","w":900,"h":419},"whitecheddar":{"src":"img/layers/whitecheddar.webp","w":900,"h":565},"wsour_t":{"src":"img/layers/wsour_t.webp","w":1100,"h":459},"wsour_b":{"src":"img/layers/wsour_b.webp","w":1100,"h":461},"pan_bacon":{"src":"img/pans/bacon.webp","w":300,"h":200},"pan_whitecheddar":{"src":"img/pans/whitecheddar.webp","w":300,"h":200},"pan_cheddar":{"src":"img/pans/cheddar.webp","w":300,"h":200},"pan_ham":{"src":"img/pans/ham.webp","w":300,"h":200},"pan_cb100":{"src":"img/pans/cb100.webp","w":300,"h":200},"pan_cb50":{"src":"img/pans/cb50.webp","w":300,"h":200},"pan_pas100":{"src":"img/pans/pas100.webp","w":300,"h":200},"pan_pas50":{"src":"img/pans/pas50.webp","w":300,"h":200},"pan_gravlax":{"src":"img/pans/gravlax.webp","w":300,"h":200},"pan_egg":{"src":"img/pans/egg.webp","w":300,"h":200},"pan_wagyu":{"src":"img/pans/wagyu.webp","w":300,"h":200},"pan_sausage":{"src":"img/pans/sausage.webp","w":300,"h":200},"pan_lettuce":{"src":"img/pans/lettuce.webp","w":300,"h":200},"pan_arugula":{"src":"img/pans/arugula.webp","w":300,"h":200},"pan_ikura":{"src":"img/pans/ikura.webp","w":300,"h":200},"panb_potato":{"src":"img/pans/bread_potato.webp","w":420,"h":239},"panb_pbun":{"src":"img/pans/bread_pbun.webp","w":420,"h":234},"panb_pbagel":{"src":"img/pans/bread_pbagel.webp","w":420,"h":232},"panb_pandesal":{"src":"img/pans/bread_pandesal.webp","w":420,"h":157},"panb_sour":{"src":"img/pans/bread_sour.webp","w":420,"h":175},"panb_sourhalf":{"src":"img/pans/bread_sourhalf.webp","w":420,"h":198},"tv_liner":{"src":"img/tray-liner.webp","w":900,"h":684},"tex_chicken":{"src":"img/tex/tex_chicken.webp","w":280,"h":32},"tex_salmonfill":{"src":"img/tex/tex_salmonfill.webp","w":380,"h":16},"tex_secret":{"src":"img/tex/tex_secret.webp","w":260,"h":56}};
+const IMG = {"arugula":{"src":"img/layers/arugula.webp","w":900,"h":407},"bacon":{"src":"img/layers/bacon.webp","w":900,"h":378},"caramelized":{"src":"img/layers/caramelized.webp","w":900,"h":415},"cheddar":{"src":"img/layers/cheddar.webp","w":900,"h":561},"chicken":{"src":"img/layers/chicken.webp","w":900,"h":493},"cornedbeef":{"src":"img/layers/cornedbeef.webp","w":900,"h":597},"egg":{"src":"img/layers/egg.webp","w":900,"h":481},"gravlax":{"src":"img/layers/gravlax.webp","w":900,"h":406},"ham":{"src":"img/layers/ham.webp","w":900,"h":501},"ikura":{"src":"img/layers/ikura.webp","w":900,"h":377},"lettuce":{"src":"img/layers/lettuce.webp","w":900,"h":425},"pandesal_b":{"src":"img/layers/pandesal_b.webp","w":1100,"h":397},"pandesal_t":{"src":"img/layers/pandesal_t.webp","w":1099,"h":411},"pastrami":{"src":"img/layers/pastrami.webp","w":900,"h":443},"pbagel_b":{"src":"img/layers/pbagel_b.webp","w":900,"h":566},"pbagel_t":{"src":"img/layers/pbagel_t.webp","w":893,"h":494},"pbun_b":{"src":"img/layers/pbun_b.webp","w":900,"h":495},"pbun_t":{"src":"img/layers/pbun_t.webp","w":897,"h":500},"pickles":{"src":"img/layers/pickles.webp","w":900,"h":215},"potato_b":{"src":"img/layers/potato_b.webp","w":900,"h":485},"potato_t":{"src":"img/layers/potato_t.webp","w":895,"h":509},"redonion":{"src":"img/layers/redonion.webp","w":900,"h":406},"salmonfill":{"src":"img/layers/salmonfill.webp","w":900,"h":438},"sauerkraut":{"src":"img/layers/sauerkraut.webp","w":900,"h":434},"sausage":{"src":"img/layers/sausage.webp","w":900,"h":352},"sour_b":{"src":"img/layers/sour_b.webp","w":900,"h":440},"sour_t":{"src":"img/layers/sour_t.webp","w":900,"h":424},"tobiko":{"src":"img/layers/tobiko.webp","w":900,"h":352},"tomato":{"src":"img/layers/tomato.webp","w":900,"h":399},"wagyu":{"src":"img/layers/wagyu.webp","w":900,"h":419},"whitecheddar":{"src":"img/layers/whitecheddar.webp","w":900,"h":565},"wsour_t":{"src":"img/layers/wsour_t.webp","w":1100,"h":459},"wsour_b":{"src":"img/layers/wsour_b.webp","w":1100,"h":461},"pan_arugula":{"src":"img/pans/arugula.webp","w":480,"h":320},"pan_bacon":{"src":"img/pans/bacon.webp","w":480,"h":320},"pan_caramelized":{"src":"img/pans/caramelized.webp","w":480,"h":320},"pan_cb100":{"src":"img/pans/cb100.webp","w":480,"h":320},"pan_cb50":{"src":"img/pans/cb50.webp","w":480,"h":320},"pan_cheddar":{"src":"img/pans/cheddar.webp","w":480,"h":320},"pan_chicken":{"src":"img/pans/chicken.webp","w":480,"h":320},"pan_egg":{"src":"img/pans/egg.webp","w":480,"h":320},"pan_gravlax":{"src":"img/pans/gravlax.webp","w":480,"h":320},"pan_ham":{"src":"img/pans/ham.webp","w":480,"h":320},"pan_ikura":{"src":"img/pans/ikura.webp","w":480,"h":320},"pan_lettuce":{"src":"img/pans/lettuce.webp","w":480,"h":320},"pan_pas100":{"src":"img/pans/pas100.webp","w":480,"h":320},"pan_pas50":{"src":"img/pans/pas50.webp","w":480,"h":320},"pan_pickles":{"src":"img/pans/pickles.webp","w":480,"h":320},"pan_redonion":{"src":"img/pans/redonion.webp","w":480,"h":320},"pan_salmonfill":{"src":"img/pans/salmonfill.webp","w":480,"h":320},"pan_sauerkraut":{"src":"img/pans/sauerkraut.webp","w":480,"h":320},"pan_sausage":{"src":"img/pans/sausage.webp","w":480,"h":320},"pan_tobiko":{"src":"img/pans/tobiko.webp","w":480,"h":320},"pan_tomato":{"src":"img/pans/tomato.webp","w":480,"h":320},"pan_wagyu":{"src":"img/pans/wagyu.webp","w":480,"h":320},"pan_whitecheddar":{"src":"img/pans/whitecheddar.webp","w":480,"h":320},"panb_potato":{"src":"img/pans/bread_potato.webp","w":420,"h":239},"panb_pbun":{"src":"img/pans/bread_pbun.webp","w":420,"h":234},"panb_pbagel":{"src":"img/pans/bread_pbagel.webp","w":420,"h":232},"panb_pandesal":{"src":"img/pans/bread_pandesal.webp","w":420,"h":157},"panb_sour":{"src":"img/pans/bread_sour.webp","w":420,"h":175},"panb_sourhalf":{"src":"img/pans/bread_sourhalf.webp","w":420,"h":198},"tv_liner":{"src":"img/tray-liner.webp","w":900,"h":684},"tex_chicken":{"src":"img/tex/tex_chicken.webp","w":280,"h":32},"tex_salmonfill":{"src":"img/tex/tex_salmonfill.webp","w":380,"h":16},"tex_secret":{"src":"img/tex/tex_secret.webp","w":260,"h":56}};
 (() => {
 'use strict';
 const STEPS = [
@@ -816,7 +819,7 @@ const BREADS = {
   sourhalf: { w:380, D:330, ref:380, t:{ img:'sour_t', q:.125 }, b:{ img:'sour_b', r:.12, f:.12 } },
 };
 /* the photos look down on the food a little; seating each layer a bit higher than the photo implies keeps every layer's edge in view, like a burger on a menu board */
-const SEAT_K = .68, BREAD_K = .76;
+const SEAT_K = .85, BREAD_K = .8;
 const S_SHADOW = (Wd, Hd, seat, op) => `<ellipse cx="${CX}" cy="${f(Hd - seat * .25)}" rx="${f(Wd * .45)}" ry="${f(Math.max(6, seat * 1.05))}" fill="#160501" opacity="${op}" filter="url(#seam)"/>`;
 function img(src, x, y, w, h, flip){
   return `<image href="${src}" x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" preserveAspectRatio="none"${flip ? ` transform="translate(${f(2 * x + w)} 0) scale(-1 1)"` : ''}/>`;
@@ -847,8 +850,8 @@ const L = {
   salmonfill:   { k:.95, hk:.82, r:.18, q:.17, long:'stretch' },
   bacon:        { k:1.02, hk:.9, r:.17, q:.15, long:'stretch' },
   egg:          { k:.98, hk:.92, r:.22, q:.15, long:'rep' },
-  cheddar:      { k:1.0, hk:.8, cheese:true, top:.2, long:'rep' },
-  whitecheddar: { k:1.0, hk:.8, cheese:true, top:.2, long:'rep' },
+  cheddar:      { k:1.0, hk:.8, cheese:true, top:.2, long:'stretch' },
+  whitecheddar: { k:1.0, hk:.8, cheese:true, top:.2, long:'stretch' },
   lettuce:      { k:1.1, hk:.85, r:.22, q:.2,  long:'stretch' },
   arugula:      { k:1.02, hk:.8, r:.25, q:.17, long:'stretch' },
   tomato:       { k:.94, hk:.9,  r:.2,  q:.08, long:'rep' },
@@ -970,10 +973,12 @@ function drawTray(){
   s += `<rect x="${x0}" y="${-d / 2}" width="${x1 - x0}" height="${d}" rx="8" fill="#fff" filter="url(#brush)" opacity=".5"/>`;
   s += `<rect x="${x0}" y="${-d / 2}" width="${x1 - x0}" height="${d}" rx="8" fill="url(#steel-sheen)"/>`;
   s += `<rect x="${x0 + 2}" y="${-d / 2 + 2}" width="${x1 - x0 - 4}" height="${d - 4}" rx="7" fill="none" stroke="#fff" stroke-width="3" opacity=".6"/>`;
-  s += `<g transform="rotate(-3 ${CX + 50} 16)" filter="url(#paper)"><image href="${IMG.tv_liner.src}" x="${CX + 50 - 230}" y="${16 - 145}" width="460" height="290" preserveAspectRatio="none"/></g>`;
+  // MidKid liner paper over the whole base of the tray, its pattern tiled so the logos keep their shape
+  const li = IMG.tv_liner, tw = 330, th = tw * li.h / li.w, inset = 7;
+  s += `<defs><pattern id="liner-pat" patternUnits="userSpaceOnUse" x="${x0 + inset}" y="${-d / 2 + inset}" width="${tw}" height="${f(th)}"><image href="${li.src}" width="${tw}" height="${f(th)}" preserveAspectRatio="none"/></pattern></defs>`;
+  s += `<rect x="${x0 + inset}" y="${-d / 2 + inset}" width="${x1 - x0 - 2 * inset}" height="${d - 2 * inset}" rx="5" fill="url(#liner-pat)" filter="url(#paper)"/>`;
+  s += `<rect x="${x0 + inset}" y="${-d / 2 + inset}" width="${x1 - x0 - 2 * inset}" height="${d - 2 * inset}" rx="5" fill="none" stroke="#000" stroke-opacity=".08" stroke-width="1.5"/>`;
   s += `</g>`;
-  // MidKid's name pressed into the steel, back left, where the liner doesn't reach
-  s += `<g transform="translate(${x0 + 58} ${f(zb + 22)}) scale(1 .5)" font-family="Archivo, sans-serif" font-weight="900" font-stretch="125%" font-size="17" letter-spacing="1" text-anchor="middle"><text y="1.4" fill="#fff" opacity=".6">MID·KID</text><text fill="#6f767c" opacity=".6">MID·KID</text></g>`;
   $('#tray').innerHTML = s;
 }
 
@@ -981,7 +986,7 @@ function drawTray(){
 const NS = 'http://www.w3.org/2000/svg';
 const stage = $('#stage'), svg = $('#scene-svg'), worldG = $('#world'), stackG = $('#stack'), stackBack = $('#stack-back'), stackFront = $('#stack-front'), labelsG = $('#labels'), shadowEl = $('#shadow');
 const nodes = new Map(), lnodes = new Map();
-let pending = new Map(), curS = 1;
+let pending = new Map(), curS = 1, lastStack = null;
 function wrapLabel(t){
   const words = t.replace(/,/g, '').toUpperCase().split(' '), lines = [];
   let cur = '';
@@ -1043,6 +1048,7 @@ function renderStage(){
     }
     return { ...l, r, top, h:r.h };
   });
+  lastStack = { w, parts: geo.map(g => ({ top:g.top, h:g.h, svg:g.r.svg })) };
   geo.forEach((g, i) => { g.y = g.top - (exploded ? G * i : 0); });
   const minTop = geo.length ? Math.min(...geo.map(g => g.y)) : BASE - 200;
 
@@ -1174,7 +1180,7 @@ function lidHint(){
 
 
 /* ---------- pans on the counter ---------- */
-const PAN_PHOTO = { bacon:1, whitecheddar:1, cheddar:1, ham:1, cb100:1, cb50:1, pas100:1, pas50:1, gravlax:1, egg:1, wagyu:1, sausage:1, lettuce:1, arugula:1, ikura:1 };
+const PAN_PHOTO = id => !!IMG['pan_' + id];
 /* a MidKid squeeze bottle; the nozzle tip sits at (0,0), the bottle hangs below it */
 function bottle(id){
   const [c, e] = SAUCES[id], u = uid('bt');
@@ -1250,7 +1256,7 @@ function panHTML(id){
   let cls = 'pan', art;
   if (BREADS[id]){ cls += ' pan-bread'; art = `<img src="${IMG['panb_' + id].src}" alt="">`; }
   else if (SAUCES[id]){ cls += ' pan-sauce'; art = panArt(id); }
-  else if (PAN_PHOTO[id]){ art = `<img src="${IMG['pan_' + id].src}" alt="">`; }
+  else if (PAN_PHOTO(id)){ art = `<img src="${IMG['pan_' + id].src}" alt="">`; }
   else art = panArt(id);
   return `<button class="${cls}" type="button" data-id="${id}" aria-pressed="false"><span class="well">${art}</span><span class="pn">${nm}</span><span class="pp">${peso(it.price)}</span><span class="tick" aria-hidden="true"></span></button>`;
 }
@@ -1627,7 +1633,20 @@ function openReceipt(){
   if (!compact()){ $('#cust-name').focus({ preventScroll:true }); $('.paper').animate([{ transform:'rotate(1.2deg) translateY(0)' }, { transform:'rotate(1.2deg) translateY(-8px)' }, { transform:'rotate(1.2deg) translateY(0)' }], { duration:420 }); return; }
   showFullReceipt();
 }
+// a picture of the finished sandwich at the top of the full receipt
+function drawReceiptPic(){
+  const pic = $('#rc-pic');
+  if (!lastStack || !state.bread){ pic.innerHTML = ''; pic.removeAttribute('viewBox'); return; }
+  const { w, parts } = lastStack;
+  const y0 = Math.min(...parts.map(p => p.top)) - 6, y1 = Math.max(...parts.map(p => p.top + p.h)) + 22;
+  const x0 = CX - w * .62, vw = w * 1.24;
+  pic.setAttribute('viewBox', `${f(x0)} ${f(y0)} ${f(vw)} ${f(y1 - y0)}`);
+  pic.innerHTML = `<ellipse cx="${CX}" cy="${f(y1 - 26)}" rx="${f(w * .5)}" ry="16" fill="#3a0d08" opacity=".22" filter="url(#tshadow)"/>`
+    + parts.map(p => `<g transform="translate(0 ${f(p.top)})">${p.svg}</g>`).join('');
+  pic.querySelectorAll('.spat').forEach(sp => sp.remove());
+}
 function showFullReceipt(){
+  drawReceiptPic();
   $('#rc-back-txt').textContent = compact() ? 'Keep building' : 'Back to the counter';
   counter.dataset.receipt = 'open';
   document.documentElement.style.overflow = 'hidden';
