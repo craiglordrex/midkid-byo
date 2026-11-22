@@ -7,12 +7,12 @@
 <meta name="description" content="Build your own MidKid sandwich at the counter: pick your bread, protein, cheese, toppings and sauce, watch every layer go on, and send your order for pickup.">
 <meta property="og:title" content="Build Your Own Sandwich | MidKid">
 <meta property="og:description" content="Pick your bread, stack your layers, and send your order to MidKid for pickup.">
-<link rel="icon" href="img/brand/face.png">
+<link rel="icon" href="img/brand/face.png?v=0b9000fb">
 <style>
-@font-face{font-family:'Archivo';src:url(fonts/an.woff2) format('woff2');font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap;unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2026}
-@font-face{font-family:'Archivo';src:url(fonts/an-peso.woff2) format('woff2');font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap;unicode-range:U+20B1}
-@font-face{font-family:'Archivo';src:url(fonts/ai.woff2) format('woff2');font-weight:100 900;font-stretch:62% 125%;font-style:italic;font-display:swap}
-@font-face{font-family:'Marker';src:url(fonts/pm.woff2) format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Archivo';src:url(fonts/an.woff2?v=a18d32e4) format('woff2');font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap;unicode-range:U+0020-007E,U+00A0-00FF,U+2013-2026}
+@font-face{font-family:'Archivo';src:url(fonts/an-peso.woff2?v=7b326417) format('woff2');font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap;unicode-range:U+20B1}
+@font-face{font-family:'Archivo';src:url(fonts/ai.woff2?v=02e40784) format('woff2');font-weight:100 900;font-stretch:62% 125%;font-style:italic;font-display:swap}
+@font-face{font-family:'Marker';src:url(fonts/pm.woff2?v=038d8731) format('woff2');font-weight:400;font-style:normal;font-display:swap}
 [hidden]{display:none !important}
 :root{
   --maroon:#84151E; --maroon-deep:#5C0D14; --butter:#E9E28F; --paper:#FFFDF8; --liner-soft:#F8F2EB;
@@ -62,6 +62,11 @@ a{color:inherit}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--maroon);color:#fff;border:0;border-radius:999px;padding:14px 26px;font-weight:800;font-size:16px;text-decoration:none;cursor:pointer;white-space:nowrap;box-shadow:0 8px 22px rgba(60,6,12,.35)}
 .btn:hover{background:var(--maroon-deep)}
 .btn-start{font-size:18px;padding:17px 34px}
+.intro-name{display:flex;flex-direction:column;gap:7px;margin:0 0 16px;width:min(330px,100%)}
+.intro-name span{font-weight:700;font-stretch:87.5%;font-size:15px;color:#fff}
+.intro-name input{font:inherit;font-weight:600;font-stretch:87.5%;font-size:17px;color:var(--maroon);background:#fffdf8;border:0;border-radius:14px;padding:13px 16px;box-shadow:0 8px 22px rgba(0,0,0,.28)}
+.intro-name input::placeholder{color:rgba(132,21,30,.45)}
+.intro-name input:focus{outline:3px solid var(--butter);outline-offset:2px}
 .btn-line{background:#fff;color:var(--maroon);box-shadow:inset 0 0 0 1.5px var(--maroon)}
 .btn-line:hover{background:var(--liner-soft)}
 .btn[aria-disabled="true"]{opacity:.45;pointer-events:none}
@@ -136,6 +141,7 @@ a{color:inherit}
 .pan-sauce .well{background:none;box-shadow:none;padding:0}
 .pan-sauce .well::after{display:none}
 .pan-sauce .well > svg{filter:drop-shadow(0 9px 10px rgba(0,0,0,.4))}
+.pan-tub .well > svg.over{position:absolute;inset:6px;width:calc(100% - 12px);height:calc(100% - 12px);z-index:1;filter:drop-shadow(0 5px 5px rgba(0,0,0,.35))}
 .pn{font-stretch:75%;font-weight:600;font-size:15px;line-height:1.15}
 .pn small{opacity:.75;font-size:13px}
 .pp{font-family:var(--hand);font-size:15px;color:var(--butter);line-height:1}
@@ -239,7 +245,7 @@ a{color:inherit}
   .counter{min-height:460px;max-height:none;height:calc(100svh - var(--head));height:calc(100dvh - var(--head))}
   .ct{display:block;padding:0}
   .stage-area{position:absolute;left:0;right:0;top:0;bottom:var(--stage-bottom,0px);transition:bottom .5s cubic-bezier(.3,1,.4,1)}
-  .counter[data-mode="intro"] .stage-area{top:196px;bottom:84px}
+  .counter[data-mode="intro"] .stage-area{top:186px;bottom:150px}
   .tools{position:absolute;top:10px;right:10px;flex-direction:column;padding:0;gap:8px;z-index:6}
   .tool{width:42px;height:42px;padding:0;justify-content:center}
   .tool .tl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -264,6 +270,10 @@ a{color:inherit}
   .lede{font-size:15.5px;margin:10px 0 0;max-width:26ch}
   .btn-start{position:fixed;z-index:70;left:var(--pad);right:var(--pad);bottom:calc(14px + env(safe-area-inset-bottom));width:auto;font-size:18px;padding:17px;box-shadow:0 10px 28px rgba(40,4,8,.45)}
   .counter[data-mode="build"] .btn-start{display:none}
+  .intro-name{position:fixed;z-index:70;left:var(--pad);right:var(--pad);bottom:calc(84px + env(safe-area-inset-bottom));width:auto;margin:0;flex-direction:row;align-items:center;gap:10px;background:rgba(30,30,34,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:16px;padding:8px 8px 8px 14px}
+  .intro-name span{font-size:13.5px;line-height:1.15;flex:0 0 auto;max-width:9.5em}
+  .intro-name input{flex:1;min-width:0;padding:11px 13px;font-size:16px;box-shadow:none;border-radius:11px}
+  .counter[data-mode="build"] .intro-name{display:none}
   .intro-link{position:absolute;bottom:68px;left:0;right:0;text-align:center;font-size:14px;display:none}
   /* the sheet */
   .picker{touch-action:pan-x;position:absolute;left:0;right:0;bottom:0;height:var(--sheet-h);display:flex;flex-direction:column;z-index:20;padding:0 0 calc(10px + env(safe-area-inset-bottom));border-radius:22px 22px 0 0;
@@ -448,7 +458,7 @@ html.dragging,html.dragging *{cursor:grabbing !important}
 <body>
 
 <header class="site-head">
-  <a class="brand" href="#top" aria-label="MidKid home"><img src="img/brand/logo.png" alt="MidKid" width="600" height="117"></a>
+  <a class="brand" href="#top" aria-label="MidKid home"><img src="img/brand/logo.png?v=60a8c1be" alt="MidKid" width="600" height="117"></a>
   <nav class="site-nav" aria-label="Main">
     <a class="sig-link" href="#signatures">Signature stacks</a>
     <a class="pill" href="tel:+639238360103">
@@ -466,11 +476,12 @@ html.dragging,html.dragging *{cursor:grabbing !important}
           <defs><path id="badge-arc" d="M60,60 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs>
           <circle cx="60" cy="60" r="58" fill="#84151E"/>
           <circle cx="60" cy="60" r="29" fill="#fff"/>
-          <image href="img/brand/face.png" x="38" y="36" width="44" height="49"/>
+          <image href="img/brand/face.png?v=0b9000fb" x="38" y="36" width="44" height="49"/>
           <text font-family="Archivo, sans-serif" font-weight="900" font-size="13.5" letter-spacing="2.2" fill="#fff"><textPath href="#badge-arc" startOffset="0">BUILD YOUR OWN • BUILD YOUR OWN •</textPath></text>
         </svg>
         <h1><span class="h1-a">Build your own</span><span class="h1-b">Sandwich</span></h1>
         <p class="lede">Pick a bread, stack it from the MidKid counter, and look at every layer up close before you order.</p>
+        <label class="intro-name" for="start-name"><span>Who's this sandwich for?</span><input id="start-name" type="text" autocomplete="given-name" maxlength="24" placeholder="Your name" enterkeyhint="go"></label>
         <button class="btn btn-start" type="button" id="btn-start">Start building</button>
         <a class="intro-link" href="#signatures">Or start from a signature</a>
       </div>
@@ -509,6 +520,7 @@ html.dragging,html.dragging *{cursor:grabbing !important}
               <filter id="ls" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#1a0802" flood-opacity=".42"/></filter>
               <filter id="paper" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity=".25"/></filter>
               <filter id="soft" x="-30%" y="-400%" width="160%" height="900%"><feGaussianBlur stdDeviation="5"/></filter>
+              <linearGradient id="bead-shade" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".35" stop-color="#fff" stop-opacity="0"/><stop offset=".7" stop-color="#3a1404" stop-opacity="0"/><stop offset="1" stop-color="#3a1404" stop-opacity=".3"/></linearGradient><linearGradient id="cut-shade" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#1a0a02" stop-opacity="0"/><stop offset="1" stop-color="#1a0a02" stop-opacity=".28"/></linearGradient>
               <filter id="seam" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="7"/></filter>
               <filter id="tshadow" x="-30%" y="-150%" width="160%" height="400%"><feGaussianBlur stdDeviation="7"/></filter>
               <linearGradient id="blade" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f3f5f7"/><stop offset=".5" stop-color="#c3c8cd"/><stop offset="1" stop-color="#8d9399"/></linearGradient>
@@ -576,7 +588,7 @@ html.dragging,html.dragging *{cursor:grabbing !important}
       <aside class="receipt" id="receipt" aria-labelledby="rc-h">
         <div class="paper">
           <button class="rc-close" type="button" id="rc-close" aria-label="Close order"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg></button>
-          <img src="img/brand/logo.png" alt="MidKid" width="600" height="117">
+          <img src="img/brand/logo.png?v=60a8c1be" alt="MidKid" width="600" height="117">
           <h2 id="rc-h">Build your own sandwich</h2>
           <svg class="rc-pic" id="rc-pic" aria-hidden="true"></svg>
           <div class="field"><label for="cust-name">NAME</label><input id="cust-name" type="text" autocomplete="given-name" placeholder="Who's this for?"></div>
@@ -604,7 +616,7 @@ html.dragging,html.dragging *{cursor:grabbing !important}
 
   <section class="sig" id="signatures" aria-labelledby="sig-h">
     <div class="sig-inner">
-      <h2 class="sig-head" id="sig-h"><span class="sig-word"><img src="img/brand/signature.png" alt="Signature" width="520" height="211"><span>Stacks</span></span></h2>
+      <h2 class="sig-head" id="sig-h"><span class="sig-word"><img src="img/brand/signature.png?v=c87d8b27" alt="Signature" width="520" height="211"><span>Stacks</span></span></h2>
       <p class="sig-sub">Our house favorites, photographed the way they're served. Take a close look, or load one onto the counter and change whatever you like.</p>
       <ul class="sig-grid" id="sig-grid"></ul>
       <p class="sig-note">Want it your way instead? Build your own on the counter above.</p>
@@ -614,7 +626,7 @@ html.dragging,html.dragging *{cursor:grabbing !important}
 
 <footer class="foot">
   <div class="foot-inner">
-    <img src="img/brand/face.png" alt="" width="198" height="220">
+    <img src="img/brand/face.png?v=0b9000fb" alt="" width="198" height="220">
     <p><strong>Pickup and online orders</strong><br><a href="tel:+639238360103">0923 836 0103</a> &nbsp;&nbsp; Instagram <a href="https://www.instagram.com/midkidph/" target="_blank" rel="noopener">@midkidph</a></p>
     <span class="hh">Happy hour, weekdays 2–5 PM</span>
   </div>
@@ -651,7 +663,7 @@ html.dragging,html.dragging *{cursor:grabbing !important}
 <div id="print-slip" aria-hidden="true"></div>
 
 <script>
-const IMG = {"arugula":{"src":"img/layers/arugula.webp","w":900,"h":407},"bacon":{"src":"img/layers/bacon.webp","w":900,"h":378},"caramelized":{"src":"img/layers/caramelized.webp","w":900,"h":415},"cheddar":{"src":"img/layers/cheddar.webp","w":900,"h":561},"chicken":{"src":"img/layers/chicken.webp","w":900,"h":493},"cornedbeef":{"src":"img/layers/cornedbeef.webp","w":900,"h":597},"egg":{"src":"img/layers/egg.webp","w":900,"h":481},"gravlax":{"src":"img/layers/gravlax.webp","w":900,"h":406},"ham":{"src":"img/layers/ham.webp","w":900,"h":501},"ikura":{"src":"img/layers/ikura.webp","w":900,"h":377},"lettuce":{"src":"img/layers/lettuce.webp","w":900,"h":425},"pandesal_b":{"src":"img/layers/pandesal_b.webp","w":1100,"h":397},"pandesal_t":{"src":"img/layers/pandesal_t.webp","w":1099,"h":411},"pastrami":{"src":"img/layers/pastrami.webp","w":900,"h":443},"pbagel_b":{"src":"img/layers/pbagel_b.webp","w":900,"h":566},"pbagel_t":{"src":"img/layers/pbagel_t.webp","w":893,"h":494},"pbun_b":{"src":"img/layers/pbun_b.webp","w":900,"h":495},"pbun_t":{"src":"img/layers/pbun_t.webp","w":897,"h":500},"pickles":{"src":"img/layers/pickles.webp","w":900,"h":215},"potato_b":{"src":"img/layers/potato_b.webp","w":900,"h":485},"potato_t":{"src":"img/layers/potato_t.webp","w":895,"h":509},"redonion":{"src":"img/layers/redonion.webp","w":900,"h":406},"salmonfill":{"src":"img/layers/salmonfill.webp","w":900,"h":438},"sauerkraut":{"src":"img/layers/sauerkraut.webp","w":900,"h":434},"sausage":{"src":"img/layers/sausage.webp","w":900,"h":352},"sour_b":{"src":"img/layers/sour_b.webp","w":900,"h":440},"sour_t":{"src":"img/layers/sour_t.webp","w":900,"h":424},"tobiko":{"src":"img/layers/tobiko.webp","w":900,"h":352},"tomato":{"src":"img/layers/tomato.webp","w":900,"h":399},"wagyu":{"src":"img/layers/wagyu.webp","w":900,"h":419},"whitecheddar":{"src":"img/layers/whitecheddar.webp","w":900,"h":565},"wsour_t":{"src":"img/layers/wsour_t.webp","w":1100,"h":459},"wsour_b":{"src":"img/layers/wsour_b.webp","w":1100,"h":461},"pan_arugula":{"src":"img/pans/arugula.webp","w":480,"h":320},"pan_bacon":{"src":"img/pans/bacon.webp","w":480,"h":320},"pan_caramelized":{"src":"img/pans/caramelized.webp","w":480,"h":320},"pan_cb100":{"src":"img/pans/cb100.webp","w":480,"h":320},"pan_cb50":{"src":"img/pans/cb50.webp","w":480,"h":320},"pan_cheddar":{"src":"img/pans/cheddar.webp","w":480,"h":320},"pan_chicken":{"src":"img/pans/chicken.webp","w":480,"h":320},"pan_egg":{"src":"img/pans/egg.webp","w":480,"h":320},"pan_gravlax":{"src":"img/pans/gravlax.webp","w":480,"h":320},"pan_ham":{"src":"img/pans/ham.webp","w":480,"h":320},"pan_ikura":{"src":"img/pans/ikura.webp","w":480,"h":320},"pan_lettuce":{"src":"img/pans/lettuce.webp","w":480,"h":320},"pan_pas100":{"src":"img/pans/pas100.webp","w":480,"h":320},"pan_pas50":{"src":"img/pans/pas50.webp","w":480,"h":320},"pan_pickles":{"src":"img/pans/pickles.webp","w":480,"h":320},"pan_redonion":{"src":"img/pans/redonion.webp","w":480,"h":320},"pan_salmonfill":{"src":"img/pans/salmonfill.webp","w":480,"h":320},"pan_sauerkraut":{"src":"img/pans/sauerkraut.webp","w":480,"h":320},"pan_sausage":{"src":"img/pans/sausage.webp","w":480,"h":320},"pan_tobiko":{"src":"img/pans/tobiko.webp","w":480,"h":320},"pan_tomato":{"src":"img/pans/tomato.webp","w":480,"h":320},"pan_wagyu":{"src":"img/pans/wagyu.webp","w":480,"h":320},"pan_whitecheddar":{"src":"img/pans/whitecheddar.webp","w":480,"h":320},"panb_potato":{"src":"img/pans/bread_potato.webp","w":420,"h":239},"panb_pbun":{"src":"img/pans/bread_pbun.webp","w":420,"h":234},"panb_pbagel":{"src":"img/pans/bread_pbagel.webp","w":420,"h":232},"panb_pandesal":{"src":"img/pans/bread_pandesal.webp","w":420,"h":157},"panb_sour":{"src":"img/pans/bread_sour.webp","w":420,"h":175},"panb_sourhalf":{"src":"img/pans/bread_sourhalf.webp","w":420,"h":198},"tv_liner":{"src":"img/tray-liner.webp","w":900,"h":684},"tex_chicken":{"src":"img/tex/tex_chicken.webp","w":280,"h":32},"tex_salmonfill":{"src":"img/tex/tex_salmonfill.webp","w":380,"h":16},"tex_secret":{"src":"img/tex/tex_secret.webp","w":260,"h":56}};
+const IMG = {"arugula":{"src":"img/layers/arugula.webp?v=10ddc7da","w":900,"h":407},"bacon":{"src":"img/layers/bacon.webp?v=289c6655","w":900,"h":378},"caramelized":{"src":"img/layers/caramelized.webp?v=b0cc016b","w":900,"h":415},"cheddar":{"src":"img/layers/cheddar.webp?v=ae1dbbaf","w":900,"h":561},"chicken":{"src":"img/layers/chicken.webp?v=bf5b5349","w":900,"h":493},"cornedbeef":{"src":"img/layers/cornedbeef.webp?v=85df39af","w":900,"h":597},"egg":{"src":"img/layers/egg.webp?v=6a90c81f","w":900,"h":439},"gravlax":{"src":"img/layers/gravlax.webp?v=08e790d2","w":900,"h":406},"ham":{"src":"img/layers/ham.webp?v=34d807f7","w":900,"h":501},"ikura":{"src":"img/layers/ikura.webp?v=a5280836","w":900,"h":377},"lettuce":{"src":"img/layers/lettuce.webp?v=9f72cb1a","w":900,"h":425},"pandesal_b":{"src":"img/layers/pandesal_b.webp?v=72f5545b","w":1100,"h":397},"pandesal_t":{"src":"img/layers/pandesal_t.webp?v=bb901a66","w":1099,"h":411},"pastrami":{"src":"img/layers/pastrami.webp?v=15ae9016","w":900,"h":443},"pbagel_b":{"src":"img/layers/pbagel_b.webp?v=5e25a249","w":900,"h":566},"pbagel_t":{"src":"img/layers/pbagel_t.webp?v=69a8f45c","w":893,"h":494},"pbun_b":{"src":"img/layers/pbun_b.webp?v=2bd684e7","w":900,"h":495},"pbun_t":{"src":"img/layers/pbun_t.webp?v=a12be408","w":897,"h":500},"pickles":{"src":"img/layers/pickles.webp?v=4acf8170","w":900,"h":283},"potato_b":{"src":"img/layers/potato_b.webp?v=4076d531","w":900,"h":485},"potato_t":{"src":"img/layers/potato_t.webp?v=1f4ff7c7","w":895,"h":509},"redonion":{"src":"img/layers/redonion.webp?v=93788781","w":900,"h":406},"salmonfill":{"src":"img/layers/salmonfill.webp?v=d5c61232","w":900,"h":438},"sauerkraut":{"src":"img/layers/sauerkraut.webp?v=9797c899","w":900,"h":434},"sausage":{"src":"img/layers/sausage.webp?v=8dbc1777","w":900,"h":352},"tobiko":{"src":"img/layers/tobiko.webp?v=59fd4d4b","w":900,"h":352},"tomato":{"src":"img/layers/tomato.webp?v=73566070","w":900,"h":399},"wagyu":{"src":"img/layers/wagyu.webp?v=ebdb2e5f","w":900,"h":419},"whitecheddar":{"src":"img/layers/whitecheddar.webp?v=56ab4d3a","w":900,"h":565},"wsour_t":{"src":"img/layers/wsour_t.webp?v=ae90cd44","w":1100,"h":459},"wsour_b":{"src":"img/layers/wsour_b.webp?v=a49528ed","w":1100,"h":461},"hsour":{"src":"img/layers/hsour.webp?v=ce54fb1b","w":900,"h":415},"hsour_b":{"src":"img/layers/hsour_b.webp?v=bf30683d","w":900,"h":415},"pan_arugula":{"src":"img/pans/arugula.webp?v=737a37ff","w":480,"h":320},"pan_bacon":{"src":"img/pans/bacon.webp?v=67419a80","w":480,"h":320},"pan_caramelized":{"src":"img/pans/caramelized.webp?v=fb6bcf33","w":480,"h":320},"pan_cb100":{"src":"img/pans/cb100.webp?v=f8a65d48","w":480,"h":320},"pan_cb50":{"src":"img/pans/cb50.webp?v=75030963","w":480,"h":320},"pan_chicken":{"src":"img/pans/chicken.webp?v=c617a7d0","w":480,"h":320},"pan_egg":{"src":"img/pans/egg.webp?v=dcab5f7f","w":480,"h":320},"pan_gravlax":{"src":"img/pans/gravlax.webp?v=c148806d","w":480,"h":320},"pan_ham":{"src":"img/pans/ham.webp?v=f4d3d694","w":480,"h":320},"pan_ikura":{"src":"img/pans/ikura.webp?v=9ea3aa04","w":480,"h":320},"pan_lettuce":{"src":"img/pans/lettuce.webp?v=c1d25af0","w":480,"h":320},"pan_pas100":{"src":"img/pans/pas100.webp?v=e9f24dbe","w":480,"h":320},"pan_pas50":{"src":"img/pans/pas50.webp?v=2c90db1f","w":480,"h":320},"pan_pickles":{"src":"img/pans/pickles.webp?v=5c301127","w":480,"h":320},"pan_redonion":{"src":"img/pans/redonion.webp?v=f11e3253","w":480,"h":320},"pan_salmonfill":{"src":"img/pans/salmonfill.webp?v=7d109a91","w":480,"h":320},"pan_sauerkraut":{"src":"img/pans/sauerkraut.webp?v=394cee73","w":480,"h":320},"pan_sausage":{"src":"img/pans/sausage.webp?v=6b9bc5cd","w":480,"h":320},"pan_tobiko":{"src":"img/pans/tobiko.webp?v=41a3de1b","w":480,"h":320},"pan_tomato":{"src":"img/pans/tomato.webp?v=c7c56817","w":480,"h":320},"pan_wagyu":{"src":"img/pans/wagyu.webp?v=48b0622b","w":480,"h":320},"pan_cheddar":{"src":"img/pans/cheddar.webp?v=942e285b","w":300,"h":200},"pan_whitecheddar":{"src":"img/pans/whitecheddar.webp?v=271891a0","w":300,"h":200},"panb_potato":{"src":"img/pans/bread_potato.webp?v=251222e2","w":420,"h":239},"panb_pbun":{"src":"img/pans/bread_pbun.webp?v=b82168f9","w":420,"h":234},"panb_pbagel":{"src":"img/pans/bread_pbagel.webp?v=c97205f4","w":420,"h":232},"panb_pandesal":{"src":"img/pans/bread_pandesal.webp?v=ea0e4575","w":420,"h":157},"panb_sour":{"src":"img/pans/bread_sour.webp?v=0fdf0e4c","w":420,"h":175},"panb_sourhalf":{"src":"img/pans/bread_sourhalf.webp?v=245cc0d6","w":420,"h":194},"tv_liner":{"src":"img/tray-liner.webp?v=ec5acac3","w":900,"h":684},"splat_aioli":{"src":"img/sauce/aioli.webp?v=4891c356","w":720,"h":446},"stex_aioli":{"src":"img/sauce/aioli-bottle.webp?v=ab116200","w":240,"h":160},"splat_creamcheese":{"src":"img/sauce/creamcheese.webp?v=ec9bbae1","w":720,"h":306},"pan_creamcheese":{"src":"img/pans/creamcheese.webp?v=8d62df26","w":480,"h":320},"splat_dillsauce":{"src":"img/sauce/dillsauce.webp?v=802eb5e9","w":720,"h":403},"stex_dillsauce":{"src":"img/sauce/dillsauce-bottle.webp?v=2d416e8b","w":240,"h":160},"splat_japmayo":{"src":"img/sauce/japmayo.webp?v=059d5f81","w":720,"h":413},"stex_japmayo":{"src":"img/sauce/japmayo-bottle.webp?v=72939341","w":240,"h":160},"splat_mustmayo":{"src":"img/sauce/mustmayo.webp?v=420d71e8","w":720,"h":368},"stex_mustmayo":{"src":"img/sauce/mustmayo-bottle.webp?v=cc645dc7","w":240,"h":160},"splat_secret":{"src":"img/sauce/secret.webp?v=91175621","w":720,"h":342},"stex_secret":{"src":"img/sauce/secret-bottle.webp?v=505ea4db","w":240,"h":160},"tex_chicken":{"src":"img/tex/tex_chicken.webp?v=22502011","w":280,"h":32},"tex_salmonfill":{"src":"img/tex/tex_salmonfill.webp?v=5746397b","w":380,"h":16},"tex_secret":{"src":"img/tex/tex_secret.webp?v=5bf83f22","w":260,"h":56}};
 (() => {
 'use strict';
 const STEPS = [
@@ -702,42 +714,41 @@ STEPS.forEach(s => s.items.forEach(([id,name,price,label]) => ITEM[id] = {id,nam
 
 /* bottom-to-top stacking order */
 const ORDER = ['creamcheese',
-  'lettuce','arugula',
   'wagyu','sausage','cb100','cb50','pas100','pas50','ham','chicken','salmonfill','gravlax','bacon',
-  'cheddar','whitecheddar','egg',
-  'caramelized','sauerkraut','tomato','pickles','redonion',
-  'aioli','dillsauce','japmayo','mustmayo','secret','tobiko','ikura'];
+  'egg','cheddar','whitecheddar','tobiko','ikura',
+  'lettuce','arugula','caramelized','sauerkraut','tomato','pickles','redonion',
+  'aioli','dillsauce','japmayo','mustmayo','secret'];
 
 const SIGS = [
-  { id:'pastrami', name:'Pastrami Sandwich', img:'img/signatures/pastrami.webp',
+  { id:'pastrami', name:'Pastrami Sandwich', img:'img/signatures/pastrami.webp?v=07e6e69a',
     desc:'Whole Wheat Sourdough, Angus Pastrami, Caramelized Onions, Dill Pickles, Secret Sauce, Cheddar Cheese',
     prices:[['half',380],['whole',720]],
     build:{bread:'sour', items:['pas100','cheddar','caramelized','pickles','secret']},
     alt:[{bread:'sourhalf', items:['pas50','cheddar','caramelized','pickles','secret']}] },
-  { id:'cheeseburger', name:'OG Cheeseburger', img:'img/signatures/cheeseburger.webp',
+  { id:'cheeseburger', name:'OG Cheeseburger', img:'img/signatures/cheeseburger.webp?v=e262e247',
     desc:'Potato Bun, Wagyu Beef Patty, Secret Sauce, Dill Pickles, Cheddar Cheese',
     prices:[[null,550]], build:{bread:'potato', items:['wagyu','cheddar','pickles','secret']} },
-  { id:'reuben', name:'Reuben Sandwich', img:'img/signatures/reuben.webp',
+  { id:'reuben', name:'Reuben Sandwich', img:'img/signatures/reuben.webp?v=a581338c',
     desc:'Whole Wheat Sourdough, Angus Corned Beef, Sauerkraut, Mustard Mayonnaise, Cheddar Cheese',
     prices:[['half',380],['whole',720]],
     build:{bread:'sour', items:['cb100','cheddar','sauerkraut','mustmayo']},
     alt:[{bread:'sourhalf', items:['cb50','cheddar','sauerkraut','mustmayo']}] },
-  { id:'breakfast', name:'OG Breakfast Sandwich', img:'img/signatures/breakfast.webp',
+  { id:'breakfast', name:'OG Breakfast Sandwich', img:'img/signatures/breakfast.webp?v=80b037ed',
     desc:'Pan de Pretzel, Homemade Breakfast Sausage, Cheddar Cheese, Fried Egg',
     prices:[[null,480]], build:{bread:'pbun', items:['sausage','cheddar','egg']} },
-  { id:'gravlax', name:'Salmon Gravlax Bagel', img:'img/signatures/gravlax.webp',
+  { id:'gravlax', name:'Salmon Gravlax Bagel', img:'img/signatures/gravlax.webp?v=e87ef3c1',
     desc:'Pretzel Bagel, Salmon Gravlax, Cream Cheese, Dill Sauce, Pickled Red Onion, Lettuce, Arugula',
     prices:[[null,510]], build:{bread:'pbagel', items:['gravlax','creamcheese','dillsauce','redonion','lettuce','arugula']} },
-  { id:'wagyubacon', name:'Wagyu Bacon Burger', img:'img/signatures/wagyubacon.webp',
+  { id:'wagyubacon', name:'Wagyu Bacon Burger', img:'img/signatures/wagyubacon.webp?v=d59748f1',
     desc:'Pan de Pretzel, Wagyu Beef Patty, Caramelized Onions, Cheese, Smoked Bacon',
     prices:[[null,620]], build:{bread:'pbun', items:['wagyu','bacon','cheddar','caramelized']} },
-  { id:'chickensub', name:'Chicken Salad Sub', img:'img/signatures/chickensub.webp',
+  { id:'chickensub', name:'Chicken Salad Sub', img:'img/signatures/chickensub.webp?v=2b3676f1',
     desc:'Whole Wheat Pandesal, Seasoned Chicken, Mayonnaise, Dill, Tobiko, Red Onions, Grain Mustard, Lettuce',
     prices:[[null,350]], build:{bread:'pandesal', items:['chicken','tobiko','lettuce']} },
-  { id:'salmonsub', name:'Salmon Salad Sub', img:'img/signatures/salmonsub.webp',
+  { id:'salmonsub', name:'Salmon Salad Sub', img:'img/signatures/salmonsub.webp?v=5a554c7d',
     desc:'Whole Wheat Pandesal, Baked Salmon Flakes, Mayonnaise, Dill, Tobiko, Red Onions, Grain Mustard, Lettuce',
     prices:[[null,380]], build:{bread:'pandesal', items:['salmonfill','tobiko','lettuce']} },
-  { id:'blt', name:'BLT Sandwich', img:'img/signatures/blt.webp',
+  { id:'blt', name:'BLT Sandwich', img:'img/signatures/blt.webp?v=ef63a9c6',
     desc:'Whole Wheat Sourdough, Smoked Bacon, Aioli, Lettuce, Tomato',
     prices:[[null,450]], build:{bread:'sour', items:['bacon','aioli','lettuce','tomato']} },
 ];
@@ -816,11 +827,11 @@ const BREADS = {
   pandesal: { w:540, D:300, ref:540, long:true, t:{ img:'pandesal_t', q:.1 }, b:{ img:'pandesal_b', r:.098, f:.098 } },
   // sourdough: the whole is one long slice from the full loaf, the half is a slice from half a loaf
   sour:     { w:560, D:300, ref:440, long:true, t:{ img:'wsour_t', q:.165 }, b:{ img:'wsour_b', r:.2, f:.16 } },
-  sourhalf: { w:380, D:330, ref:380, t:{ img:'sour_t', q:.125 }, b:{ img:'sour_b', r:.12, f:.12 } },
+  sourhalf: { w:380, D:330, ref:380, cut:.486, t:{ img:'hsour', q:.115 }, b:{ img:'hsour_b', r:.125, f:.125 } },
 };
 /* the photos look down on the food a little; seating each layer a bit higher than the photo implies keeps every layer's edge in view, like a burger on a menu board */
 const SEAT_K = .85, BREAD_K = .8;
-const S_SHADOW = (Wd, Hd, seat, op) => `<ellipse cx="${CX}" cy="${f(Hd - seat * .25)}" rx="${f(Wd * .45)}" ry="${f(Math.max(6, seat * 1.05))}" fill="#160501" opacity="${op}" filter="url(#seam)"/>`;
+const S_SHADOW = (Wd, Hd, seat, op) => `<ellipse cx="${CX}" cy="${f(Hd - seat * .35)}" rx="${f(Wd * .44)}" ry="${f(Math.max(5, seat * .55))}" fill="#160501" opacity="${op}" filter="url(#seam)"/>`;
 function img(src, x, y, w, h, flip){
   return `<image href="${src}" x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" preserveAspectRatio="none"${flip ? ` transform="translate(${f(2 * x + w)} 0) scale(-1 1)"` : ''}/>`;
 }
@@ -846,21 +857,21 @@ const L = {
   pas100:       { img:'pastrami',   k:.96, hk:.85, r:.24, q:.17, long:'rep' },
   pas50:        { img:'pastrami',   k:.94, hk:.6,  r:.18, q:.14, long:'rep' },
   gravlax:      { k:.98, hk:.9,  r:.19, q:.16, long:'rep' },
-  chicken:      { k:.95, hk:.78, r:.22, q:.19, long:'stretch' },
-  salmonfill:   { k:.95, hk:.82, r:.18, q:.17, long:'stretch' },
-  bacon:        { k:1.02, hk:.9, r:.17, q:.15, long:'stretch' },
+  chicken:      { k:.95, hk:.78, r:.22, q:.19, long:'rep' },
+  salmonfill:   { k:.95, hk:.82, r:.18, q:.17, long:'rep' },
+  bacon:        { k:1.02, hk:.9, r:.17, q:.15, long:'rep' },
   egg:          { k:.98, hk:.92, r:.22, q:.15, long:'rep' },
   cheddar:      { k:1.0, hk:.8, cheese:true, top:.2, long:'stretch' },
   whitecheddar: { k:1.0, hk:.8, cheese:true, top:.2, long:'stretch' },
-  lettuce:      { k:1.1, hk:.85, r:.22, q:.2,  long:'stretch' },
-  arugula:      { k:1.02, hk:.8, r:.25, q:.17, long:'stretch' },
+  lettuce:      { k:1.1, hk:.85, r:.22, q:.2,  long:'rep' },
+  arugula:      { k:1.02, hk:.8, r:.25, q:.17, long:'rep' },
   tomato:       { k:.94, hk:.9,  r:.2,  q:.08, long:'rep' },
-  redonion:     { k:.95, hk:.8,  r:.22, q:.18, long:'stretch' },
-  pickles:      { k:.96, hk:1,   r:.09, q:.04, long:'rep' },
-  caramelized:  { k:.94, hk:.8,  r:.2,  q:.17, long:'stretch' },
-  sauerkraut:   { k:.96, hk:.8,  r:.19, q:.17, long:'stretch' },
-  ikura:        { k:.92, hk:.7,  r:.2,  q:.2,  long:'stretch' },
-  tobiko:       { k:.92, hk:.65, r:.19, q:.19, long:'stretch' },
+  redonion:     { k:.95, hk:.8,  r:.22, q:.18, long:'rep' },
+  pickles:      { k:.96, hk:.78, r:.09, q:.04, long:'rep' },
+  caramelized:  { k:.94, hk:.8,  r:.2,  q:.17, long:'rep' },
+  sauerkraut:   { k:.96, hk:.8,  r:.19, q:.17, long:'rep' },
+  ikura:        { k:.92, hk:.7,  r:.2,  q:.2,  long:'rep' },
+  tobiko:       { k:.92, hk:.65, r:.19, q:.19, long:'rep' },
 };
 function layer(id, bread, rng){
   const o = L[id], b = BREADS[bread] || BREADS.potato, im = IMG[o.img || id];
@@ -869,6 +880,11 @@ function layer(id, bread, rng){
   let svg = '', Wall;
   const copies = [];
   if (b.long && o.long === 'rep'){ const Wc = b.w * .55 * o.k; copies.push([CX - b.w * .225, Wc], [CX + b.w * .225, Wc]); Wall = b.w * .45 + Wc; }
+  else if (b.cut){
+    // a half sandwich: the fillings run past the cut and are sliced flush with the bread, so the cut end shows their layers
+    const Wd = b.w * o.k * 1.06, xr = CX + b.w * b.cut + Wd * .08;
+    copies.push([xr - Wd / 2, Wd]); Wall = b.w * o.k;
+  }
   else { const Wd = (b.w > b.D ? b.w * o.k * .98 : b.w * o.k); copies.push([CX, Wd]); Wall = Wd; }
   let rest, seat;
   if (o.cheese){
@@ -876,47 +892,64 @@ function layer(id, bread, rng){
     rest = o.top * base * o.hk; seat = Hd - o.top * base * o.hk - base * .02;
   } else { rest = o.r * base * SEAT_K; seat = o.q * base * SEAT_K; }
   svg += S_SHADOW(Wall, Hd, seat, .32);
-  copies.forEach(([x, Wd], i) => { svg += img(im.src, x - Wd / 2, 0, Wd, Hd, copies.length > 1 && i === 1); });
+  let body = '';
+  copies.forEach(([x, Wd], i) => { body += img(im.src, x - Wd / 2, 0, Wd, Hd, copies.length > 1 && i === 1); });
+  if (b.cut){
+    const id = uid('cut'), xc = CX + b.w * b.cut;
+    body += `<rect x="${f(xc - 9)}" y="0" width="9" height="${f(Hd)}" fill="url(#cut-shade)"/>`;   // the cut face turns away from the light
+    svg += `<clipPath id="${id}"><rect x="${f(xc - 2000)}" y="-200" width="2000" height="${f(Hd + 400)}"/></clipPath><g clip-path="url(#${id})">${body}</g>`;
+  } else svg += body;
   return { h:Hd, rest, seat, w:Wall, svg };
 }
 
-/* ---------- sauces: drawn here, squeezed along the front lip of the layer they go on ---------- */
-function sauceArc(a, b, rng, o){
-  // a = half width of the lip, b = how far the lip curves toward us; returns points along the front lip
-  const n = o.rows || 11, pts = [];
-  for (let i = 0; i <= n; i++){
-    const t = i / n, u = (t * 2 - 1) * .96, x = CX + u * a;
-    const y = b * Math.sqrt(Math.max(0, 1 - u * u)) * .92 + Math.sin(t * Math.PI * (n / 2.2)) * 2.4 + rr(rng, -.8, .8);
-    pts.push([x + rr(rng, -3, 3), y]);
+/* ---------- sauces: a squeezed splat that lands on the layer below and oozes over its front edge ----------
+   a = half width of that layer, b = how far its top surface reaches toward us (its front lip) */
+function splatBlob(cx, cy, rx, ry, rng, n = 26){
+  const pts = [], ph = rr(rng, 0, 6.28);
+  for (let i = 0; i < n; i++){
+    const t = i / n * Math.PI * 2, front = Math.max(0, Math.sin(t));
+    const k = 1 + .07 * Math.sin(3 * t + ph) + .05 * Math.sin(7 * t + ph * 2) + rr(rng, -.03, .03) + front * rr(rng, 0, .12);
+    pts.push([cx + Math.cos(t) * rx * k, cy + Math.sin(t) * ry * k]);
   }
-  return pts;
+  return spline(pts, true);
 }
-function sauce(a, b, rng, o){
-  if (o.smear){
-    // cream cheese is spread: a thin, soft band along the lip
-    const top = sauceArc(a, b, rng, { rows:14 }).map(([x, y]) => [x, y - 2]);
-    const bot = top.slice().reverse().map(([x, y]) => [x, y + 7 + rr(rng, -1, 1.5)]);
-    const d = spline([...top, ...bot], true);
-    return { h:b + 12, svg:`<path d="${d}" fill="${o.fill}"/><path d="${d}" fill="none" stroke="#d5cfc0" stroke-width=".8"/><path d="${spline(top)}" fill="none" stroke="#fff" stroke-width="1.6" opacity=".8"/>` };
+// each photo's top-surface ellipse (cx, cy, a) and the front of its rim (r), in image widths
+const SPL = {"aioli":{"cx":0.4967,"cy":0.1913,"a":0.4952,"b":0.1882,"r":0.4431},"japmayo":{"cx":0.5004,"cy":0.1901,"a":0.4967,"b":0.1887,"r":0.4153},"mustmayo":{"cx":0.4996,"cy":0.1941,"a":0.4989,"b":0.1896,"r":0.3264},"dillsauce":{"cx":0.4982,"cy":0.191,"a":0.4952,"b":0.1882,"r":0.3819},"secret":{"cx":0.4996,"cy":0.1934,"a":0.4989,"b":0.1896,"r":0.3111},"creamcheese":{"cx":0.5015,"cy":0.1895,"a":0.4963,"b":0.1886,"r":0.3125}};
+function sauce(a, b, rng, o, reach = 0, lim){
+  // the real puddle photo: its top surface on the layer below, its rim and drips over the front edge,
+  // reaching far enough forward that they show under the top bun
+  const im = IMG['splat_' + o.id], m = SPL[o.id], U = im.w;
+  let rx = a * (o.smear ? .9 : .86), sx = rx / (m.a * U);
+  let sy = Math.min(sx * .9, .46), yr = Math.max(b * 1.15, reach * .9);   // yr: where the rim's front lands
+  if (lim !== undefined){
+    // never past the bottom bread's top edge: with little room, a smaller dollop with shorter drips
+    yr = Math.min(yr, Math.max(b, lim - 14));
+    const need = (im.h - m.r * U) * sy, room = lim - yr;
+    if (need > room){
+      const g = Math.max(.5, room / need); rx *= g; sx *= g; sy *= g;
+      sy = Math.min(sy, Math.max(.05, room / (im.h - m.r * U)));
+    }
   }
-  const pts = sauceArc(a, b, rng, o), d = spline(pts, false);
-  let s = `<path class="squeeze" pathLength="1" d="${d}" fill="none" stroke="${o.edge}" stroke-width="${o.w + 2}" stroke-linecap="round" stroke-linejoin="round" opacity=".55"/>`;
-  s += `<path class="squeeze" pathLength="1" d="${d}" fill="none" stroke="${o.tex ? T(o.tex) : o.fill}" stroke-width="${o.w}" stroke-linecap="round" stroke-linejoin="round"/>`;
-  s += `<path class="squeeze" pathLength="1" d="${d}" fill="none" stroke="#fff" stroke-width="${f(o.w * .24)}" stroke-linecap="round" opacity=".55" transform="translate(-1 -1.4)"/>`;
-  for (let i = 0; i < (o.drips ?? 7); i++){
-    const t = rr(rng, .12, .88), k = Math.round(t * (pts.length - 1)), [x, y] = pts[k];
-    const dw = rr(rng, 3, 5), len = rr(rng, 10, (o.len || 18) + 8);
-    s += `<path class="drip" d="${drip(x, dw, y + 1, len)}" fill="${o.fill}"/><path class="drip" d="${drip(x, dw, y + 1, len)}" fill="none" stroke="${o.edge}" stroke-width=".8" opacity=".5"/>`;
-  }
-  return { h:b + (o.len || 18) + 12, svg:s };
+  const cy = Math.max(b * .05, yr - (m.r - m.cy) * U * sy);          // the middle of the puddle
+  const ry = (m.r - m.cy) * U * sy * .9;                              // the curve between the top and the rim
+  const W = U * sx, H = im.h * sy, x = CX - m.cx * U * sx, y = cy - m.cy * U * sy;
+  const pic = img(im.src, x, y, W, H, rng() < .5);
+  const c1 = uid('sp'), c2 = uid('sb'), L = CX - rx * 2, R = CX + rx * 2;
+  const top = `M${f(L)},${f(y - 10)} L${f(R)},${f(y - 10)} L${f(R)},${f(cy)} L${f(CX + rx)},${f(cy)} A${f(rx)} ${f(ry)} 0 0 1 ${f(CX - rx)},${f(cy)} L${f(L)},${f(cy)}Z`;
+  const low = `M${f(L)},${f(cy)} L${f(CX - rx)},${f(cy)} A${f(rx)} ${f(ry)} 0 0 0 ${f(CX + rx)},${f(cy)} L${f(R)},${f(cy)} L${f(R)},${f(y + H + 10)} L${f(L)},${f(y + H + 10)}Z`;
+  const pct = v => (100 * (v - y) / H).toFixed(1) + '%';
+  let s = `<ellipse cx="${CX}" cy="${f(cy + ry * .95)}" rx="${f(rx * .86)}" ry="${f(Math.max(3, ry * .2))}" fill="#2a0c03" opacity=".22" filter="url(#soft)"/>`;
+  s += `<g class="splat" data-o="50% ${pct(cy)}"><clipPath id="${c1}"><path d="${top}"/></clipPath><g clip-path="url(#${c1})">${pic}</g></g>`;
+  s += `<g class="splat-bead" data-o="50% ${pct(cy + ry)}"><clipPath id="${c2}"><path d="${low}"/></clipPath><g clip-path="url(#${c2})">${pic}</g></g>`;
+  return { h: y + H, svg: s };
 }
 const SAUCE = {
-  aioli:       { fill:'#F6EED6', edge:'#b9a26a', w:8 },
-  creamcheese: { smear:true, fill:'#FBFAF5' },
-  dillsauce:   { fill:'#E4EBC6', edge:'#8fa45e', w:8 },
-  japmayo:     { fill:'#F9EBAE', edge:'#c9ad4c', w:6, rows:15 },
-  mustmayo:    { fill:'#EDC453', edge:'#a77b20', w:8 },
-  secret:      { fill:'#EE9472', tex:'tex_secret', edge:'#c0603f', w:9, rows:9, len:24 },
+  aioli:       { id:'aioli', fill:'#F0E4BC', edge:'#ad9356' },
+  creamcheese: { id:'creamcheese', smear:true, fill:'#F7F5EE', edge:'#cfc8b6' },
+  dillsauce:   { id:'dillsauce', fill:'#DDD495', edge:'#86934f' },
+  japmayo:     { id:'japmayo', fill:'#F3D06A', edge:'#b58b2a' },
+  mustmayo:    { id:'mustmayo', fill:'#DDBC72', edge:'#97702e' },
+  secret:      { id:'secret', fill:'#E58F5C', edge:'#a85631', len:28 },
 };
 const isSauce = id => !!SAUCE[id];
 
@@ -928,21 +961,33 @@ const counter = $('#build');
 const compact = () => matchMedia('(max-width: 1099px)').matches;
 const cache = new Map();
 function drawLayer(key, bread, lip){
-  const ck = key + '|' + bread + (lip ? '|' + f(lip.a) + ',' + f(lip.b) : '');
+  const ck = key + '|' + bread + (lip ? '|' + f(lip.a) + ',' + f(lip.b) + ',' + f(lip.lim ?? -1) : '');
   if (!cache.has(ck)){
     let r;
     if (key.startsWith('bread:')){ const [, id, part] = key.split(':'); r = breadPart(id, part); }
-    else if (isSauce(key)){ r = sauce(lip.a, lip.b, rngFor(key + bread), SAUCE[key]); r.sauce = true; r.rest = 0; r.seat = 0; }
+    else if (isSauce(key)){
+      // the top bun comes down on the sauce, so let the sauce reach far enough forward that its rim and drips show under it
+      const B = BREADS[bread], reach = B ? B.t.q * B.ref * BREAD_K : 0;
+      r = sauce(lip.a, lip.b, rngFor(key + bread), SAUCE[key], reach, lip.lim); r.sauce = true; r.rest = 0; r.seat = 0;
+    }
     else r = layer(key, bread, rngFor(key + bread));
     cache.set(ck, r);
   }
   return cache.get(ck);
 }
 // bottom bun, then the layers in the order they were picked, then the top bun, which is always on
+/* the usual sandwich order, bottom to top, whatever order things were picked in:
+   cream cheese spread on the bread, the proteins, the egg on top of them, cheese, roe, the toppings, and the sauce last */
+function stackRank(id){
+  if (id === 'creamcheese') return 0;
+  if (id === 'egg') return 2;
+  return { protein:1, cheese:3, extra:4, toppings:5, sauce:6 }[ITEM[id].step] ?? 5;
+}
+const stackOrder = ids => ids.map((id, i) => [id, i]).sort((p, q) => stackRank(p[0]) - stackRank(q[0]) || p[1] - q[1]).map(p => p[0]);
 function currentLayers(){
   const b = BREADS[state.bread], w = b ? (b.twin ? b.w * 1.64 : b.w) : 380, list = [];
   if (b) list.push({ key:'bb', draw:'bread:' + state.bread + ':b', label:null });
-  state.items.forEach(id => list.push({ key:id, draw:id, label:ITEM[id].label }));
+  stackOrder([...state.items]).forEach(id => list.push({ key:id, draw:id, label:ITEM[id].label }));
   if (b) list.push({ key:'bt', draw:'bread:' + state.bread + ':t', label:ITEM[state.bread].label });
   return { list, w };
 }
@@ -1003,10 +1048,13 @@ function spatulaSVG(w, h){
 function animateIn(n, key, mode, w, h, from, delay = 0){
   const inner = n.inner;
   if (mode === 'pour'){
-    requestAnimationFrame(() => pourSauce(key, inner, from));
-    inner.querySelectorAll('.drip').forEach(d => d.animate([{ transform:'scaleY(0)' }, { transform:'scaleY(1)' }], { duration:700, delay:1700, easing:'ease-out', fill:'backwards' }));
+    // keep the splat hidden until the bottle squeezes, then let it land
+    const hide = [...inner.querySelectorAll('.splat, .splat-bead, .drip')];
+    hide.forEach(d => d.style.opacity = '0');
+    requestAnimationFrame(() => { hide.forEach(d => d.style.opacity = ''); pourSauce(key, inner, from); });
     return;
   }
+  if (inner.querySelector('.splat')){ splatIn(inner, delay + 120); return; }   // cream cheese is spread on, no bottle
   if (mode === 'bread'){
     inner.animate([{ transform:`translateY(${key === 'bt' ? -170 : -120}px)`, opacity:0 }, { opacity:1, offset:.3 }, { transform:'translateY(4px) scale(1.02,.95)', offset:.8 }, { transform:'none' }],
       { duration:620, delay:(key.startsWith('bt') ? 240 : 0) + delay, easing:'cubic-bezier(.25,.8,.3,1)', fill:'backwards' });
@@ -1030,9 +1078,9 @@ function renderStage(){
   const { list, w } = currentLayers();
   const G = 30;
   const bread = state.bread || 'potato', BR = BREADS[bread];
-  let center = BASE, lip = null, below = null;
+  let center = BASE, lip = null, below = null, floor = BASE;   // floor: as far down as sauce may run
   const geo = list.map((l, i) => {
-    const r = drawLayer(l.draw, bread, isSauce(l.key) ? lip : null);
+    const r = drawLayer(l.draw, bread, isSauce(l.key) && lip ? { ...lip, lim: floor - center } : null);
     let top;
     if (r.sauce) top = center;                               // a sauce lies along the lip; the next layer still rests where it did
     else {
@@ -1043,6 +1091,7 @@ function renderStage(){
       }
       const btm = i === 0 ? BASE + (r.face || r.seat || 0) : center + seat; // this layer's seat on the resting surface below it
       top = btm - r.h; center = top + r.rest;
+      if (i === 0){ const lipY = center + (r.face || 0) * .94; floor = lipY + (btm - lipY) * .42; }   // drips may run partway down the bottom bread, never to the tray
       lip = { a:r.w * .46, b:Math.max(10, r.rest * .9) };
       below = { key:l.key, r };
     }
@@ -1128,9 +1177,9 @@ function renderStage(){
   if (lifting && btGeo && !exploded){
     COPIES.forEach(c => {
       const bt = nodes.get('bt' + c.sfx); if (!bt) return;
-      bt.g.style.transform = place(btGeo, c, -80);
+      bt.g.style.transform = place(btGeo, c, pouring ? -150 : -80);   // more room for the bottle
       clearTimeout(bt.timer);
-      bt.timer = setTimeout(() => { if (!exploded) bt.g.style.transform = place(btGeo, c); }, pouring ? 2250 : 600);
+      bt.timer = setTimeout(() => { if (!exploded) bt.g.style.transform = place(btGeo, c); }, pouring ? 1450 : 600);
     });
   }
 
@@ -1181,7 +1230,8 @@ function lidHint(){
 
 /* ---------- pans on the counter ---------- */
 const PAN_PHOTO = id => !!IMG['pan_' + id];
-/* a MidKid squeeze bottle; the nozzle tip sits at (0,0), the bottle hangs below it */
+/* a MidKid squeeze bottle, filled with the real sauce; the nozzle tip sits at (0,0), the bottle hangs below it */
+const BOTTLE_BODY = 'M-17,49 C-17,55 -28,58 -28,68 L-28,146 Q-28,156 -18,156 L18,156 Q28,156 28,146 L28,68 C28,58 17,55 17,49Z';
 function bottle(id){
   const [c, e] = SAUCES[id], u = uid('bt');
   return `<defs><linearGradient id="${u}" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset=".18" stop-color="#fff" stop-opacity=".55"/><stop offset=".32" stop-color="#fff" stop-opacity=".08"/><stop offset=".8" stop-color="#000" stop-opacity=".05"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient></defs>
@@ -1189,8 +1239,8 @@ function bottle(id){
     <path d="M-2.6,0 L2.6,0 L3.2,4 L-3.2,4Z" fill="${c}" stroke="${e}" stroke-width=".8"/>
     <rect x="-15" y="28" width="30" height="16" rx="3" fill="#fbfaf6" stroke="#cfc9bc" stroke-width="1"/>
     <rect x="-18" y="42" width="36" height="7" rx="2" fill="#e9e5dc" stroke="#cfc9bc" stroke-width="1"/>
-    <path d="M-17,49 C-17,55 -28,58 -28,68 L-28,146 Q-28,156 -18,156 L18,156 Q28,156 28,146 L28,68 C28,58 17,55 17,49Z" fill="${c}" stroke="${e}" stroke-width="1.4"/>
-    <path d="M-17,49 C-17,55 -28,58 -28,68 L-28,146 Q-28,156 -18,156 L18,156 Q28,156 28,146 L28,68 C28,58 17,55 17,49Z" fill="url(#${u})"/>
+    ${IMG['stex_' + id] ? `<clipPath id="${u}c"><path d="${BOTTLE_BODY}"/></clipPath><rect x="-30" y="46" width="60" height="112" fill="${c}" clip-path="url(#${u}c)"/><image href="${IMG['stex_' + id].src}" x="-34" y="44" width="68" height="116" preserveAspectRatio="xMidYMid slice" clip-path="url(#${u}c)"/><path d="${BOTTLE_BODY}" fill="none" stroke="${e}" stroke-width="1.4"/>` : `<path d="${BOTTLE_BODY}" fill="${c}" stroke="${e}" stroke-width="1.4"/>`}
+    <path d="${BOTTLE_BODY}" fill="url(#${u})"/>
     <rect x="-28" y="88" width="56" height="36" fill="#fff" opacity=".96"/>
     <rect x="-28" y="88" width="56" height="7" fill="#84151E"/><rect x="-28" y="117" width="56" height="7" fill="#84151E"/>
     <text x="0" y="111" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="900" font-stretch="125%" font-size="10.5" fill="#84151E">MID·KID</text>
@@ -1203,11 +1253,8 @@ function panArt(id){
   let s = '';
   const V = (inner, bg) => `<svg viewBox="0 0 150 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="150" height="100" fill="${bg}"/>${inner}</svg>`;
   if (id === 'creamcheese'){
-    // a little steel dish of cream cheese with a spreader, spread with a knife rather than squeezed
-    s += `<ellipse cx="75" cy="57" rx="54" ry="40" fill="#5e6368" opacity=".5"/><ellipse cx="75" cy="52" rx="54" ry="40" fill="#e3e6e9"/><ellipse cx="75" cy="52" rx="47" ry="34" fill="#a3a9ae"/>`;
-    s += `<path d="M38,56 C40,30 64,24 80,27 C100,24 114,38 111,55 C112,72 92,80 74,78 C54,80 36,72 38,56Z" fill="#FBFAF5"/><path d="M50,52 C56,38 78,34 92,40" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".9"/><path d="M58,64 C70,70 88,68 100,58" fill="none" stroke="#e1dbcd" stroke-width="3" stroke-linecap="round"/>`;
-    s += `<g transform="rotate(-28 108 40)"><rect x="70" y="36" width="56" height="9" rx="4.5" fill="#d8dce0" stroke="#9aa0a6"/><rect x="118" y="35" width="30" height="11" rx="4" fill="#84151E"/></g>`;
-    return `<svg viewBox="0 0 150 100" aria-hidden="true">${s}</svg>`;
+    // the tub of cream cheese, with the spreader resting across it
+    return `<svg class="over" viewBox="0 0 150 100" aria-hidden="true"><g transform="rotate(-24 96 50)"><rect x="34" y="45" width="78" height="10" rx="5" fill="#e4e7ea" stroke="#8d9399" stroke-width="1"/><path d="M40,47 C54,44 74,44 92,47 L92,53 C74,55 54,55 40,53Z" fill="#FBFAF5" opacity=".95"/><rect x="108" y="43.5" width="40" height="13" rx="5" fill="#84151E"/><rect x="112" y="46" width="30" height="2.4" rx="1.2" fill="#fff" opacity=".25"/></g></svg>`;
   }
   if (SAUCES[id]){
     return `<svg viewBox="0 0 150 100" aria-hidden="true"><ellipse cx="75" cy="95" rx="30" ry="4" fill="#000" opacity=".35"/><g transform="translate(75 4) scale(.56) rotate(-4)">${bottle(id)}</g></svg>`;
@@ -1255,6 +1302,7 @@ function panHTML(id){
   const nm = m ? `${m[1]} <small>${m[2]}</small>` : it.name;
   let cls = 'pan', art;
   if (BREADS[id]){ cls += ' pan-bread'; art = `<img src="${IMG['panb_' + id].src}" alt="">`; }
+  else if (id === 'creamcheese'){ cls += ' pan-tub'; art = `<img src="${IMG['pan_' + id].src}" alt="">` + panArt(id); }
   else if (SAUCES[id]){ cls += ' pan-sauce'; art = panArt(id); }
   else if (PAN_PHOTO(id)){ art = `<img src="${IMG['pan_' + id].src}" alt="">`; }
   else art = panArt(id);
@@ -1308,34 +1356,53 @@ function updateScrollbar(){
 }
 $('#pans-wrap').addEventListener('scroll', updateScrollbar, { passive:true });
 
-/* squeeze bottle: fly in, turn over, follow the sauce line while it draws on, then lift away */
+/* squeeze bottle: fly over the sandwich, turn nozzle down, squeeze, and the sauce splats onto the layer below */
+const POUR_MS = 1500, SPLAT_AT = .4;
 function pourSauce(key, inner, from){
-  const paths = [...inner.querySelectorAll('.squeeze')]; if (!paths.length) return;
-  const main = paths[1] || paths[0], L = main.getTotalLength(), ctm = main.getScreenCTM(); if (!ctm || !L) return;
-  const pts = [];
-  for (let i = 0; i <= 28; i++){ const p = main.getPointAtLength(L * i / 28); const q = new DOMPoint(p.x, p.y).matrixTransform(ctm); pts.push([q.x, q.y]); }
+  const sp = inner.querySelector('.splat'), ctm = inner.getScreenCTM(); if (!sp || !ctm) return;
+  const q = new DOMPoint(CX, 0).matrixTransform(ctm), tx = q.x, ty = q.y;
   const k = Math.max(.62, Math.min(1, stage.clientWidth / 720));
+  const [c] = SAUCES[key];
   const el = document.createElement('div'); el.className = 'pour';
-  el.innerHTML = `<svg viewBox="-34 -4 68 164" width="${f(68 * k)}" height="${f(164 * k)}" style="left:${f(-34 * k)}px;top:${f(-4 * k)}px" aria-hidden="true">${bottle(key)}</svg>`;
+  el.innerHTML = `<svg class="pour-b" viewBox="-34 -60 68 220" width="${f(68 * k)}" height="${f(220 * k)}" style="left:${f(-34 * k)}px;top:${f(-60 * k)}px" aria-hidden="true">${bottle(key)}<path class="pour-s" d="M0,0 L0,-56" stroke="${c}" stroke-width="7" stroke-linecap="round" fill="none"/></svg>`;
   document.body.appendChild(el);
-  const start = from || [pts[0][0] + 40, pts[0][1] - 160];
+  const svgEl = el.firstElementChild, stream = svgEl.querySelector('.pour-s');
+  svgEl.style.transformOrigin = `${f(34 * k)}px ${f(160 * k)}px`;   // squeeze around the middle of the bottle
+  const start = from || [tx + 60, ty - 220];
+  const hover = 62 * k;                                              // nozzle height above the splat
   const T = (x, y, r, sc = 1) => `translate(${f(x)}px,${f(y)}px) rotate(${f(r)}deg) scale(${sc})`;
-  const fr = [{ transform:T(start[0], start[1], 0, .9), opacity: from ? 1 : 0, offset:0 },
-              { transform:T(pts[0][0] + 10, pts[0][1] - 30, 120), opacity:1, offset:.16 },
-              { transform:T(pts[0][0], pts[0][1], 168), opacity:1, offset:.24 }];
-  for (let i = 1; i < pts.length; i++){
-    const dx = pts[i][0] - pts[i - 1][0];
-    fr.push({ transform:T(pts[i][0], pts[i][1], 168 + Math.max(-14, Math.min(14, dx * .9))), opacity:1, offset:.24 + .64 * i / (pts.length - 1) });
-  }
-  const last = pts[pts.length - 1];
-  fr.push({ transform:T(last[0] + 30, last[1] - 120, 120, .9), opacity:0, offset:1 });
-  const dur = 2100;
-  el.animate(fr, { duration:dur, easing:'linear', fill:'forwards' }).finished.then(() => el.remove());
-  paths.forEach(p => {
-    p.style.strokeDasharray = '1';
-    p.animate([{ strokeDashoffset:1, offset:0 }, { strokeDashoffset:1, offset:.24 }, { strokeDashoffset:0, offset:.88 }, { strokeDashoffset:0, offset:1 }], { duration:dur, easing:'linear', fill:'forwards' })
-      .finished.then(() => { p.style.strokeDasharray = ''; });
-  });
+  el.animate([
+    { transform:T(start[0], start[1], 0, .9), opacity: from ? 1 : 0, offset:0 },
+    { transform:T(tx + 30, ty - hover - 70, 150), opacity:1, offset:.2 },
+    { transform:T(tx, ty - hover, 180), opacity:1, offset:.3 },
+    { transform:T(tx, ty - hover + 4, 180), opacity:1, offset:.62 },
+    { transform:T(tx + 10, ty - hover - 30, 172), opacity:1, offset:.72 },
+    { transform:T(tx + 70, ty - hover - 170, 130, .9), opacity:0, offset:1 }
+  ], { duration:POUR_MS, easing:'ease-in-out', fill:'forwards' }).finished.then(() => el.remove());
+  svgEl.animate([
+    { transform:'none', offset:0 }, { transform:'none', offset:.32 },
+    { transform:'scale(.78,1.05)', offset:.4 }, { transform:'scale(.96,1)', offset:.48 },
+    { transform:'scale(.74,1.06)', offset:.55 }, { transform:'none', offset:.64 }, { transform:'none', offset:1 }
+  ], { duration:POUR_MS, fill:'forwards' });
+  stream.style.transformBox = 'view-box'; stream.style.transformOrigin = '0px 0px';
+  stream.animate([
+    { transform:'scaleY(0)', opacity:0, offset:0 }, { transform:'scaleY(0)', opacity:1, offset:.34 },
+    { transform:'scaleY(1)', opacity:1, offset:.4 }, { transform:'scaleY(1)', opacity:1, offset:.56 },
+    { transform:'scaleY(0)', opacity:0, offset:.64 }, { transform:'scaleY(0)', opacity:0, offset:1 }
+  ], { duration:POUR_MS, fill:'forwards' });
+  splatIn(inner, POUR_MS * SPLAT_AT);
+}
+/* the splat lands, squashes out and settles; then it oozes over the edge */
+function splatIn(inner, delay = 0){
+  const sp = inner.querySelector('.splat'); if (!sp) return;
+  sp.style.transformBox = 'fill-box'; sp.style.transformOrigin = sp.dataset.o || '50% 45%';
+  sp.animate([
+    { transform:'scale(.12,.08)', opacity:0 }, { opacity:1, offset:.15 },
+    { transform:'scale(1.14,1.22)', offset:.5 }, { transform:'scale(.96,.94)', offset:.75 }, { transform:'none', opacity:1 }
+  ], { duration:460, delay, easing:'cubic-bezier(.2,.9,.3,1)', fill:'backwards' });
+  const bead = inner.querySelector('.splat-bead');
+  if (bead){ bead.style.transformBox = 'fill-box'; bead.style.transformOrigin = bead.dataset.o || '50% 0'; bead.animate([{ transform:'scaleY(0)', opacity:0 }, { opacity:1, offset:.2 }, { transform:'none', opacity:1 }], { duration:420, delay:delay + 220, easing:'ease-out', fill:'backwards' }); }
+  inner.querySelectorAll('.drip').forEach((d, i) => d.animate([{ transform:'scaleY(0)' }, { transform:'scaleY(1)' }], { duration:650, delay:delay + 420 + (Math.floor(i / 4) % 4) * 80, easing:'ease-out', fill:'backwards' }));
 }
 
 function breadLocked(){ return !state.bread; }
@@ -1438,7 +1505,7 @@ $('#btn-next').addEventListener('click', () => { if (breadLocked()) return nudge
 /* ---------- take the top layer off: drag it from the stack back to the pans ---------- */
 function topLayer(){
   if (!state.bread) return null;
-  const items = [...state.items];
+  const items = stackOrder([...state.items]);       // the layer right under the top bun
   return items.length ? items[items.length - 1] : 'bt';
 }
 function returnTarget(){ return compact() && counter.dataset.sheet === 'peek' ? $('#resume') : $('#picker'); }
@@ -1684,7 +1751,19 @@ function setMode(m){
   layoutCompact();
   setTimeout(renderStage, compact() ? 520 : 60);
 }
+/* the name asked for at the start titles the receipt: "Archie's sandwich" */
+function possessive(n){ return /s$/i.test(n) ? n + '’' : n + '’s'; }
+function syncName(src){
+  const n = (src || $('#cust-name')).value.trim().slice(0, 24);
+  if (src && src.id === 'start-name') $('#cust-name').value = n;
+  else $('#start-name').value = n;
+  $('#rc-h').textContent = n ? possessive(n) + ' sandwich' : 'Build your own sandwich';
+}
+$('#start-name').addEventListener('input', e => syncName(e.target));
+$('#cust-name').addEventListener('input', e => syncName(e.target));
+$('#start-name').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); $('#btn-start').click(); } });
 $('#btn-start').addEventListener('click', () => {
+  syncName($('#start-name'));
   clearInterval(playTimer);
   state.bread = null; state.items.clear();
   step = 0; renderPans(); setMode('build'); update();
