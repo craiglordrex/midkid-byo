@@ -915,32 +915,40 @@ function splatBlob(cx, cy, rx, ry, rng, n = 26){
 }
 // each photo's top-surface ellipse (cx, cy, a) and the front of its rim (r), in image widths
 const SPL = {"aioli":{"cx":0.4967,"cy":0.1913,"a":0.4952,"b":0.1882,"r":0.4431},"japmayo":{"cx":0.5004,"cy":0.1901,"a":0.4967,"b":0.1887,"r":0.4153},"mustmayo":{"cx":0.4996,"cy":0.1941,"a":0.4989,"b":0.1896,"r":0.3264},"dillsauce":{"cx":0.4982,"cy":0.191,"a":0.4952,"b":0.1882,"r":0.3819},"secret":{"cx":0.4996,"cy":0.1934,"a":0.4989,"b":0.1896,"r":0.3111},"creamcheese":{"cx":0.5015,"cy":0.1895,"a":0.4963,"b":0.1886,"r":0.3125}};
-function sauce(a, b, rng, o, reach = 0, lim){
-  // the real puddle photo: its top surface on the layer below, its rim and drips over the front edge,
-  // reaching far enough forward that they show under the top bun
-  const im = IMG['splat_' + o.id], m = SPL[o.id], U = im.w;
-  let rx = a * (o.smear ? .9 : .86), sx = rx / (m.a * U);
-  let sy = Math.min(sx * .9, .46), yr = Math.max(b * 1.15, reach * .9);   // yr: where the rim's front lands
-  if (lim !== undefined){
-    // never past the bottom bread's top edge: with little room, a smaller dollop with shorter drips
-    yr = Math.min(yr, Math.max(b, lim - 14));
-    const need = (im.h - m.r * U) * sy, room = lim - yr;
-    if (need > room){
-      const g = Math.max(.5, room / need); rx *= g; sx *= g; sy *= g;
-      sy = Math.min(sy, Math.max(.05, room / (im.h - m.r * U)));
+function sauce(a, b, rng, o, ctx = {}){
+  // the real puddle photo. Under the top bun it spreads right across, and its rim peeks out just below the bun
+  // all the way along, with drips; under a filling (cream cheese on the bread) it covers that layer's top
+  const im = IMG['splat_' + o.id], m = SPL[o.id], U = im.w, span = (m.r - m.cy) * U, tail = im.h - m.r * U;
+  const crown = ctx.crown;
+  const rx = crown ? Math.max(a, crown.half * .97) : a * (o.smear ? 1.02 : 1);
+  const sx = rx / (m.a * U);
+  let sy, cy;
+  if (crown){
+    sy = Math.min(sx * .9, .46);
+    let yr = crown.seat + 7;                                         // where the rim's front lands
+    if (ctx.lim !== undefined){                                      // the drips stop partway down the bottom bread
+      yr = Math.min(yr, ctx.lim - 10);
+      if (yr + tail * sy > ctx.lim) sy = Math.max(.1, (ctx.lim - yr) / tail);
     }
+    cy = yr - span * sy;
+  } else {
+    // the puddle's top covers the whole top of the layer below, its rim on that layer's front edge
+    sy = Math.min(Math.max(b / (m.b * U), sx * .5), sx * 1.3); cy = b * .04;
+    if (ctx.lim !== undefined && cy + (im.h - m.cy * U) * sy > ctx.lim) sy = Math.max(.1, (ctx.lim - cy) / (im.h - m.cy * U));
   }
-  const cy = Math.max(b * .05, yr - (m.r - m.cy) * U * sy);          // the middle of the puddle
-  const ry = (m.r - m.cy) * U * sy * .9;                              // the curve between the top and the rim
+  const ry = span * sy * .9;                                         // the curve between the top and the rim
   const W = U * sx, H = im.h * sy, x = CX - m.cx * U * sx, y = cy - m.cy * U * sy;
   const pic = img(im.src, x, y, W, H, rng() < .5);
   const c1 = uid('sp'), c2 = uid('sb'), L = CX - rx * 2, R = CX + rx * 2;
   const top = `M${f(L)},${f(y - 10)} L${f(R)},${f(y - 10)} L${f(R)},${f(cy)} L${f(CX + rx)},${f(cy)} A${f(rx)} ${f(ry)} 0 0 1 ${f(CX - rx)},${f(cy)} L${f(L)},${f(cy)}Z`;
   const low = `M${f(L)},${f(cy)} L${f(CX - rx)},${f(cy)} A${f(rx)} ${f(ry)} 0 0 0 ${f(CX + rx)},${f(cy)} L${f(R)},${f(cy)} L${f(R)},${f(y + H + 10)} L${f(L)},${f(y + H + 10)}Z`;
   const pct = v => (100 * (v - y) / H).toFixed(1) + '%';
-  let s = `<ellipse cx="${CX}" cy="${f(cy + ry * .95)}" rx="${f(rx * .86)}" ry="${f(Math.max(3, ry * .2))}" fill="#2a0c03" opacity=".22" filter="url(#soft)"/>`;
-  s += `<g class="splat" data-o="50% ${pct(cy)}"><clipPath id="${c1}"><path d="${top}"/></clipPath><g clip-path="url(#${c1})">${pic}</g></g>`;
-  s += `<g class="splat-bead" data-o="50% ${pct(cy + ry)}"><clipPath id="${c2}"><path d="${low}"/></clipPath><g clip-path="url(#${c2})">${pic}</g></g>`;
+  let s = `<ellipse cx="${CX}" cy="${f(cy + ry * .95)}" rx="${f(rx * .9)}" ry="${f(Math.max(3, ry * .2))}" fill="#2a0c03" opacity=".22" filter="url(#soft)"/>`;
+  s += `<g class="splat" data-o="50% ${pct(cy)}" data-cy="${f(cy)}" data-rx="${f(rx)}"><clipPath id="${c1}"><path d="${top}"/></clipPath><g clip-path="url(#${c1})">${pic}</g></g>`;
+  s += `<g class="splat-bead" data-o="50% ${pct(cy + ry)}" data-b="${(100 - 100 * (cy - y) / H).toFixed(1)}%"><clipPath id="${c2}"><path d="${low}"/></clipPath><g clip-path="url(#${c2})">${pic}</g></g>`;
+  if (ctx.cutX !== undefined){                                       // a half sandwich: sliced flush with the bread
+    const id = uid('cut'); s = `<clipPath id="${id}"><rect x="${f(ctx.cutX - 2000)}" y="-400" width="2000" height="${f(y + H + 800)}"/></clipPath><g clip-path="url(#${id})">${s}</g>`;
+  }
   return { h: y + H, svg: s };
 }
 const SAUCE = {
@@ -961,14 +969,17 @@ const counter = $('#build');
 const compact = () => matchMedia('(max-width: 1099px)').matches;
 const cache = new Map();
 function drawLayer(key, bread, lip){
-  const ck = key + '|' + bread + (lip ? '|' + f(lip.a) + ',' + f(lip.b) + ',' + f(lip.lim ?? -1) : '');
+  const ck = key + '|' + bread + (lip ? '|' + f(lip.a) + ',' + f(lip.b) + ',' + f(lip.lim ?? -1) + (lip.crown ? 'c' : '') : '');
   if (!cache.has(ck)){
     let r;
     if (key.startsWith('bread:')){ const [, id, part] = key.split(':'); r = breadPart(id, part); }
     else if (isSauce(key)){
-      // the top bun comes down on the sauce, so let the sauce reach far enough forward that its rim and drips show under it
-      const B = BREADS[bread], reach = B ? B.t.q * B.ref * BREAD_K : 0;
-      r = sauce(lip.a, lip.b, rngFor(key + bread), SAUCE[key], reach, lip.lim); r.sauce = true; r.rest = 0; r.seat = 0;
+      // right under the top bun, the sauce spreads across and shows all along under it
+      const B = BREADS[bread];
+      r = sauce(lip.a, lip.b, rngFor(key + bread), SAUCE[key], {
+        lim: lip.lim, cutX: B && B.cut ? CX + B.w * B.cut : undefined,
+        crown: lip.crown && B ? { seat: B.t.q * B.ref * BREAD_K, half: B.w / 2 } : null });
+      r.sauce = true; r.rest = 0; r.seat = 0;
     }
     else r = layer(key, bread, rngFor(key + bread));
     cache.set(ck, r);
@@ -995,7 +1006,7 @@ function currentLayers(){
 /* how each layer arrives: slid in on a spatula, dropped, melted or squeezed */
 const SPATULA = new Set(['wagyu','sausage','egg','ham','cb100','cb50','pas100','pas50','bacon','gravlax','chicken','salmonfill','caramelized','sauerkraut']);
 const MELT = new Set(['cheddar','whitecheddar']);
-const modeFor = id => BOTTLED(id) ? 'pour' : MELT.has(id) ? 'melt' : SPATULA.has(id) ? 'spatula' : 'drop';
+const modeFor = id => id === 'creamcheese' ? 'spread' : BOTTLED(id) ? 'pour' : MELT.has(id) ? 'melt' : SPATULA.has(id) ? 'spatula' : 'drop';
 
 /* ---------- the MidKid tray, seen from the counter at the same angle as the sandwich ---------- */
 const TRAY = { x0:CX - 310, x1:CX + 310, d:330, k:.38, out:30, rise:24 };
@@ -1045,6 +1056,30 @@ function spatulaSVG(w, h){
     <path d="M${f(x1 + 2)},${f(y + 2)} L${f(x1 + 44)},${f(y - 22)} L${f(x1 + 52)},${f(y - 16)} L${f(x1 + 10)},${f(y + 8)}Z" fill="#b6bbc0" stroke="#8a9096" stroke-width="1"/>
     <rect x="${f(x1 + 42)}" y="${f(y - 34)}" width="110" height="18" rx="9" fill="#2b1c17" transform="rotate(-28 ${f(x1 + 46)} ${f(y - 22)})"/></g>`;
 }
+/* cream cheese: everything above it lifts, a MidKid spreader sweeps it across the bread, and it all comes back down */
+function knifeSVG(){
+  return `<g class="knife"><path d="M-74,-1 C-74,-7 -64,-9 -44,-9 L16,-7 L16,4 L-44,6 C-64,6 -74,4 -74,-1Z" fill="url(#blade)" stroke="#8a9096" stroke-width="1"/>
+    <path d="M-66,-2 C-52,-8 -22,-8 4,-6 L4,2 C-22,4 -52,4 -66,1Z" fill="#F8F6EF"/>
+    <g transform="rotate(-22 14 -2)"><rect x="12" y="-9" width="84" height="15" rx="7" fill="#84151E"/><rect x="18" y="-6" width="70" height="2.6" rx="1.3" fill="#fff" opacity=".22"/></g></g>`;
+}
+function spreadIn(inner, delay = 0){
+  const sp = inner.querySelector('.splat'); if (!sp) return;
+  const cy = +sp.dataset.cy, rx = +sp.dataset.rx, oy = (sp.dataset.o || '50% 45%').split(' ')[1];
+  inner.insertAdjacentHTML('beforeend', knifeSVG());
+  const kn = inner.querySelector('.knife');
+  const at = (x, y, r) => `translate(${f(x)}px,${f(y)}px) rotate(${r}deg)`;
+  kn.animate([
+    { transform:at(CX + rx + 90, cy - 120, 14), opacity:0 },
+    { transform:at(CX - rx * .55, cy - 4, -2), opacity:1, offset:.28 },
+    { transform:at(CX - rx * .1, cy - 2, 0), offset:.5 },
+    { transform:at(CX + rx * .55, cy - 4, 2), opacity:1, offset:.78 },
+    { transform:at(CX + rx + 120, cy - 110, 16), opacity:0 }
+  ], { duration:1300, delay, easing:'ease-in-out', fill:'both' }).finished.then(() => kn.remove());
+  sp.style.transformBox = 'fill-box'; sp.style.transformOrigin = '0% ' + oy;
+  sp.animate([{ transform:'scaleX(.04)', opacity:0 }, { transform:'scaleX(.08)', opacity:1, offset:.3 }, { transform:'none', opacity:1, offset:.8 }, { transform:'none', opacity:1 }],
+    { duration:1300, delay, easing:'ease-in-out', fill:'backwards' });
+  dripIn(inner.querySelector('.splat-bead'), delay + 1000, 1000);
+}
 function animateIn(n, key, mode, w, h, from, delay = 0){
   const inner = n.inner;
   if (mode === 'pour'){
@@ -1054,7 +1089,8 @@ function animateIn(n, key, mode, w, h, from, delay = 0){
     requestAnimationFrame(() => { hide.forEach(d => d.style.opacity = ''); pourSauce(key, inner, from); });
     return;
   }
-  if (inner.querySelector('.splat')){ splatIn(inner, delay + 120); return; }   // cream cheese is spread on, no bottle
+  if (mode === 'spread'){ spreadIn(inner, delay + 200); return; }
+  if (inner.querySelector('.splat')){ splatIn(inner, delay + 120); return; }
   if (mode === 'bread'){
     inner.animate([{ transform:`translateY(${key === 'bt' ? -170 : -120}px)`, opacity:0 }, { opacity:1, offset:.3 }, { transform:'translateY(4px) scale(1.02,.95)', offset:.8 }, { transform:'none' }],
       { duration:620, delay:(key.startsWith('bt') ? 240 : 0) + delay, easing:'cubic-bezier(.25,.8,.3,1)', fill:'backwards' });
@@ -1080,7 +1116,7 @@ function renderStage(){
   const bread = state.bread || 'potato', BR = BREADS[bread];
   let center = BASE, lip = null, below = null, floor = BASE;   // floor: as far down as sauce may run
   const geo = list.map((l, i) => {
-    const r = drawLayer(l.draw, bread, isSauce(l.key) && lip ? { ...lip, lim: floor - center } : null);
+    const r = drawLayer(l.draw, bread, isSauce(l.key) && lip ? { ...lip, lim: floor - center, crown: !!list[i + 1] && list[i + 1].key === 'bt' } : null);
     let top;
     if (r.sauce) top = center;                               // a sauce lies along the lip; the next layer still rests where it did
     else {
@@ -1137,7 +1173,7 @@ function renderStage(){
       n.g.classList.add('leave'); setTimeout(() => n.g.remove(), 340);
     }
   }
-  let lifting = false, pouring = false;
+  let liftFrom = Infinity, liftMode = null;   // the lowest new layer: everything above it lifts to make room
   const place = (g, c, dy = 0) => `translate(${f(c.dx)}px,${f(g.y + c.dy + dy)}px)`;
   COPIES.forEach(c => {
     const group = c.sfx ? stackBack : stackFront;
@@ -1159,27 +1195,31 @@ function renderStage(){
         if (p && !reduced){
           // only the front half gets the bottle; the half behind it simply fills in
           animateIn(n, key, c.sfx && p.mode === 'pour' ? 'drop' : p.mode, twin ? BR.w : w, g.h, p.from, c.delay);
-          if (p.mode !== 'bread') lifting = true;
-          if (p.mode === 'pour' && !c.sfx) pouring = true;
+          if (p.mode !== 'bread' && i < liftFrom){ liftFrom = i; liftMode = p.mode; }
         }
       } else {
         if (n.sig !== sig){
           n.inner.innerHTML = g.r.svg; n.sig = sig;
           if (!reduced){ n.inner.classList.remove('pop'); void n.inner.getBoundingClientRect(); n.inner.classList.add('pop'); n.inner.addEventListener('animationend', () => n.inner.classList.remove('pop'), { once:true }); }
         }
-        n.g.style.transform = place(g, c);
+        clearTimeout(n.timer); n.g.style.transform = place(g, c);
       }
     });
   });
   pending = new Map();
-  // the top bun lifts to make room, then settles back down on the new layer (it waits for the sauce bottle)
-  const btGeo = geo.find(g => g.key === 'bt');
-  if (lifting && btGeo && !exploded){
-    COPIES.forEach(c => {
-      const bt = nodes.get('bt' + c.sfx); if (!bt) return;
-      bt.g.style.transform = place(btGeo, c, pouring ? -150 : -80);   // more room for the bottle
-      clearTimeout(bt.timer);
-      bt.timer = setTimeout(() => { if (!exploded) bt.g.style.transform = place(btGeo, c); }, pouring ? 1450 : 600);
+  // everything above a new layer lifts to make room, then settles back down on it
+  // (higher and longer for the sauce bottle, and for the spreader when cream cheese goes on the bread)
+  if (liftFrom < Infinity && !exploded){
+    const up = liftMode === 'pour' ? -150 : liftMode === 'spread' ? -140 : liftFrom < geo.length - 2 ? -110 : -80;
+    const hold = liftMode === 'pour' ? 1450 : liftMode === 'spread' ? 1500 : liftFrom < geo.length - 2 ? 760 : 600;
+    geo.forEach((g, i) => {
+      if (i <= liftFrom) return;
+      COPIES.forEach(c => {
+        const n = nodes.get(g.key + c.sfx); if (!n) return;
+        n.g.style.transform = place(g, c, up);
+        clearTimeout(n.timer);
+        n.timer = setTimeout(() => { if (!exploded) n.g.style.transform = place(g, c); }, hold);
+      });
     });
   }
 
@@ -1392,6 +1432,14 @@ function pourSauce(key, inner, from){
   ], { duration:POUR_MS, fill:'forwards' });
   splatIn(inner, POUR_MS * SPLAT_AT);
 }
+/* once the sauce has settled, it runs over the front edge and the drips creep down, like the real thing */
+function dripIn(bead, delay, duration = 1100){
+  if (!bead) return;
+  const from = `inset(0 0 ${bead.dataset.b || '100%'} 0)`;
+  const a = bead.animate([{ clipPath:from, offset:0 }, { clipPath:'inset(0 0 45% 0)', offset:.35 }, { clipPath:'inset(0 0 0 0)' }],
+    { duration, delay, easing:'cubic-bezier(.3,.6,.45,1)', fill:'backwards' });
+  a.finished.then(() => { bead.style.clipPath = ''; }).catch(() => {});
+}
 /* the splat lands, squashes out and settles; then it oozes over the edge */
 function splatIn(inner, delay = 0){
   const sp = inner.querySelector('.splat'); if (!sp) return;
@@ -1400,8 +1448,7 @@ function splatIn(inner, delay = 0){
     { transform:'scale(.12,.08)', opacity:0 }, { opacity:1, offset:.15 },
     { transform:'scale(1.14,1.22)', offset:.5 }, { transform:'scale(.96,.94)', offset:.75 }, { transform:'none', opacity:1 }
   ], { duration:460, delay, easing:'cubic-bezier(.2,.9,.3,1)', fill:'backwards' });
-  const bead = inner.querySelector('.splat-bead');
-  if (bead){ bead.style.transformBox = 'fill-box'; bead.style.transformOrigin = bead.dataset.o || '50% 0'; bead.animate([{ transform:'scaleY(0)', opacity:0 }, { opacity:1, offset:.2 }, { transform:'none', opacity:1 }], { duration:420, delay:delay + 220, easing:'ease-out', fill:'backwards' }); }
+  dripIn(inner.querySelector('.splat-bead'), delay + 360);
   inner.querySelectorAll('.drip').forEach((d, i) => d.animate([{ transform:'scaleY(0)' }, { transform:'scaleY(1)' }], { duration:650, delay:delay + 420 + (Math.floor(i / 4) % 4) * 80, easing:'ease-out', fill:'backwards' }));
 }
 
