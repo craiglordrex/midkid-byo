@@ -1819,11 +1819,11 @@ function renderTicket(){
   $('#btn-print').hidden = !ready;
   $('#ticket-note').textContent = ready ? 'For pickup or online orders, copy your order and send it to us, or call and read it out.' : 'Choose a bread first so we know what to build on.';
   requestAnimationFrame(fitReceipt);
+  prepareReceiptImage();
 }
 function orderText(){
   const name = $('#cust-name').value.trim();
-  let out = 'MidKid: Build Your Own Sandwich\n';
-  if (name) out += `Name: ${name}\n`;
+  let out = name ? `Order from BYO website for: ${name}\n` : 'Order from BYO website\n';
   if (sandwichName()) out += `Sandwich name: ${sandwichName()}\n`;
   chosenByStep().forEach(({ s, ids }) => ids.forEach(id => out += `${SHORT[s.key]}: ${BREADS[id] ? ITEM[id].name : lineName(id)} (${linePrice(id)})\n`));
   return out + `Total: ${peso(total())}`;
@@ -1849,7 +1849,122 @@ function recordOrder(){
 }
 ['#btn-copy', '#btn-ig', '#btn-call', '#btn-print'].forEach(s => $(s).addEventListener('click', recordOrder));
 $('#btn-copy').addEventListener('click', copyOrder);
-$('#btn-ig').addEventListener('click', copyOrder);
+/* ---------- "Message @midkidph": save the receipt as a picture, copy the order, open MidKid's Instagram DM ----------
+   Instagram can't take an attachment from a website, so the receipt is saved to the phone (or computer)
+   for the customer to attach, and the order message is copied ready to paste. */
+const IG_DM = 'https://ig.me/m/midkidph', IG_PROFILE = 'https://www.instagram.com/midkidph/';
+const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const touchDevice = matchMedia('(pointer: coarse)').matches;
+$('#btn-ig').href = touchDevice ? IG_DM : IG_PROFILE;            // the DM link opens the app on phones; computers get the profile
+const dataUrls = new Map();
+const toDataUrl = src => {
+  if (!dataUrls.has(src)) dataUrls.set(src, fetch(src).then(r => r.blob()).then(b => new Promise(res => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.readAsDataURL(b); })));
+  return dataUrls.get(src);
+};
+const loadImg = src => new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = src; });
+// the finished sandwich as a picture: its layers in one standalone SVG, photos inlined, drawn to an image
+async function sandwichImage(){
+  if (!lastStack || !state.bread) return null;
+  const { w, parts } = lastStack;
+  const y0 = Math.min(...parts.map(p => p.top)) - 6, y1 = Math.max(...parts.map(p => p.top + p.h)) + 22, x0 = CX - w * .62, vw = w * 1.24, vh = y1 - y0;
+  let body = `<ellipse cx="${CX}" cy="${f(y1 - 26)}" rx="${f(w * .5)}" ry="16" fill="#3a0d08" opacity=".22" filter="url(#tshadow)"/>` + parts.map(p => `<g transform="translate(0 ${f(p.top)})">${p.svg}</g>`).join('');
+  let defs = $('#defs').outerHTML;
+  const srcs = [...new Set([...(body + defs).matchAll(/href="([^"#][^"]*)"/g)].map(m => m[1]).filter(s => !s.startsWith('data:')))];
+  const urls = await Promise.all(srcs.map(s => toDataUrl(s.replace(/&amp;/g, '&'))));
+  srcs.forEach((s, i) => { body = body.split(`href="${s}"`).join(`href="${urls[i]}"`); defs = defs.split(`href="${s}"`).join(`href="${urls[i]}"`); });
+  const svgText = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${f(x0)} ${f(y0)} ${f(vw)} ${f(vh)}" width="${Math.round(vw * 2)}" height="${Math.round(vh * 2)}">${defs}${body}</svg>`;
+  const url = URL.createObjectURL(new Blob([svgText], { type:'image/svg+xml' }));
+  try { return await loadImg(url); } finally { setTimeout(() => URL.revokeObjectURL(url), 1000); }
+}
+// the receipt as a picture, the way it looks on the page
+async function receiptPNG(){
+  await document.fonts.ready;
+  try { await Promise.all(['900 60px Archivo', '400 30px Archivo', '800 24px Archivo'].map(fnt => document.fonts.load(fnt, 'A₱'))); } catch (e) {}
+  const [pic, logo] = await Promise.all([sandwichImage().catch(() => null), loadImg($('.paper > img').src).catch(() => null)]);
+  const W = 1080, M = 54, P = 64, L = M + P, R = W - M - P, MAROON = '#84151E';
+  const c = document.createElement('canvas'); c.width = W; c.height = 4200;
+  const x = c.getContext('2d'); x.textBaseline = 'alphabetic';
+  const font = (wt, px, stretch = '') => { x.font = `${wt} ${px}px Archivo, sans-serif`; try { x.fontStretch = stretch || 'normal'; } catch (e) {} };
+  let y = M + 64;
+  if (logo){ const lh = 58, lw = logo.width * lh / logo.height; x.drawImage(logo, (W - lw) / 2, y, lw, lh); y += lh + 52; }
+  // the title, shrunk to fit
+  const title = $('#rc-h').textContent.toUpperCase(); let tp = 50;
+  font(900, tp, 'expanded'); while (x.measureText(title).width > R - L && tp > 28){ tp -= 2; font(900, tp, 'expanded'); }
+  x.fillStyle = MAROON; x.textAlign = 'center'; x.fillText(title, W / 2, y); y += 34;
+  if (pic){ const mw = 640, mh = 560, s = Math.min(mw / pic.width, mh / pic.height); const pw = pic.width * s, ph = pic.height * s; x.drawImage(pic, (W - pw) / 2, y, pw, ph); y += ph + 30; }
+  const dash = () => { x.save(); x.strokeStyle = 'rgba(132,21,30,.4)'; x.lineWidth = 2; x.setLineDash([10, 8]); x.beginPath(); x.moveTo(L, y); x.lineTo(R, y); x.stroke(); x.restore(); };
+  const row = (label, value) => { x.textAlign = 'left'; font(800, 24); x.globalAlpha = 1; x.fillText(label, L, y); const lw = x.measureText(label).width; font(400, 34, 'condensed'); x.fillText(value, L + lw + 22, y); y += 52; };
+  const name = $('#cust-name').value.trim();
+  if (name) row('NAME', name);
+  if (sandwichName()) row('SANDWICH', sandwichName());
+  y -= 18; dash(); y += 58;
+  chosenByStep().forEach(({ s, ids }) => {
+    x.textAlign = 'left'; font(800, 22); x.globalAlpha = .6; x.fillText(SHORT[s.key].toUpperCase(), L, y); x.globalAlpha = 1; y += 46;
+    ids.forEach(id => {
+      font(400, 34, 'condensed'); x.textAlign = 'left'; x.fillText(BREADS[id] ? ITEM[id].name : lineName(id), L, y);
+      font(600, 34); x.textAlign = 'right'; x.fillText(String(linePrice(id)), R, y); y += 50;
+    });
+    y += 10;
+  });
+  y -= 22; dash(); y += 84;
+  x.textAlign = 'left'; font(800, 28); x.fillText('TOTAL', L, y);
+  font(900, 80, 'expanded'); x.textAlign = 'right'; x.fillText(peso(total()), R, y + 6); y += 70;
+  font(400, 26, 'condensed'); x.textAlign = 'center'; x.globalAlpha = .75;
+  x.fillText('Ordered on the MidKid Build Your Own site · ' + new Date().toLocaleDateString('en-PH', { month:'short', day:'numeric', year:'numeric' }), W / 2, y); x.globalAlpha = 1;
+  y += 64;
+  // the paper, with its torn bottom edge, behind everything drawn so far
+  const H = y + M + 26, out = document.createElement('canvas'); out.width = W; out.height = H;
+  const o = out.getContext('2d');
+  o.fillStyle = '#ECE6DE'; o.fillRect(0, 0, W, H);
+  o.save(); o.shadowColor = 'rgba(60,10,14,.22)'; o.shadowBlur = 30; o.shadowOffsetY = 10; o.fillStyle = '#FFFDF8';
+  o.beginPath(); o.moveTo(M, M); o.lineTo(W - M, M); o.lineTo(W - M, y);
+  const teeth = 36, tw = (W - 2 * M) / teeth; for (let i = teeth; i > 0; i--){ o.lineTo(M + (i - .5) * tw, y + 22); o.lineTo(M + (i - 1) * tw, y); }
+  o.closePath(); o.fill(); o.restore();
+  o.drawImage(c, 0, 0, W, H, 0, 0, W, H);
+  return new Promise(res => out.toBlob(res, 'image/png'));
+}
+// made ahead of the tap, so saving and opening Instagram happen in the same tap
+let rcImg = null, rcImgT = null;
+const rcKey = () => orderText() + '|' + $('#rc-h').textContent;
+function prepareReceiptImage(){
+  clearTimeout(rcImgT);
+  if (!state.bread) { rcImg = null; return; }
+  rcImgT = setTimeout(async () => {
+    const key = rcKey();
+    try { const blob = await receiptPNG(); if (blob && key === rcKey()) rcImg = { key, blob }; } catch (e) {}
+  }, 900);
+}
+const receiptFileName = () => `midkid-order-${($('#cust-name').value.trim() || 'sandwich').replace(/[^a-z0-9]+/gi, '-').toLowerCase()}.png`;
+function saveFile(blob){
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = receiptFileName();
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+let igStep = 0;   // iPhone: first tap saves the receipt, the next opens Instagram
+$('#btn-ig').addEventListener('click', async e => {
+  if ($('#btn-ig').getAttribute('aria-disabled') === 'true') return;
+  copyOrder();
+  const ready = rcImg && rcImg.key === rcKey() ? rcImg.blob : null;
+  const say = t => { setTimeout(() => { $('#status').textContent = t; }, 60); };
+  if (isIOS){
+    if (igStep === 1){ igStep = 0; $('#btn-ig').textContent = 'Message @midkidph'; say('Order copied. In the chat, paste the message and attach your receipt from Photos.'); return; }   // the link opens Instagram
+    e.preventDefault();
+    const file = ready && new File([ready], receiptFileName(), { type:'image/png' });
+    if (file && navigator.canShare && navigator.canShare({ files:[file] })){
+      try { await navigator.share({ files:[file], title:'Your MidKid receipt' }); } catch (err) {}
+    } else if (ready) saveFile(ready);
+    else { say('Getting your receipt ready. Tap again in a second.'); prepareReceiptImage(); return; }
+    igStep = 1; $('#btn-ig').textContent = 'Now open Instagram';
+    say('Tap “Save Image” to keep your receipt, then tap “Now open Instagram”. Your order message is copied.');
+    return;
+  }
+  if (ready){ saveFile(ready); say('Receipt saved and order copied. In the chat, paste the message and attach the receipt.'); return; }   // the link opens the DM
+  e.preventDefault();
+  say('Getting your receipt ready…');
+  const blob = await receiptPNG().catch(() => null);
+  if (blob) saveFile(blob);
+  window.open($('#btn-ig').href, '_blank', 'noopener');
+  say('Receipt saved and order copied. In the chat, paste the message and attach the receipt.');
+});
 $('#btn-print').addEventListener('click', () => {
   const name = $('#cust-name').value.trim().replace(/[<>&]/g, '');
   let h = `<img src="${$('.brand img').src}" alt=""><p class="ps-a">Build Your Own</p><p class="ps-b">SANDWICH</p><div class="ps-name">NAME: ${name}</div>${sandwichName() ? `<div class="ps-name">SANDWICH: ${sandwichName().replace(/[<>&]/g, '')}</div>` : ''}`;
@@ -2004,6 +2119,7 @@ function syncName(src){
   else if (src) $('#start-name').value = n;
   $('#call-name').textContent = n ? possessive(n) + ' sandwich' : 'Your sandwich';
   $('#rc-h').textContent = sandwichName() || (n ? possessive(n) + ' sandwich' : 'Build your own sandwich');
+  if (typeof prepareReceiptImage === 'function') prepareReceiptImage();
 }
 function setCallIt(v){
   callIt = v;
