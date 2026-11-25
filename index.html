@@ -72,6 +72,44 @@ a{color:inherit}
 .btn[aria-disabled="true"]{opacity:.45;pointer-events:none}
 .intro-link{margin-top:16px;font-weight:700;font-stretch:87.5%;font-size:15px;color:#fff;text-underline-offset:4px}
 
+/* the "not sure what to get?" quiz, in the ingredient panel */
+.intro-quiz{margin-top:14px;background:none;border:0;padding:0;font:inherit;font-stretch:87.5%;font-size:16px;color:#fff;cursor:pointer;text-align:left}
+.picker-quiz{display:block;margin:-6px 0 14px;background:none;border:0;padding:0;font:inherit;font-stretch:87.5%;font-size:15px;color:#fff;cursor:pointer;text-align:left}
+.picker-quiz[hidden]{display:none}
+.picker-quiz b,.intro-quiz b{font-weight:800;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--butter);text-decoration-thickness:2px}
+.quiz{display:none;flex-direction:column;flex:1;min-height:0;color:#fff}
+.counter[data-quiz="on"] .quiz{display:flex}
+.counter[data-quiz="on"] .picker > :not(.quiz):not(.sheet-handle){display:none}
+.quiz-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.quiz-face{width:42px;height:auto;flex:none;background:#fff;border-radius:50%;padding:5px 4px 2px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.quiz-face.react{animation:qzpop .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes qzpop{40%{transform:scale(1.18) rotate(-6deg)}}
+.quiz-say{margin:0;font-family:var(--hand);font-size:16px;line-height:1.1;color:var(--butter);transform:rotate(-2deg)}
+.quiz-exit{margin-left:auto;background:none;border:0;padding:4px 0;font:inherit;font-weight:700;font-stretch:87.5%;font-size:14px;color:rgba(255,255,255,.85);text-decoration:underline;text-underline-offset:3px;cursor:pointer;white-space:nowrap}
+.quiz-bar{height:5px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden}
+.quiz-bar i{display:block;height:100%;width:0;background:var(--butter);border-radius:3px;transition:width .45s cubic-bezier(.3,1,.4,1)}
+.quiz-step{margin:12px 0 0;font-weight:700;font-stretch:87.5%;font-size:14px;color:rgba(255,255,255,.72)}
+.quiz h2{margin:2px 0 0;font-weight:900;font-stretch:112%;font-size:26px;line-height:1.05;letter-spacing:-.01em;outline:none}
+.quiz-hint{margin:6px 0 14px;font-stretch:87.5%;font-size:15px;line-height:1.4;color:rgba(255,255,255,.8)}
+.quiz-choices{display:flex;flex-direction:column;gap:8px;flex:1;min-height:0;overflow-y:auto;padding:2px 4px 6px 2px;scrollbar-width:thin}
+.quiz-choices > button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;flex:none;width:100%;text-align:left;font:inherit;color:#fff;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.3);border-radius:14px;padding:11px 15px;cursor:pointer;transition:background .15s,border-color .15s,transform .15s}
+.quiz-choices > button b{font-weight:800;font-size:16.5px;line-height:1.15}
+.quiz-choices > button small{font-stretch:87.5%;font-size:14px;color:rgba(255,255,255,.75)}
+.quiz-choices > button:hover{background:rgba(255,255,255,.15);border-color:#fff;transform:translateX(3px)}
+.quiz-choices > button[aria-pressed="true"]{background:var(--butter);border-color:var(--butter);color:var(--maroon-deep)}
+.quiz-choices > button[aria-pressed="true"] small{color:var(--maroon)}
+.quiz-choices > button:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
+.quiz-choices label{font-weight:700;font-stretch:87.5%;font-size:15px}
+.quiz-choices input{font:inherit;font-weight:600;font-stretch:87.5%;font-size:17px;color:var(--maroon);background:#fffdf8;border:0;border-radius:14px;padding:13px 16px}
+.quiz-choices input:focus{outline:3px solid var(--butter);outline-offset:2px}
+.quiz-choices > button.quiz-again{display:inline;width:auto;align-self:flex-start;margin-top:10px;background:none;border:0;border-radius:0;padding:0;transform:none;font:inherit;font-weight:700;font-stretch:87.5%;font-size:15px;color:#fff;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--butter);cursor:pointer}
+.quiz-note{margin:4px 0 0;font-stretch:87.5%;font-size:14px;color:var(--butter)}
+.quiz-nav{display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid rgba(255,255,255,.18);margin-top:10px}
+.quiz-nav:empty{display:none}
+.quiz-nav .btn{margin-left:auto}
+.counter[data-quiz="on"][data-qphase="processing"] .quiz h2::after{content:"";display:inline-block;width:.9em;height:.9em;margin-left:.3em;vertical-align:-.1em;border-radius:50%;border:3px solid var(--butter);border-right-color:transparent;animation:qzspin .8s linear infinite}
+@keyframes qzspin{to{transform:rotate(360deg)}}
+
 /* stage */
 .stage-area{grid-column:2;grid-row:1;position:relative;display:flex;flex-direction:column;min-height:0}
 .stage{position:relative;flex:1;min-height:0;user-select:none;-webkit-user-select:none;touch-action:pan-y}
@@ -144,7 +182,7 @@ a{color:inherit}
 .pan-tub .well > svg.over{position:absolute;inset:6px;width:calc(100% - 12px);height:calc(100% - 12px);z-index:1;filter:drop-shadow(0 5px 5px rgba(0,0,0,.35))}
 .pn{font-stretch:75%;font-weight:600;font-size:15px;line-height:1.15}
 .pn small{opacity:.75;font-size:13px}
-.pp{font-family:var(--hand);font-size:15px;color:var(--butter);line-height:1}
+.pp{align-self:flex-start;font-weight:800;font-stretch:100%;font-size:14px;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:.01em;color:#2a0a0d;background:var(--butter);padding:4px 9px 3px;border-radius:999px}
 .tick{position:absolute;top:-7px;right:-7px;width:26px;height:26px;border-radius:50%;background:var(--maroon);border:2px solid #fff;display:grid;place-items:center;opacity:0;transform:scale(.6);transition:opacity .18s,transform .22s cubic-bezier(.3,1.6,.5,1);box-shadow:0 4px 10px rgba(0,0,0,.35)}
 .tick::after{content:"";width:10px;height:5px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:translate(0,-1px) rotate(-45deg)}
 .pan[aria-pressed="true"] .tick{opacity:1;transform:none}
@@ -172,6 +210,12 @@ a{color:inherit}
 .field label{font-weight:800;font-size:12px;white-space:nowrap}
 .field input{flex:1;min-width:0;border:0;border-bottom:1.5px dashed var(--maroon);padding:5px 2px;font:inherit;font-stretch:87.5%;font-size:16px;color:var(--maroon);background:transparent;border-radius:0}
 .field input::placeholder{color:rgba(132,21,30,.45)}
+.callit{align-items:center;flex-wrap:wrap}
+.flabel{font-weight:800;font-size:12px;white-space:nowrap}
+.callit-opts{display:flex;flex-wrap:wrap;gap:6px}
+.callit-opts button{font:inherit;font-weight:700;font-stretch:87.5%;font-size:13.5px;line-height:1.1;color:var(--maroon);background:transparent;border:1.5px dashed var(--maroon);border-radius:999px;padding:5px 11px;cursor:pointer}
+.callit-opts button[aria-checked="true"]{background:var(--maroon);color:#fff;border-style:solid}
+.callit-opts button:focus-visible{outline:2px solid var(--maroon);outline-offset:2px}
 .field input:focus{outline:none;border-bottom-style:solid}
 .lines-box{position:relative;flex:0 1 auto;min-height:96px;display:flex;flex-direction:column;border-top:1.5px dashed var(--line);border-bottom:1.5px dashed var(--line)}
 .lines{flex:0 1 auto;min-height:0;overflow:hidden;list-style:none;margin:0;padding:10px 0}
@@ -245,7 +289,7 @@ a{color:inherit}
   .counter{min-height:460px;max-height:none;height:calc(100svh - var(--head));height:calc(100dvh - var(--head))}
   .ct{display:block;padding:0}
   .stage-area{position:absolute;left:0;right:0;top:0;bottom:var(--stage-bottom,0px);transition:bottom .5s cubic-bezier(.3,1,.4,1)}
-  .counter[data-mode="intro"] .stage-area{top:186px;bottom:150px}
+  .counter[data-mode="intro"] .stage-area{top:186px;bottom:196px}
   .tools{position:absolute;top:10px;right:10px;flex-direction:column;padding:0;gap:8px;z-index:6}
   .tool{width:42px;height:42px;padding:0;justify-content:center}
   .tool .tl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -275,6 +319,16 @@ a{color:inherit}
   .intro-name input{flex:1;min-width:0;padding:11px 13px;font-size:16px;box-shadow:none;border-radius:11px}
   .counter[data-mode="build"] .intro-name{display:none}
   .intro-link{position:absolute;bottom:68px;left:0;right:0;text-align:center;font-size:14px;display:none}
+  .intro-quiz{position:fixed;z-index:70;left:var(--pad);right:var(--pad);bottom:calc(154px + env(safe-area-inset-bottom));margin:0;text-align:center;font-size:15px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+  .counter[data-mode="build"] .intro-quiz{display:none}
+  .quiz{padding:0 16px}
+  .quiz-top{margin-bottom:10px}
+  .quiz h2{font-size:21px}
+  .quiz-hint{margin:4px 0 10px;font-size:14px}
+  .quiz-choices > button{padding:9px 13px}
+  .quiz-choices > button b{font-size:15.5px}
+  .quiz-choices > button small{font-size:13px}
+  .quiz-nav{padding-top:10px;margin-top:6px}
   /* the sheet */
   .picker{touch-action:pan-x;position:absolute;left:0;right:0;bottom:0;height:var(--sheet-h);display:flex;flex-direction:column;z-index:20;padding:0 0 calc(10px + env(safe-area-inset-bottom));border-radius:22px 22px 0 0;
     background:#3f4347;background-image:linear-gradient(180deg,#5a5f64,#3a3e42);box-shadow:0 -14px 34px rgba(0,0,0,.45);transform:translateY(0)}
@@ -307,7 +361,7 @@ a{color:inherit}
   .pans{display:grid;grid-auto-flow:column;grid-template-columns:none;grid-template-rows:repeat(var(--rows,2),auto);grid-auto-columns:min(28vw,150px);gap:12px 12px;width:max-content;padding-right:16px}
   .pan{scroll-snap-align:start}
   .pn{font-size:13.5px}
-  .pp{font-size:13px}
+  .pp{font-size:13px;padding:3px 8px 2px}
   .scrollbar{display:block;position:relative;height:4px;margin:4px 16px 0;border-radius:2px;background:rgba(255,255,255,.18)}
   .scrollbar span{position:absolute;left:0;top:0;bottom:0;border-radius:2px;background:var(--butter);width:30%}
   .picker-nav{margin:10px 16px 0;padding-top:10px}
@@ -358,8 +412,17 @@ a{color:inherit}
 .sig-actions{display:flex;gap:10px;margin-top:auto;flex-wrap:wrap}
 .sig-actions .btn{padding:11px 18px;font-size:15px;box-shadow:none}
 .sig-note{margin:56px auto 0;text-align:center;font-stretch:87.5%;font-size:15px;color:var(--maroon-deep)}
-@media (max-width:1100px){ .sig-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
-@media (max-width:640px){ .sig-grid{grid-template-columns:minmax(0,1fr);gap:56px} .sig-head::before,.sig-head::after{max-width:40px} }
+.fav-hand{font-family:var(--hand);font-weight:400;font-size:clamp(46px,5.6vw,82px);line-height:.8;text-transform:none;letter-spacing:0;margin-right:.18em;transform:rotate(-4deg) translateY(.06em);display:inline-block}
+.fav-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.fav-pic{position:relative;display:block;width:100%;aspect-ratio:5/4;min-height:0;padding:0;border:0;background:none;cursor:pointer}
+.fav-pic svg{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible}
+.fav-meta{align-self:flex-start;margin:14px 0 0;font-family:var(--hand);font-size:15px;line-height:1;color:var(--maroon);background:var(--butter);padding:6px 14px 5px;border-radius:50%;transform:rotate(-2deg)}
+.fav-meta.counted{background:var(--maroon);color:#fff}
+.sig-item .fav-ings{margin-top:8px;font-size:14px;color:rgba(92,13,20,.8)}
+.fav-actions{align-items:center}
+.fav-actions .textlink{margin:0 0 0 6px;font-weight:800;font-size:15px}
+@media (max-width:1100px){ .sig-grid,.fav-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:640px){ .sig-grid,.fav-grid{grid-template-columns:minmax(0,1fr);gap:56px} .sig-head::before,.sig-head::after{max-width:40px} }
 
 /* footer */
 .foot{background:var(--maroon);color:#fff;padding:44px var(--pad)}
@@ -460,7 +523,7 @@ html.dragging,html.dragging *{cursor:grabbing !important}
 <header class="site-head">
   <a class="brand" href="#top" aria-label="MidKid home"><img src="img/brand/logo.png?v=60a8c1be" alt="MidKid" width="600" height="117"></a>
   <nav class="site-nav" aria-label="Main">
-    <a class="sig-link" href="#signatures">Signature stacks</a>
+    <a class="sig-link" href="#favorites">Most ordered</a>
     <a class="pill" href="tel:+639238360103">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>
       Call 0923 836 0103
@@ -483,7 +546,8 @@ html.dragging,html.dragging *{cursor:grabbing !important}
         <p class="lede">Pick a bread, stack it from the MidKid counter, and look at every layer up close before you order.</p>
         <label class="intro-name" for="start-name"><span>Who's this sandwich for?</span><input id="start-name" type="text" autocomplete="given-name" maxlength="24" placeholder="Your name" enterkeyhint="go"></label>
         <button class="btn btn-start" type="button" id="btn-start">Start building</button>
-        <a class="intro-link" href="#signatures">Or start from a signature</a>
+        <button class="intro-quiz" type="button" id="btn-quiz">Not sure what to get? <b>Take the quiz</b></button>
+        <a class="intro-link" href="#favorites">Or start from a favorite</a>
       </div>
 
       <div class="stage-area">
@@ -565,8 +629,17 @@ html.dragging,html.dragging *{cursor:grabbing !important}
           <b id="peek-txt">Step 1 of 6</b><strong id="total-peek">₱0</strong>
           <span class="hide-pill">Hide <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
         </button>
+        <div class="quiz" id="quiz" aria-live="polite">
+          <div class="quiz-top"><img class="quiz-face" src="img/brand/face.png?v=0b9000fb" alt="" width="44" height="49"><p class="quiz-say" id="quiz-say">Ready when you are.</p><button class="quiz-exit" type="button" id="quiz-exit">Build it myself</button></div>
+          <div class="quiz-bar" aria-hidden="true"><i id="quiz-bar"></i></div>
+          <p class="quiz-step" id="quiz-step">Question 1 of 7</p>
+          <h2 id="quiz-q" tabindex="-1">What’s your sandwich budget?</h2>
+          <p class="quiz-hint" id="quiz-hint"></p>
+          <div class="quiz-choices" id="quiz-choices"></div>
+          <div class="quiz-nav" id="quiz-nav"></div>
+        </div>
         <nav class="steps" id="steps" role="tablist" aria-label="Steps"></nav>
-        <div class="step-copy"><h2 id="step-title">Choose your bread</h2><p id="step-hint">Pick one</p></div>
+        <div class="step-copy"><h2 id="step-title">Choose your bread</h2><p id="step-hint">Pick one</p><button class="picker-quiz" type="button" id="picker-quiz">Not sure what to get? <b>Take the quiz</b></button></div>
         <div class="return-zone" aria-hidden="true"><span id="return-txt">Drop here to take it off</span></div>
         <div class="pans-wrap" id="pans-wrap"><div class="pans" id="pans" role="group" aria-labelledby="step-title"></div></div>
         <div class="scrollbar" aria-hidden="true"><span id="scroll-thumb"></span></div>
@@ -581,7 +654,7 @@ html.dragging,html.dragging *{cursor:grabbing !important}
 
       <button class="resume" type="button" id="resume" aria-controls="picker">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
-        <span><b>Resume building</b><small id="resume-sub">Step 1 of 6 · Bread</small></span>
+        <span><b id="resume-b">Resume building</b><small id="resume-sub">Step 1 of 6 · Bread</small></span>
         <strong id="total-resume">₱0</strong>
       </button>
 
@@ -592,6 +665,13 @@ html.dragging,html.dragging *{cursor:grabbing !important}
           <h2 id="rc-h">Build your own sandwich</h2>
           <svg class="rc-pic" id="rc-pic" aria-hidden="true"></svg>
           <div class="field"><label for="cust-name">NAME</label><input id="cust-name" type="text" autocomplete="given-name" placeholder="Who's this for?"></div>
+          <div class="field callit"><span class="flabel" id="callit-l">CALL IT</span>
+            <span class="callit-opts" role="radiogroup" aria-labelledby="callit-l">
+              <button type="button" role="radio" aria-checked="true" data-call="name" id="call-name">Your sandwich</button>
+              <button type="button" role="radio" aria-checked="false" data-call="own">Its own name</button>
+            </span>
+          </div>
+          <div class="field" id="sw-row" hidden><label for="sw-name">SANDWICH</label><input id="sw-name" type="text" maxlength="32" autocomplete="off" placeholder="Name your sandwich"></div>
           <div class="lines-box" id="lines-box">
             <ul class="lines" id="lines"></ul>
             <button class="rc-more" type="button" id="rc-more"><span id="rc-more-txt">View full receipt</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -614,11 +694,11 @@ html.dragging,html.dragging *{cursor:grabbing !important}
     </div>
   </section>
 
-  <section class="sig" id="signatures" aria-labelledby="sig-h">
+  <section class="sig" id="favorites" aria-labelledby="sig-h">
     <div class="sig-inner">
-      <h2 class="sig-head" id="sig-h"><span class="sig-word"><img src="img/brand/signature.png?v=c87d8b27" alt="Signature" width="520" height="211"><span>Stacks</span></span></h2>
-      <p class="sig-sub">Our house favorites, photographed the way they're served. Take a close look, or load one onto the counter and change whatever you like.</p>
-      <ul class="sig-grid" id="sig-grid"></ul>
+      <h2 class="sig-head" id="sig-h"><span class="sig-word"><span class="fav-hand">Most</span><span>Ordered</span></span></h2>
+      <p class="sig-sub" id="fav-sub">What everyone orders most, counted from real orders. Until those come in, these are our picks. Put one on the counter and change whatever you like.</p>
+      <ul class="sig-grid fav-grid" id="fav-grid"></ul>
       <p class="sig-note">Want it your way instead? Build your own on the counter above.</p>
     </div>
   </section>
@@ -718,6 +798,22 @@ const ORDER = ['creamcheese',
   'egg','cheddar','whitecheddar','tobiko','ikura',
   'lettuce','arugula','caramelized','sauerkraut','tomato','pickles','redonion',
   'aioli','dillsauce','japmayo','mustmayo','secret'];
+
+/* the "most ordered" stacks: our picks until real orders come in, then the site's most-ordered stacks take their place */
+const FAVS = [
+  { id:'postworkout', name:'Post-Workout',
+    tag:'Whole wheat for the carbs, chicken and a sunny egg for the protein, arugula and tomato for the crunch. No heavy sauce.',
+    build:{ bread:'sourhalf', items:['chicken','egg','arugula','tomato'] } },
+  { id:'closetohome', name:'Close to Home',
+    tag:'A Filipino breakfast in a pandesal: corned beef, a sunny egg and cheddar, with pickled red onions and Japanese mayo.',
+    build:{ bread:'pandesal', items:['cb50','egg','cheddar','redonion','japmayo'] } },
+  { id:'lazyday', name:'Lazy Day',
+    tag:'Bacon, egg and cheese on a soft potato bun, with Japanese mayo. The weekend sandwich that asks nothing of you.',
+    build:{ bread:'potato', items:['bacon','egg','cheddar','japmayo'] } },
+  { id:'everything', name:'Everything In Between',
+    tag:'Our burger with the lot: wagyu, bacon, egg and cheddar, every topping and secret sauce. Bring both hands.',
+    build:{ bread:'pbun', items:['wagyu','bacon','egg','cheddar','lettuce','tomato','caramelized','pickles','secret'] } },
+];
 
 const SIGS = [
   { id:'pastrami', name:'Pastrami Sandwich', img:'img/signatures/pastrami.webp?v=07e6e69a',
@@ -1108,14 +1204,10 @@ function animateIn(n, key, mode, w, h, from, delay = 0){
     { duration:660, easing:'cubic-bezier(.25,.8,.3,1)', delay:130 + delay, fill:'backwards' });
   if (mode === 'melt') inner.querySelectorAll('.drip').forEach((d, i) => d.animate([{ transform:'scaleY(0)' }, { transform:'scaleY(1)' }], { duration:900, delay:720 + i * 60, easing:'ease-out', fill:'backwards' }));
 }
-function renderStage(){
-  const W = stage.clientWidth || 800, H = stage.clientHeight || 500;
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-  const { list, w } = currentLayers();
-  const G = 30;
-  const bread = state.bread || 'potato', BR = BREADS[bread];
+/* where each layer of a stack sits, bottom to top: used for the counter, the receipt picture and the favorites */
+function layoutStack(list, bread){
   let center = BASE, lip = null, below = null, floor = BASE;   // floor: as far down as sauce may run
-  const geo = list.map((l, i) => {
+  return list.map((l, i) => {
     const r = drawLayer(l.draw, bread, isSauce(l.key) && lip ? { ...lip, lim: floor - center, crown: !!list[i + 1] && list[i + 1].key === 'bt' } : null);
     let top;
     if (r.sauce) top = center;                               // a sauce lies along the lip; the next layer still rests where it did
@@ -1133,6 +1225,23 @@ function renderStage(){
     }
     return { ...l, r, top, h:r.h };
   });
+}
+/* a whole stack drawn as one picture, for the favorites and anywhere else that shows a finished sandwich */
+function stackPicture(bread, items){
+  const B = BREADS[bread]; if (!B) return { viewBox:'0 0 10 10', svg:'' };
+  const list = [{ key:'bb', draw:'bread:' + bread + ':b' }, ...stackOrder(items.filter(id => ITEM[id])).map(id => ({ key:id, draw:id })), { key:'bt', draw:'bread:' + bread + ':t' }];
+  const geo = layoutStack(list, bread), w = B.w;
+  const y0 = Math.min(...geo.map(g => g.top)) - 6, y1 = Math.max(...geo.map(g => g.top + g.h)) + 22;
+  return { viewBox:`${f(CX - w * .62)} ${f(y0)} ${f(w * 1.24)} ${f(y1 - y0)}`, vw:w * 1.24, vh:y1 - y0, y1,
+    svg:`<ellipse cx="${CX}" cy="${f(y1 - 26)}" rx="${f(w * .5)}" ry="16" fill="#3a0d08" opacity=".22" filter="url(#tshadow)"/>` + geo.map(g => `<g transform="translate(0 ${f(g.top)})">${g.r.svg}</g>`).join('') };
+}
+function renderStage(){
+  const W = stage.clientWidth || 800, H = stage.clientHeight || 500;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const { list, w } = currentLayers();
+  const G = 30;
+  const bread = state.bread || 'potato', BR = BREADS[bread];
+  const geo = layoutStack(list, bread);
   lastStack = { w, parts: geo.map(g => ({ top:g.top, h:g.h, svg:g.r.svg })) };
   geo.forEach((g, i) => { g.y = g.top - (exploded ? G * i : 0); });
   const minTop = geo.length ? Math.min(...geo.map(g => g.y)) : BASE - 200;
@@ -1257,7 +1366,10 @@ function renderStage(){
   });
 
   const empty = $('#empty');
-  if (counter.dataset.mode === 'build' && !list.length){ empty.hidden = false; $('#empty-txt').textContent = touchFirst() ? 'Tap or drag a bread up to start.' : 'Drag a bread onto the tray to start.'; }
+  if (counter.dataset.mode === 'build' && !list.length){
+    empty.hidden = false;
+    $('#empty-txt').textContent = counter.dataset.quiz === 'on' ? 'Answer a few questions. Your sandwich lands here.' : touchFirst() ? 'Tap or drag a bread up to start.' : 'Drag a bread onto the tray to start.';
+  }
   else empty.hidden = true;
   const names = geo.filter(g => g.key !== 'bb' && g.key !== 'bt').map(g => ITEM[g.key].name);
   $('#scene-desc').textContent = state.bread ? `${ITEM[state.bread].name}${names.length ? ' with ' + names.join(', ') : ''}` : 'Empty tray';
@@ -1647,6 +1759,7 @@ function orderText(){
   const name = $('#cust-name').value.trim();
   let out = 'MidKid: Build Your Own Sandwich\n';
   if (name) out += `Name: ${name}\n`;
+  if (sandwichName()) out += `Sandwich name: ${sandwichName()}\n`;
   chosenByStep().forEach(({ s, ids }) => ids.forEach(id => out += `${SHORT[s.key]}: ${ITEM[id].name} (${ITEM[id].price})\n`));
   return out + `Total: ${peso(total())}`;
 }
@@ -1660,11 +1773,21 @@ async function copyOrder(){
   $('#status').textContent = ok ? 'Order copied. Paste it into your message to @midkidph.' : 'Copy didn’t work in this browser. Select the order above and copy it by hand.';
 }
 document.querySelectorAll('.ticket-actions .btn').forEach(el => el.addEventListener('click', e => { if (el.getAttribute('aria-disabled') === 'true'){ e.preventDefault(); e.stopImmediatePropagation(); } }, true));
+/* every order counts toward "Most ordered": once per stack per visit, whichever way it's sent */
+const counted = new Set();
+function recordOrder(){
+  if (!state.bread) return;
+  const b = { bread:state.bread, items:[...state.items] }, k = stackKey(b);
+  if (counted.has(k)) return;
+  counted.add(k);
+  try { fetch('/api/orders', { method:'POST', headers:{ 'Content-Type':'application/json' }, body:JSON.stringify(b), keepalive:true }).catch(() => {}); } catch (e) {}
+}
+['#btn-copy', '#btn-ig', '#btn-call', '#btn-print'].forEach(s => $(s).addEventListener('click', recordOrder));
 $('#btn-copy').addEventListener('click', copyOrder);
 $('#btn-ig').addEventListener('click', copyOrder);
 $('#btn-print').addEventListener('click', () => {
   const name = $('#cust-name').value.trim().replace(/[<>&]/g, '');
-  let h = `<img src="${$('.brand img').src}" alt=""><p class="ps-a">Build Your Own</p><p class="ps-b">SANDWICH</p><div class="ps-name">NAME: ${name}</div>`;
+  let h = `<img src="${$('.brand img').src}" alt=""><p class="ps-a">Build Your Own</p><p class="ps-b">SANDWICH</p><div class="ps-name">NAME: ${name}</div>${sandwichName() ? `<div class="ps-name">SANDWICH: ${sandwichName().replace(/[<>&]/g, '')}</div>` : ''}`;
   // only what was picked, grouped by step; steps with nothing picked are left off
   chosenByStep().forEach(({ s, ids }) => { h += `<h4>${SHORT[s.key]}</h4><ul>`; ids.forEach(id => { h += `<li>${ITEM[id].name}<span>${ITEM[id].price}</span></li>`; }); h += '</ul>'; });
   $('#print-slip').innerHTML = h + `<div class="ps-tot"><span>TOTAL</span><span>${peso(total())}</span></div>`;
@@ -1687,10 +1810,13 @@ function renderMatch(){
   $('#match-lbl').textContent = sigPrice < total() ? `Order the signature for ${peso(sigPrice)}` : 'See the real one';
 }
 
-function update(){ renderStage(); syncPans(); renderSteps(); syncNext(); renderTicket(); renderMatch(); lidHint(); }
+function update(){ renderStage(); syncPans(); renderSteps(); syncNext(); renderTicket(); renderMatch(); lidHint(); $('#picker-quiz').hidden = !!state.bread; }
 
 /* ---------- modes, sheet and receipt ---------- */
-function sheetHeight(){ return Math.round(innerWidth < 600 ? Math.max(330, Math.min(innerHeight * .5, 372)) : Math.min(innerHeight * .52, 470)); }
+function sheetHeight(){
+  if (counter.dataset.quiz === 'on') return Math.round(Math.max(360, Math.min(innerHeight * .58, 520)));
+  return Math.round(innerWidth < 600 ? Math.max(330, Math.min(innerHeight * .5, 372)) : Math.min(innerHeight * .52, 470));
+}
 function fitRows(){
   const pans = $('#pans'), first = pans.querySelector('.pan'); if (!first) return;
   if (!compact()){ pans.style.removeProperty('--rows'); return; }
@@ -1800,12 +1926,29 @@ function setMode(m){
 }
 /* the name asked for at the start titles the receipt: "Archie's sandwich" */
 function possessive(n){ return /s$/i.test(n) ? n + '’' : n + '’s'; }
+/* at the end, the customer calls it "Archie's sandwich" or gives it a name of its own */
+let callIt = 'name';
+function sandwichName(){ return callIt === 'own' ? $('#sw-name').value.trim().slice(0, 32) : ''; }
 function syncName(src){
   const n = (src || $('#cust-name')).value.trim().slice(0, 24);
   if (src && src.id === 'start-name') $('#cust-name').value = n;
-  else $('#start-name').value = n;
-  $('#rc-h').textContent = n ? possessive(n) + ' sandwich' : 'Build your own sandwich';
+  else if (src) $('#start-name').value = n;
+  $('#call-name').textContent = n ? possessive(n) + ' sandwich' : 'Your sandwich';
+  $('#rc-h').textContent = sandwichName() || (n ? possessive(n) + ' sandwich' : 'Build your own sandwich');
 }
+function setCallIt(v){
+  callIt = v;
+  $$('.callit-opts [data-call]').forEach(b => b.setAttribute('aria-checked', String(b.dataset.call === v)));
+  $('#sw-row').hidden = v !== 'own';
+  if (v === 'own') $('#sw-name').focus({ preventScroll:true });
+  syncName(); requestAnimationFrame(fitReceipt);
+}
+$('.callit-opts').addEventListener('click', e => { const b = e.target.closest('[data-call]'); if (b) setCallIt(b.dataset.call); });
+$('.callit-opts').addEventListener('keydown', e => {
+  if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return;
+  e.preventDefault(); setCallIt(callIt === 'own' ? 'name' : 'own'); $(`.callit-opts [data-call="${callIt}"]`).focus();
+});
+$('#sw-name').addEventListener('input', () => syncName());
 $('#start-name').addEventListener('input', e => syncName(e.target));
 $('#cust-name').addEventListener('input', e => syncName(e.target));
 $('#start-name').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); $('#btn-start').click(); } });
@@ -1889,22 +2032,81 @@ $('#btn-reset').addEventListener('click', () => {
 
 /* ---------- signatures ---------- */
 const priceOvals = p => p.map(([k, v]) => `<span class="oval${k === 'half' ? ' half' : ''}">${k ? `<i>${k}</i>` : ''}${v}</span>`).join('');
-$('#sig-grid').innerHTML = SIGS.map(sg => `
-  <li class="sig-item">
-    <button class="sig-photo" type="button" data-close="${sg.id}" aria-label="Close look at the ${sg.name}"><img src="${sg.img}" alt="${sg.name} with potato chips on MidKid liner paper" loading="lazy"></button>
-    <h3>${sg.name}</h3><p>${sg.desc}</p>
-    <div class="prices">${priceOvals(sg.prices)}</div>
-    <div class="sig-actions"><button class="btn" type="button" data-order="${sg.id}">Order now</button><button class="btn btn-line" type="button" data-close="${sg.id}">Close look</button></div>
-  </li>`).join('');
-function loadSig(id){
-  const sg = SIGS.find(x => x.id === id); if (!sg) return;
+
+/* ---------- most ordered: our picks until real orders come in ---------- */
+const FAV_MIN = 3;                      // a stack needs this many orders before it counts as a favorite
+const stackKey = b => b.bread + '|' + [...b.items].sort().join(',');
+const plainName = id => ITEM[id].name.replace(/\s*\(.*\)$/, '');
+const buildTotal = b => ITEM[b.bread].price + b.items.reduce((t, id) => t + ITEM[id].price, 0);
+let favList = [];
+const favOne = matchMedia('(max-width:640px)');
+favOne.addEventListener('change', () => favList.length && renderFavs(favList));
+function autoFav(s){
+  // a stack people keep ordering that we never named: call it by its proteins and bread
+  const main = stackOrder(s.items).filter(id => ITEM[id].step === 'protein' && id !== 'egg');
+  const pick = (main.length ? main : stackOrder(s.items)).slice(0, 2).map(plainName);
+  return { id:'o' + stackKey(s).replace(/[^a-z0-9]/gi, ''), name:(pick.length ? pick.join(' & ') + ' on ' : '') + plainName(s.bread), tag:'' };
+}
+function renderFavs(list){
+  favList = list;
+  // every favorite drawn at the same scale and standing on the same line, so a burger and a pandesal compare truly
+  const pics = list.map(fv => stackPicture(fv.build.bread, fv.build.items));
+  // (side by side they share a height; one per row on a phone, each keeps its own so there's no empty space above)
+  const one = favOne.matches, VW = Math.max(...pics.map(p => p.vw)) * .88, VHall = Math.max(...pics.map(p => p.vh));
+  $('#fav-grid').innerHTML = list.map((fv, i) => {
+    const VH = one ? pics[i].vh : VHall;
+    const b = fv.build, pic = { ...pics[i], viewBox:`${f(CX - VW / 2)} ${f(pics[i].y1 - VH)} ${f(VW)} ${f(VH)}` };
+    const ings = [b.bread, ...stackOrder(b.items)].map(plainName).join(', ');
+    return `<li class="sig-item">
+      <button class="fav-pic" type="button" data-fav="${i}" style="aspect-ratio:${f(VW)}/${f(VH)}" aria-label="Put the ${fv.name} on the counter"><svg viewBox="${pic.viewBox}" preserveAspectRatio="xMidYMax meet" aria-hidden="true">${pic.svg}</svg></button>
+      <span class="fav-meta${fv.count ? ' counted' : ''}">${fv.count ? `Ordered ${fv.count} times` : 'Our pick'}</span>
+      <h3>${fv.name}</h3>${fv.tag ? `<p>${fv.tag}</p>` : ''}<p class="fav-ings">${ings}</p>
+      <div class="prices"><span class="oval">${buildTotal(b)}</span></div>
+      <div class="sig-actions fav-actions"><button class="btn" type="button" data-fav="${i}">Build this one</button><button class="textlink" type="button" data-fav-order="${i}">Order it as is</button></div>
+    </li>`;
+  }).join('');
+}
+async function loadFavs(){
+  renderFavs(FAVS.map(fv => ({ ...fv, count:0 })));
+  let real = [];
+  try {
+    const r = await fetch('/api/orders?top=8', { headers:{ Accept:'application/json' } });
+    if (r.ok) real = ((await r.json()).stacks || []).filter(s => s.count >= FAV_MIN && BREADS[s.bread] && Array.isArray(s.items) && s.items.every(id => ITEM[id]));
+  } catch (e) {}
+  if (!real.length) return;
+  const out = [];
+  real.forEach(s => {
+    if (out.length >= 4) return;
+    const ours = FAVS.find(fv => stackKey(fv.build) === stackKey(s));
+    out.push(ours ? { ...ours, count:s.count } : { ...autoFav(s), build:{ bread:s.bread, items:s.items }, count:s.count });
+  });
+  FAVS.forEach(fv => { if (out.length < 4 && !out.some(o => stackKey(o.build) === stackKey(fv.build))) out.push({ ...fv, count:0 }); });
+  renderFavs(out);
+  if (out.every(o => o.count)) $('#fav-sub').textContent = 'What everyone orders most, counted from real orders. Put one on the counter and change whatever you like.';
+}
+/* the shortcut: put a favorite on the counter to change it, or go straight to the order */
+function loadBuild(build, { order = false } = {}){
   if ($('#cu').open) $('#cu').close();
   if (exploded) $('#btn-explode').click();
   closeReceipt();
-  step = 0; renderPans(); setMode('build');
+  setMode('build');
+  if (order){
+    clearInterval(playTimer);
+    state.bread = build.bread; state.items.clear(); build.items.forEach(id => state.items.add(id)); step = STEPS.length - 1; renderPans(); update();
+    counter.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block:'start' });
+    setTimeout(openReceipt, compact() ? 560 : 120);
+    return;
+  }
+  step = 1; renderPans();
   counter.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block:'start' });
-  setTimeout(() => playBuild(sg.build, true), reduced ? 0 : 420);
+  setTimeout(() => playBuild(build), reduced ? 0 : 420);
 }
+$('#fav-grid').addEventListener('click', e => {
+  const a = e.target.closest('[data-fav]'), o = e.target.closest('[data-fav-order]');
+  if (a) loadBuild(favList[+a.dataset.fav].build);
+  else if (o) loadBuild(favList[+o.dataset.favOrder].build, { order:true });
+});
+loadFavs();
 document.addEventListener('click', e => {
   const o = e.target.closest('[data-order]'); if (o) return openCloseup(o.dataset.order, { order:true });
   const c = e.target.closest('[data-close]'); if (c) return openCloseup(c.dataset.close);
@@ -1977,6 +2179,202 @@ layoutCompact();
 new ResizeObserver(() => { layoutCompact(); renderStage(); fitRows(); }).observe(stage);
 new ResizeObserver(() => fitReceipt()).observe($('#receipt'));
 update();
+/* ---------- "not sure what to get?": MidKid's quiz from their current site, answered on the counter ----------
+   Seven questions; the sandwich builds itself on the tray as you answer, within the budget picked first. */
+const QZ_BUDGETS = [['399', 'Under ₱400', 'Simple and satisfying'], ['549', '₱400–₱549', 'A little more variety'], ['699', '₱550–₱699', 'Room for deli favorites'],
+  ['950', '₱700–₱950', 'A fuller, premium build'], ['any', 'No budget preference', 'Follow the craving']];
+const QZ_Q = [
+  ['What’s calling your name?', 'Follow the craving. We’ll take it from here.', [['deli', 'Deli daydream', 'Pastrami & corned beef energy'], ['breakfast', 'Breakfast, whenever', 'Eggs & sausage energy'],
+    ['burger', 'Burger state of mind', 'Rich, savory comfort'], ['salmon', 'A little seaside moment', 'Salmon, all the way'], ['chicken', 'Something easygoing', 'Creamy chicken salad'], ['surprise', 'You know what? Surprise me.', 'Let the deli decide']]],
+  ['How big is this moment?', 'A little pause or the main event?', [['light', 'A little hungry', 'Keep the layers simple'], ['regular', 'Properly hungry', 'A well-rounded stack'], ['big', 'Very, very hungry', 'Make a meal of it']]],
+  ['Your kind of bread hug?', 'Exactly one bread. Lots of personality.', [['soft', 'Soft & pillowy', 'Potato bun'], ['chewy', 'A little chew', 'Pretzel bun or bagel'], ['sourdough', 'Rustic & toasty', 'Whole wheat sourdough'], ['sub', 'Long story, good sandwich', 'Whole wheat pandesal']]],
+  ['Pick your plot twist.', 'The flavor that brings everything together.', [['tangy', 'Make it zing', 'Pickles & mustard notes'], ['rich', 'Comfort me', 'Creamy, mellow notes'], ['fresh', 'Keep it bright', 'Greens & dill notes'], ['sweet', 'Sweet meets savory', 'Caramelized onion notes']]],
+  ['How much garden?', 'A little freshness goes a long way.', [['none', 'Let the filling talk', 'No extra greens'], ['some', 'A little crunch', 'One crisp layer'], ['lots', 'The whole fresh feeling', 'A few crisp layers']]],
+  ['How far should we wander?', 'Familiar favorites or a happy little detour.', [['classic', 'Stay close to home', 'A familiar pairing'], ['weird', 'Weird but good', 'One unexpected flourish']]]];
+const QZ_SAY = ['Ready when you are.', 'Ooh, good choice!', 'Now we’re talking.', 'Looking delicious!', 'A little deli magic…', 'That’s a very happy sandwich!'];
+// the same pairings as MidKid's quiz, in this page's ingredient names
+function qzRecipe(a){
+  const b = {}; let vibe = a[0]; if (!vibe) return b;
+  let p = { deli:'pas100', breakfast:'sausage', burger:'wagyu', salmon:'gravlax', chicken:'chicken' }[vibe];
+  if (vibe === 'deli' && a[3] === 'tangy') p = 'cb100';
+  if (vibe === 'salmon' && a[2] === 'sub') p = 'salmonfill';
+  if (a[2] === 'sub' && ['sausage', 'wagyu'].includes(p)) p = 'ham';            // round patties don't fit a long roll
+  b[p] = 1;
+  if (a[1] === 'big') b.egg = 1;
+  if (a[2]) b[{ soft:'potato', chewy:vibe === 'salmon' ? 'pbagel' : 'pbun', sourdough:a[1] === 'light' ? 'sourhalf' : 'sour', sub:'pandesal' }[a[2]]] = 1;
+  const pairs = {
+    pas100:{ tangy:['mustmayo', 'pickles'], rich:['cheddar', 'pickles'], fresh:['mustmayo', 'tomato'], sweet:['caramelized', 'mustmayo'] },
+    cb100:{ tangy:['mustmayo', 'sauerkraut'], rich:['cheddar', 'pickles'], fresh:['mustmayo', 'tomato'], sweet:['caramelized', 'mustmayo'] },
+    sausage:{ tangy:['mustmayo', 'pickles'], rich:['cheddar', 'tomato'], fresh:['tomato', 'aioli'], sweet:['caramelized', 'mustmayo'] },
+    wagyu:{ tangy:['mustmayo', 'pickles'], rich:['cheddar', 'pickles'], fresh:['tomato', 'aioli'], sweet:['caramelized', 'pickles'] },
+    ham:{ tangy:['mustmayo', 'pickles'], rich:['cheddar', 'mustmayo'], fresh:['tomato', 'mustmayo'], sweet:['caramelized', 'mustmayo'] },
+    gravlax:{ tangy:['dillsauce', 'redonion'], rich:['creamcheese', 'redonion'], fresh:['dillsauce', 'tomato'], sweet:['caramelized', 'dillsauce'] },
+    chicken:{ tangy:['pickles', 'redonion'], rich:['cheddar', 'tomato'], fresh:['tomato', 'redonion'], sweet:['caramelized', 'pickles'] },
+    salmonfill:{ tangy:['redonion', 'pickles'], rich:['egg', 'redonion'], fresh:['tomato', 'redonion'], sweet:['caramelized', 'redonion'] } };
+  if (a[3]) pairs[p][a[3]].forEach(id => b[id] = 1);
+  if (a[4] === 'some') b.lettuce = 1;
+  if (a[4] === 'lots'){ b.lettuce = 1; b.tomato = 1; b.redonion = 1; }
+  if (a[5] === 'weird'){
+    const twists = { pas100:['caramelized', 'egg'], cb100:['caramelized', 'egg'], sausage:['sauerkraut', 'caramelized'], wagyu:['sauerkraut', 'egg'], ham:['sauerkraut', 'egg'],
+      gravlax:['ikura', 'tobiko'], chicken:['sauerkraut', 'caramelized'], salmonfill:['tobiko', 'ikura'] };
+    const t = twists[p].find(id => !b[id]); if (t) b[t] = 1;
+  }
+  return b;
+}
+const qzCore = id => !!BREADS[id] || (ITEM[id].step === 'protein' && id !== 'egg');
+const qzPrice = b => Object.keys(b).reduce((n, id) => n + ITEM[id].price, 0);
+const QZ_DROP = ['tobiko', 'ikura', 'egg', 'lettuce', 'redonion', 'tomato', 'sauerkraut', 'caramelized', 'creamcheese', 'cheddar', 'pickles', 'aioli', 'mustmayo', 'dillsauce'];
+// keep the bread, the main filling and at least one companion; this menu's smaller portions (50g deli meats, half sourdough) help it fit
+function qzFit(orig, ceil){
+  const variants = [orig];
+  const swap = (b, big, small) => { if (!b[big]) return null; const c = { ...b }; delete c[big]; c[small] = 1; return c; };
+  [['sour', 'sourhalf'], ['pas100', 'pas50'], ['cb100', 'cb50']].forEach(([big, small]) => variants.slice().forEach(v => { const c = swap(v, big, small); if (c) variants.push(c); }));
+  let best = null;
+  for (const v of variants){
+    const b = { ...v };
+    const extras = () => Object.keys(b).filter(id => !qzCore(id));
+    if (Object.keys(b).filter(qzCore).length !== 2 || !extras().length) continue;
+    for (const id of QZ_DROP){ if (qzPrice(b) <= ceil) break; if (b[id] && extras().length > 1) delete b[id]; }
+    if (qzPrice(b) > ceil) continue;
+    const n = Object.keys(b).length;
+    if (!best || n > best.n || (n === best.n && qzPrice(b) > best.p)) best = { b, n, p:qzPrice(b) };
+  }
+  return best ? best.b : null;
+}
+let qzAll = [[]];
+QZ_Q.forEach(q => { qzAll = qzAll.flatMap(a => q[2].filter(o => o[0] !== 'surprise').map(o => [...a, o[0]])); });
+qzAll = qzAll.map(a => ({ a, b:qzRecipe(a), fit:{} }));
+let qz = null;
+const qzCeil = () => qz.budget === 'any' ? Infinity : +qz.budget;
+const qzFitC = c => (c.fit[qz.budget] !== undefined ? c.fit[qz.budget] : (c.fit[qz.budget] = qzFit(c.b, qzCeil())));
+const qzFamily = v => qzAll.some(c => c.a[0] === v && !c.b.ham && qzFitC(c));
+const qzEligible = prefix => qzAll.filter(c => qzFamily(c.a[0]) && prefix.every((v, i) => !v || c.a[i] === v) && qzFitC(c));
+const qzAnswers = () => { const a = qz.answers.slice(); if (a[0] === 'surprise') a[0] = qz.surprise; return a; };
+// what the tray should show so far: nothing until the bread is picked (question 4); then the bread lands with the filling
+// (and the egg, for "very, very hungry"), and the toppings and sauce follow at question 5
+function qzDerive(){
+  const a = qzAnswers(); qz.adjusted = '';
+  if (!a.length) return {};
+  if (a.length === QZ_Q.length){
+    const o = qzRecipe(a), b = qzFit(o, qzCeil()) || {};
+    const smaller = ['sour', 'pas100', 'cb100'].some(id => o[id] && !b[id]), simpler = Object.keys(o).some(id => !qzCore(id) && !b[id]);
+    qz.adjusted = smaller && simpler ? 'Smaller portions and simpler extras, to fit your budget.' : smaller ? 'We used smaller portions to fit your budget.' : simpler ? 'We kept the extras simple to fit your budget.' : '';
+    return b;
+  }
+  const possible = qzEligible(a); if (!possible.length) return {};
+  const ex = qzFitC(possible[0]), b = {};
+  if (a.length < 3) return b;
+  Object.keys(ex).forEach(id => { if (qzCore(id) || id === 'egg' || a.length >= 4) b[id] = 1; });
+  return b;
+}
+// put it on the tray one layer at a time, so you see it come together
+let qzTimer = null;
+function qzApply(b){
+  clearTimeout(qzTimer);
+  const ids = Object.keys(b), bread = ids.find(id => BREADS[id]) || null, items = ids.filter(id => !BREADS[id]);
+  let changed = false;
+  [...state.items].forEach(id => { if (!items.includes(id)){ state.items.delete(id); changed = true; } });
+  if (bread !== state.bread){ state.bread = bread; if (bread){ pending.set('bb', { mode:'bread' }); pending.set('bt', { mode:'bread' }); } changed = true; }
+  const add = stackOrder(items.filter(id => !state.items.has(id)));
+  if (changed) update();
+  const next = () => { const id = add.shift(); if (!id) return; state.items.add(id); pending.set(id, { mode:modeFor(id) }); update(); qzTimer = setTimeout(next, modeFor(id) === 'pour' ? 1500 : 520); };
+  qzTimer = setTimeout(next, changed ? 380 : 60);
+}
+let qzSayN = 0;
+function qzSay(n){ $('#quiz-say').textContent = QZ_SAY[n]; const f = $('.quiz-face'); f.classList.remove('react'); void f.offsetWidth; f.classList.add('react'); }
+function qzButton(label, sub, on, pressed){
+  const b = document.createElement('button'); b.type = 'button'; b.innerHTML = `<b></b>${sub ? '<small></small>' : ''}`;
+  b.querySelector('b').textContent = label; if (sub) b.querySelector('small').textContent = sub;
+  if (pressed) b.setAttribute('aria-pressed', 'true');
+  b.addEventListener('click', on); return b;
+}
+function qzNav(...btns){ $('#quiz-nav').replaceChildren(...btns); }
+function qzTextBtn(label, on, cls = 'btn-ghost'){ const b = document.createElement('button'); b.type = 'button'; b.className = cls; b.textContent = label; b.addEventListener('click', on); return b; }
+function qzRender(){
+  counter.dataset.qphase = 'quiz';
+  const box = $('#quiz-choices'); box.replaceChildren(); box.scrollTop = 0;
+  const i = qz.index, q = $('#quiz-q');
+  $('#quiz-bar').style.width = i < 0 ? '4%' : ((i + 1) / 8 * 100) + '%';
+  if (i === -1){
+    $('#quiz-step').textContent = 'Question 1 of 7';
+    q.textContent = 'What’s your sandwich budget?';
+    $('#quiz-hint').textContent = 'We’ll keep your build within the upper amount. A good sandwich can cost less.';
+    QZ_BUDGETS.forEach(([v, label, sub]) => box.append(qzButton(label, sub, () => { qz.budget = v; qz.answers = []; qz.surprise = null; qz.index = 0; qzApply({}); qzRender(); qzFocus(); }, qz.answers.length && qz.budget === v)));
+    qzNav(qzTextBtn('Back', qzExit));
+  } else if (i < QZ_Q.length){
+    const [question, hint, opts] = QZ_Q[i], pre = qzAnswers();
+    $('#quiz-step').textContent = `Question ${i + 2} of 7`;
+    q.textContent = question;
+    $('#quiz-hint').textContent = hint + (qz.budget === 'any' ? '' : ' Choices fit your budget; extras may be simplified.');
+    opts.filter(o => o[0] === 'surprise' || qzEligible([...pre.slice(0, i), o[0]]).length).forEach(([v, label, sub]) => box.append(qzButton(label, sub, () => {
+      qz.answers[i] = v; qz.answers = qz.answers.slice(0, i + 1);
+      if (i === 0){ qz.surprise = null; if (v === 'surprise'){ const pool = [...new Set(qzEligible([]).map(c => c.a[0]))]; qz.surprise = pool[Math.floor(Math.random() * pool.length)]; } }
+      qzApply(qzDerive()); qzSay(1 + (qzSayN++ % 3));
+      qz.index++; qzRender(); qzFocus();
+    }, qz.answers[i] === v)));
+    qzNav(qzTextBtn('Back', () => { qz.index--; qzRender(); qzFocus(); }));
+  } else {
+    $('#quiz-step').textContent = 'The personal part';
+    q.textContent = 'Wait. Who are we making this for?';
+    $('#quiz-hint').textContent = 'First name, nickname, sandwich alter ego. Leave it blank and we’ll call you Sammie.';
+    const label = document.createElement('label'); label.htmlFor = 'quiz-name'; label.textContent = 'Your name';
+    const input = document.createElement('input'); input.id = 'quiz-name'; input.maxLength = 24; input.placeholder = 'Sammie'; input.autocomplete = 'given-name';
+    input.value = $('#cust-name').value;
+    input.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); qzMake(); } });
+    box.append(label, input);
+    qzNav(qzTextBtn('Back', () => { qz.index--; qzRender(); qzFocus(); }), qzTextBtn('Make my sandwich', qzMake, 'btn'));
+  }
+}
+function qzFocus(){ setTimeout(() => $('#quiz-q').focus({ preventScroll:true }), 30); }
+function qzMake(){
+  const input = $('#quiz-name'); $('#cust-name').value = (input ? input.value.trim() : '') || 'Sammie'; syncName($('#cust-name'));
+  qzApply(qzDerive());
+  counter.dataset.qphase = 'processing'; qzSay(4);
+  $('#quiz-bar').style.width = '94%'; $('#quiz-step').textContent = 'A little deli magic';
+  $('#quiz-q').textContent = 'Making your sandwich';
+  const lines = ['Checking structural integrity.', 'Calculating pickle tolerance.', 'Putting your name on a good thing.'];
+  $('#quiz-hint').textContent = lines[0]; $('#quiz-choices').replaceChildren(); qzNav();
+  setTimeout(() => qz && ($('#quiz-hint').textContent = lines[1]), 700);
+  setTimeout(() => qz && ($('#quiz-hint').textContent = lines[2]), 1400);
+  setTimeout(qzResult, 2300);
+}
+function qzResult(){
+  if (!qz) return;
+  counter.dataset.qphase = 'result'; qzSay(5);
+  $('#quiz-bar').style.width = '100%'; $('#quiz-step').textContent = 'Your MidKid moment';
+  $('#quiz-q').textContent = 'Very you. Very good.';
+  $('#quiz-hint').textContent = qz.answers[5] === 'weird' ? 'A familiar craving with a happy little detour.' : 'A little comfort, built around your craving.';
+  const box = $('#quiz-choices'); box.replaceChildren();
+  const names = [state.bread, ...stackOrder([...state.items])].filter(Boolean).map(id => ITEM[id].name.replace(/\s*\(.*\)$/, ''));
+  const what = document.createElement('p'); what.className = 'quiz-hint'; what.textContent = names.join(', ') + '.';
+  box.append(what);
+  if (qz.adjusted){ const n = document.createElement('p'); n.className = 'quiz-note'; n.textContent = qz.adjusted; box.append(n); }
+  const again = qzTextBtn('Take the quiz again', startQuiz, 'quiz-again'); box.append(again);
+  qzNav(qzTextBtn('Change layers', () => qzExit(true)), qzTextBtn('Order this', () => { qzExit(true); openReceipt(); }, 'btn'));
+  qzFocus();
+}
+function startQuiz(){
+  clearInterval(playTimer); clearTimeout(qzTimer); closeReceipt();
+  if (exploded) $('#btn-explode').click();
+  const from = qz ? qz.from : counter.dataset.mode;
+  if ($('#start-name').value.trim()) syncName($('#start-name'));
+  qz = { budget:'any', answers:[], index:-1, surprise:null, adjusted:false, from };
+  state.bread = null; state.items.clear();
+  counter.dataset.quiz = 'on'; setMode('build'); $('#peek-txt').textContent = 'Not sure? We’ll help'; $('#resume-b').textContent = 'Back to the quiz';
+  qzSay(0); qzRender(); update(); qzFocus();
+}
+// leave the quiz: keep the sandwich to change it, or go back where you came from
+function qzExit(keep){
+  clearTimeout(qzTimer);
+  const from = qz ? qz.from : 'build'; qz = null;
+  counter.dataset.quiz = ''; delete counter.dataset.qphase; $('#resume-b').textContent = 'Resume building'; layoutCompact(); setTimeout(renderStage, 520);
+  if (keep === true || state.bread){ step = state.bread ? 1 : 0; renderPans(); update(); return; }
+  if (from === 'intro'){ setMode('intro'); playBuild(SIGS[1].build); return; }
+  step = 0; renderPans(); update();
+}
+$('#btn-quiz').addEventListener('click', startQuiz);
+$('#picker-quiz').addEventListener('click', startQuiz);
+$('#quiz-exit').addEventListener('click', () => qzExit(true));
 playBuild(SIGS[1].build);   // the counter opens with an OG Cheeseburger on the tray
 (window.requestIdleCallback || (fn => setTimeout(fn, 1200)))(() => Object.values(IMG).forEach(i => { const im = new Image(); im.decoding = 'async'; im.src = i.src; }));
 window.__byo = { state, update, playBuild, SIGS, setLens, openCloseup, setMode, openReceipt };
