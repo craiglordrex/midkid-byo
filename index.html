@@ -73,10 +73,15 @@ a{color:inherit}
 .intro-link{margin-top:16px;font-weight:700;font-stretch:87.5%;font-size:15px;color:#fff;text-underline-offset:4px}
 
 /* the "not sure what to get?" quiz, in the ingredient panel */
-.intro-quiz{margin-top:14px;background:none;border:0;padding:0;font:inherit;font-stretch:87.5%;font-size:16px;color:#fff;cursor:pointer;text-align:left}
+.intro-ctas{display:flex;flex-wrap:nowrap;gap:12px}
+.intro-ctas .btn-start{padding:16px 24px;font-size:17px}
+.btn-start.btn-quiz{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.92);padding-top:14px;padding-bottom:14px;box-shadow:0 8px 22px rgba(0,0,0,.18)}
+.btn-start.btn-quiz:hover{background:rgba(255,255,255,.14)}
+.btn-quiz:focus-visible{outline:3px solid var(--butter);outline-offset:3px}
+.intro-qnote{margin:12px 0 0;font-stretch:87.5%;font-size:15px;color:rgba(255,255,255,.82)}
 .picker-quiz{display:block;margin:-6px 0 14px;background:none;border:0;padding:0;font:inherit;font-stretch:87.5%;font-size:15px;color:#fff;cursor:pointer;text-align:left}
 .picker-quiz[hidden]{display:none}
-.picker-quiz b,.intro-quiz b{font-weight:800;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--butter);text-decoration-thickness:2px}
+.picker-quiz b{font-weight:800;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--butter);text-decoration-thickness:2px}
 .quiz{display:none;flex-direction:column;flex:1;min-height:0;color:#fff}
 .counter[data-quiz="on"] .quiz{display:flex}
 .counter[data-quiz="on"] .picker > :not(.quiz):not(.sheet-handle){display:none}
@@ -103,6 +108,11 @@ a{color:inherit}
 .quiz-choices input{font:inherit;font-weight:600;font-stretch:87.5%;font-size:17px;color:var(--maroon);background:#fffdf8;border:0;border-radius:14px;padding:13px 16px}
 .quiz-choices input:focus{outline:3px solid var(--butter);outline-offset:2px}
 .quiz-choices > button.quiz-again{display:inline;width:auto;align-self:flex-start;margin-top:10px;background:none;border:0;border-radius:0;padding:0;transform:none;font:inherit;font-weight:700;font-stretch:87.5%;font-size:15px;color:#fff;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--butter);cursor:pointer}
+.qz-anshead{margin:14px 0 2px;font-weight:800;font-stretch:87.5%;font-size:14px;color:rgba(255,255,255,.7)}
+.quiz-choices > button.qz-ans{flex-direction:row;align-items:baseline;gap:10px;padding:8px 12px;border-radius:11px;background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.18)}
+.quiz-choices > button.qz-ans span{flex:none;width:4.6em;font-stretch:87.5%;font-size:13px;color:rgba(255,255,255,.65)}
+.quiz-choices > button.qz-ans b{flex:1;min-width:0;font-size:14.5px;font-weight:700}
+.quiz-choices > button.qz-ans i{flex:none;font-style:normal;font-weight:700;font-stretch:87.5%;font-size:13px;color:var(--butter);text-decoration:underline;text-underline-offset:3px}
 .quiz-note{margin:4px 0 0;font-stretch:87.5%;font-size:14px;color:var(--butter)}
 .quiz-nav{display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid rgba(255,255,255,.18);margin-top:10px}
 .quiz-nav:empty{display:none}
@@ -166,6 +176,13 @@ a{color:inherit}
 .step-copy p{margin:6px 0 14px;font-stretch:87.5%;font-size:15px;color:rgba(255,255,255,.8)}
 .pans-wrap{flex:1;min-height:0;overflow:auto;margin:0 -8px;padding:4px 8px 8px;scrollbar-width:thin}
 .pans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 14px}
+.pan-cell{position:relative;display:flex;flex-direction:column}
+.pan-cell > .pan{flex:1}
+.dbl{position:absolute;z-index:2;top:-8px;left:-6px;font:inherit;font-weight:800;font-stretch:87.5%;font-size:13px;line-height:1;color:var(--maroon-deep);background:#fff;border:2px solid var(--butter);border-radius:999px;padding:5px 9px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.35);transition:transform .2s cubic-bezier(.3,1.6,.5,1)}
+.dbl[hidden]{display:none}
+.dbl:hover{transform:scale(1.06)}
+.dbl[aria-pressed="true"]{background:var(--butter);border-color:#fff;font-size:15px;padding:4px 10px}
+.dbl:focus-visible{outline:3px solid #fff;outline-offset:2px}
 .pan{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:5px;background:none;border:0;padding:0;cursor:pointer;color:#fff;text-align:left;touch-action:pan-x;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 .pan img,.pan svg{-webkit-user-drag:none;pointer-events:none}
 .well{position:relative;display:block;aspect-ratio:3/2;border-radius:9px;padding:6px;
@@ -289,7 +306,7 @@ a{color:inherit}
   .counter{min-height:460px;max-height:none;height:calc(100svh - var(--head));height:calc(100dvh - var(--head))}
   .ct{display:block;padding:0}
   .stage-area{position:absolute;left:0;right:0;top:0;bottom:var(--stage-bottom,0px);transition:bottom .5s cubic-bezier(.3,1,.4,1)}
-  .counter[data-mode="intro"] .stage-area{top:186px;bottom:196px}
+  .counter[data-mode="intro"] .stage-area{top:186px;bottom:150px}
   .tools{position:absolute;top:10px;right:10px;flex-direction:column;padding:0;gap:8px;z-index:6}
   .tool{width:42px;height:42px;padding:0;justify-content:center}
   .tool .tl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -319,8 +336,11 @@ a{color:inherit}
   .intro-name input{flex:1;min-width:0;padding:11px 13px;font-size:16px;box-shadow:none;border-radius:11px}
   .counter[data-mode="build"] .intro-name{display:none}
   .intro-link{position:absolute;bottom:68px;left:0;right:0;text-align:center;font-size:14px;display:none}
-  .intro-quiz{position:fixed;z-index:70;left:var(--pad);right:var(--pad);bottom:calc(154px + env(safe-area-inset-bottom));margin:0;text-align:center;font-size:15px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
-  .counter[data-mode="build"] .intro-quiz{display:none}
+  .intro-ctas{position:fixed;z-index:70;left:var(--pad);right:var(--pad);bottom:calc(14px + env(safe-area-inset-bottom));flex-wrap:nowrap;gap:10px}
+  .intro-ctas .btn-start{position:static;flex:1;min-width:0;padding:16px 10px;font-size:17px}
+  .intro-ctas .btn-start.btn-quiz{background:rgba(30,30,34,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);padding:14px 10px}
+  .counter[data-mode="build"] .intro-ctas{display:none}
+  .intro-qnote{display:none}
   .quiz{padding:0 16px}
   .quiz-top{margin-bottom:10px}
   .quiz h2{font-size:21px}
@@ -356,10 +376,16 @@ a{color:inherit}
   .step-copy{display:flex;align-items:baseline;gap:10px;margin:0 16px}
   .step-copy h2{font-size:18px}
   .step-copy p{margin:0 0 10px;font-size:13px;margin-left:auto;white-space:nowrap}
+  .step-copy{flex-wrap:wrap;align-items:baseline;column-gap:10px;row-gap:0}
+  .step-copy h2{flex-basis:100%}
+  .step-copy p{margin:3px 0 8px;margin-left:0}
+  .picker-quiz{margin:3px 0 8px auto;font-size:13px;white-space:nowrap}
+  .picker-quiz span{display:none}
   .pans-wrap{flex:1;margin:0;padding:6px 16px 4px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scroll-padding-inline:16px;scrollbar-width:none}
   .pans-wrap::-webkit-scrollbar{display:none}
   .pans{display:grid;grid-auto-flow:column;grid-template-columns:none;grid-template-rows:repeat(var(--rows,2),auto);grid-auto-columns:min(28vw,150px);gap:12px 12px;width:max-content;padding-right:16px}
-  .pan{scroll-snap-align:start}
+  .pan,.pan-cell{scroll-snap-align:start}
+  .dbl{top:-3px;left:-2px;font-size:12px;padding:4px 8px}
   .pn{font-size:13.5px}
   .pp{font-size:13px;padding:3px 8px 2px}
   .scrollbar{display:block;position:relative;height:4px;margin:4px 16px 0;border-radius:2px;background:rgba(255,255,255,.18)}
@@ -545,8 +571,11 @@ html.dragging,html.dragging *{cursor:grabbing !important}
         <h1><span class="h1-a">Build your own</span><span class="h1-b">Sandwich</span></h1>
         <p class="lede">Pick a bread, stack it from the MidKid counter, and look at every layer up close before you order.</p>
         <label class="intro-name" for="start-name"><span>Who's this sandwich for?</span><input id="start-name" type="text" autocomplete="given-name" maxlength="24" placeholder="Your name" enterkeyhint="go"></label>
-        <button class="btn btn-start" type="button" id="btn-start">Start building</button>
-        <button class="intro-quiz" type="button" id="btn-quiz">Not sure what to get? <b>Take the quiz</b></button>
+        <div class="intro-ctas">
+          <button class="btn btn-start" type="button" id="btn-start">Start building</button>
+          <button class="btn btn-start btn-quiz" type="button" id="btn-quiz">Take the quiz</button>
+        </div>
+        <p class="intro-qnote">Not sure what to get? The quiz builds it for you.</p>
         <a class="intro-link" href="#favorites">Or start from a favorite</a>
       </div>
 
@@ -639,7 +668,7 @@ html.dragging,html.dragging *{cursor:grabbing !important}
           <div class="quiz-nav" id="quiz-nav"></div>
         </div>
         <nav class="steps" id="steps" role="tablist" aria-label="Steps"></nav>
-        <div class="step-copy"><h2 id="step-title">Choose your bread</h2><p id="step-hint">Pick one</p><button class="picker-quiz" type="button" id="picker-quiz">Not sure what to get? <b>Take the quiz</b></button></div>
+        <div class="step-copy"><h2 id="step-title">Choose your bread</h2><p id="step-hint">Pick one</p><button class="picker-quiz" type="button" id="picker-quiz">Not sure<span> yet</span>? <b>Take our quiz</b></button></div>
         <div class="return-zone" aria-hidden="true"><span id="return-txt">Drop here to take it off</span></div>
         <div class="pans-wrap" id="pans-wrap"><div class="pans" id="pans" role="group" aria-labelledby="step-title"></div></div>
         <div class="scrollbar" aria-hidden="true"><span id="scroll-thumb"></span></div>
@@ -927,6 +956,7 @@ const BREADS = {
 };
 /* the photos look down on the food a little; seating each layer a bit higher than the photo implies keeps every layer's edge in view, like a burger on a menu board */
 const SEAT_K = .85, BREAD_K = .8;
+const LONG_UP = 1.22, LONG_W = .84;   // one portion on a long roll: 22% bigger, then widened to 84% of the roll
 const S_SHADOW = (Wd, Hd, seat, op) => `<ellipse cx="${CX}" cy="${f(Hd - seat * .35)}" rx="${f(Wd * .44)}" ry="${f(Math.max(5, seat * .55))}" fill="#160501" opacity="${op}" filter="url(#seam)"/>`;
 function img(src, x, y, w, h, flip){
   return `<image href="${src}" x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" preserveAspectRatio="none"${flip ? ` transform="translate(${f(2 * x + w)} 0) scale(-1 1)"` : ''}/>`;
@@ -969,13 +999,20 @@ const L = {
   ikura:        { k:.92, hk:.7,  r:.2,  q:.2,  long:'rep' },
   tobiko:       { k:.92, hk:.65, r:.19, q:.19, long:'rep' },
 };
-function layer(id, bread, rng){
-  const o = L[id], b = BREADS[bread] || BREADS.potato, im = IMG[o.img || id];
-  const base = b.D * o.k;                         // the size the photo is drawn at, front to back
+function layer(id, bread, rng, v = ''){
+  // v: '' one portion, '2' a second helping stacked on the first, 'pair' two portions side by side on a long roll
+  const o = L[id], b = BREADS[bread] || BREADS.potato, im = IMG[o.img || id], alt = v === '2';
+  const longOne = b.long && o.long === 'rep' && v !== 'pair';
+  // on a long roll one portion is drawn a size up (same shape), then widened a little to fill the roll end to end
+  const base = b.D * o.k * (longOne ? LONG_UP : 1);   // the size the photo is drawn at, front to back
   const Hd = base * im.h / im.w * o.hk;
   let svg = '', Wall;
   const copies = [];
-  if (b.long && o.long === 'rep'){ const Wc = b.w * .55 * o.k; copies.push([CX - b.w * .225, Wc], [CX + b.w * .225, Wc]); Wall = b.w * .45 + Wc; }
+  if (b.long && v === 'pair'){
+    // doubled on a long roll: two portions at their normal size, side by side
+    const Wc = b.D * o.k; copies.push([CX - b.w * .225, Wc], [CX + b.w * .225, Wc]); Wall = b.w * .45 + Wc;
+  }
+  else if (longOne){ const Wd = b.w * LONG_W * o.k; copies.push([CX, Wd]); Wall = Wd; }
   else if (b.cut){
     // a half sandwich: the fillings run past the cut and are sliced flush with the bread, so the cut end shows their layers
     const Wd = b.w * o.k * 1.06, xr = CX + b.w * b.cut + Wd * .08;
@@ -987,9 +1024,11 @@ function layer(id, bread, rng){
     // melted cheese drapes over what's under it: its flat top sits just above the layer below, the drips hang over the front
     rest = o.top * base * o.hk; seat = Hd - o.top * base * o.hk - base * .02;
   } else { rest = o.r * base * SEAT_K; seat = o.q * base * SEAT_K; }
+  if (alt && !o.cheese) seat *= .45;                // a second helping sits up on the first, so both show
   svg += S_SHADOW(Wall, Hd, seat, .32);
   let body = '';
-  copies.forEach(([x, Wd], i) => { body += img(im.src, x - Wd / 2, 0, Wd, Hd, copies.length > 1 && i === 1); });
+  // a second helping (double egg, double cheese): mirrored and nudged so it reads as another one, not a repeat
+  copies.forEach(([x, Wd], i) => { const fl = copies.length > 1 && i === 1; body += img(im.src, x - Wd / 2 + (alt ? Wd * (o.cheese ? .07 : .05) : 0), 0, Wd, Hd, alt ? !fl : fl); });
   if (b.cut){
     const id = uid('cut'), xc = CX + b.w * b.cut;
     body += `<rect x="${f(xc - 9)}" y="0" width="9" height="${f(Hd)}" fill="url(#cut-shade)"/>`;   // the cut face turns away from the light
@@ -1059,7 +1098,9 @@ const isSauce = id => !!SAUCE[id];
 
 
 /* ---------- state ---------- */
-const state = { bread:null, items:new Set() };
+const state = { bread:null, items:new Set(), qty:new Map() };   // qty: ingredients doubled (2 of them)
+const qtyOf = id => (state.items.has(id) && state.qty.get(id)) || 1;
+const CAN_DOUBLE = id => !!ITEM[id] && (ITEM[id].step === 'protein' || ITEM[id].step === 'cheese');
 let exploded = false, lensOn = false, step = 0;
 const counter = $('#build');
 const compact = () => matchMedia('(max-width: 1099px)').matches;
@@ -1077,7 +1118,7 @@ function drawLayer(key, bread, lip){
         crown: lip.crown && B ? { seat: B.t.q * B.ref * BREAD_K, half: B.w / 2 } : null });
       r.sauce = true; r.rest = 0; r.seat = 0;
     }
-    else r = layer(key, bread, rngFor(key + bread));
+    else { const [id, n] = key.split(':'); r = layer(id, bread, rngFor(key + bread), n || ''); }
     cache.set(ck, r);
   }
   return cache.get(ck);
@@ -1094,7 +1135,11 @@ const stackOrder = ids => ids.map((id, i) => [id, i]).sort((p, q) => stackRank(p
 function currentLayers(){
   const b = BREADS[state.bread], w = b ? (b.twin ? b.w * 1.64 : b.w) : 380, list = [];
   if (b) list.push({ key:'bb', draw:'bread:' + state.bread + ':b', label:null });
-  stackOrder([...state.items]).forEach(id => list.push({ key:id, draw:id, label:ITEM[id].label }));
+  stackOrder([...state.items]).forEach(id => {
+    const two = qtyOf(id) > 1, pair = two && b && b.long;      // a long roll lays a double side by side
+    list.push({ key:id, draw:pair ? id + ':pair' : id, label:ITEM[id].label + (two ? ' ×2' : '') });
+    if (two && !pair) list.push({ key:id + '~2', draw:id + ':2', label:null });   // elsewhere the second helping sits right on the first
+  });
   if (b) list.push({ key:'bt', draw:'bread:' + state.bread + ':t', label:ITEM[state.bread].label });
   return { list, w };
 }
@@ -1371,7 +1416,7 @@ function renderStage(){
     $('#empty-txt').textContent = counter.dataset.quiz === 'on' ? 'Answer a few questions. Your sandwich lands here.' : touchFirst() ? 'Tap or drag a bread up to start.' : 'Drag a bread onto the tray to start.';
   }
   else empty.hidden = true;
-  const names = geo.filter(g => g.key !== 'bb' && g.key !== 'bt').map(g => ITEM[g.key].name);
+  const names = geo.filter(g => g.key !== 'bb' && g.key !== 'bt').map(g => ITEM[g.key.split('~')[0]].name);
   $('#scene-desc').textContent = state.bread ? `${ITEM[state.bread].name}${names.length ? ' with ' + names.join(', ') : ''}` : 'Empty tray';
 }
 function lidHint(){
@@ -1458,7 +1503,9 @@ function panHTML(id){
   else if (SAUCES[id]){ cls += ' pan-sauce'; art = panArt(id); }
   else if (PAN_PHOTO(id)){ art = `<img src="${IMG['pan_' + id].src}" alt="">`; }
   else art = panArt(id);
-  return `<button class="${cls}" type="button" data-id="${id}" aria-pressed="false"><span class="well">${art}</span><span class="pn">${nm}</span><span class="pp">${peso(it.price)}</span><span class="tick" aria-hidden="true"></span></button>`;
+  const pan = `<button class="${cls}" type="button" data-id="${id}" aria-pressed="false"><span class="well">${art}</span><span class="pn">${nm}</span><span class="pp">${peso(it.price)}</span><span class="tick" aria-hidden="true"></span></button>`;
+  // double it: a second egg, slice of cheese or patty
+  return CAN_DOUBLE(id) ? `<div class="pan-cell">${pan}<button class="dbl" type="button" data-dbl="${id}" aria-pressed="false" hidden>+1 more</button></div>` : pan;
 }
 const SHORT = { bread:'Bread', protein:'Protein', cheese:'Cheese', toppings:'Toppings', sauce:'Sauce', extra:'Extra' };
 function renderSteps(){
@@ -1498,6 +1545,19 @@ function syncNext(){
 }
 function syncPans(){
   $$('#pans .pan').forEach(p => { const id = p.dataset.id; p.setAttribute('aria-pressed', String(BREADS[id] ? state.bread === id : state.items.has(id))); });
+  $$('#pans .dbl').forEach(d => {
+    const id = d.dataset.dbl, two = qtyOf(id) > 1, nm = ITEM[id].name.replace(/\s*\(.*\)$/, '');
+    d.hidden = !state.items.has(id); d.setAttribute('aria-pressed', String(two));
+    d.textContent = two ? '×2' : '+1 more';
+    d.setAttribute('aria-label', two ? `Back to one ${nm}` : `Add a second ${nm}`);
+  });
+}
+function toggleDouble(id){
+  if (!state.items.has(id)) return;
+  clearInterval(playTimer);
+  if (qtyOf(id) > 1) state.qty.delete(id);
+  else { state.qty.set(id, 2); if (!BREADS[state.bread].long) pending.set(id + '~2', { mode:modeFor(id) }); }
+  update();
 }
 function updateScrollbar(){
   const wrap = $('#pans-wrap'), th = $('#scroll-thumb');
@@ -1574,7 +1634,7 @@ async function choose(btn, id, { dropped = false, toggle = true, dropAt = null }
     state.bread = id;
   } else if (state.items.has(id)){
     if (!toggle) return;
-    state.items.delete(id);
+    state.items.delete(id); state.qty.delete(id);
   } else {
     if (breadLocked()) return;
     btn.setAttribute('aria-pressed', 'true');
@@ -1587,6 +1647,7 @@ async function choose(btn, id, { dropped = false, toggle = true, dropAt = null }
 }
 let suppressClick = false;
 $('#pans').addEventListener('click', e => {
+  const d = e.target.closest('.dbl'); if (d){ toggleDouble(d.dataset.dbl); return; }
   const btn = e.target.closest('.pan'); if (!btn) return;
   if (suppressClick){ suppressClick = false; return; }
   choose(btn, btn.dataset.id);
@@ -1665,7 +1726,9 @@ $('#btn-next').addEventListener('click', () => { if (breadLocked()) return nudge
 function topLayer(){
   if (!state.bread) return null;
   const items = stackOrder([...state.items]);       // the layer right under the top bun
-  return items.length ? items[items.length - 1] : 'bt';
+  if (!items.length) return 'bt';
+  const last = items[items.length - 1];
+  return qtyOf(last) > 1 && !BREADS[state.bread].long ? last + '~2' : last;
 }
 function returnTarget(){ return compact() && counter.dataset.sheet === 'peek' ? $('#resume') : $('#picker'); }
 function overReturn(x, y){ const r = returnTarget().getBoundingClientRect(); return x > r.left && x < r.right && y > r.top && y < r.bottom; }
@@ -1698,7 +1761,7 @@ function startLift(x, y){
   n.g.style.opacity = '0';
   const n2 = nodes.get(lift.key + '~b'); if (n2) n2.g.style.opacity = '0';
   counter.classList.add('return-ready');
-  $('#return-txt').textContent = `Drop here to take off the ${ITEM[lift.key === 'bt' || lift.key === 'bb' ? state.bread : lift.key].label}`;
+  $('#return-txt').textContent = `Drop here to take off the ${ITEM[lift.key === 'bt' || lift.key === 'bb' ? state.bread : lift.key.split('~')[0]].label}`;
   document.documentElement.classList.add('dragging');
   if (lift.touch && navigator.vibrate) navigator.vibrate(10);
 }
@@ -1723,11 +1786,11 @@ function endLift(e, cancelled){
   counter.classList.remove('return-ready', 'return-over');
   const g = L.ghost, hit = !cancelled && e && overReturn(e.clientX, e.clientY);
   if (hit){
-    const pan = $(`.pan[data-id="${L.key === 'bt' || L.key === 'bb' ? state.bread : L.key}"] .well`);
+    const pan = $(`.pan[data-id="${L.key === 'bt' || L.key === 'bb' ? state.bread : L.key.split('~')[0]}"] .well`);
     const r = (pan || returnTarget()).getBoundingClientRect();
     g.animate([{ transform:g.style.transform, opacity:1 }, { transform:`translate(${f(r.left)}px,${f(r.top)}px) scale(.3)`, opacity:0 }], { duration: reduced ? 0 : 320, easing:'ease-in' }).finished.then(() => g.remove());
     if (L.key === 'bt' || L.key === 'bb'){ state.bread = null; step = 0; renderPans(); }
-    else state.items.delete(L.key);
+    else { const id = L.key.split('~')[0]; if (qtyOf(id) > 1) state.qty.delete(id); else { state.items.delete(id); state.qty.delete(id); } }   // a double goes back to one first
     update();
     setTimeout(() => { L.node.g.style.opacity = ''; const n2 = nodes.get(L.key + '~b'); if (n2) n2.g.style.opacity = ''; }, 400);
   } else {
@@ -1741,13 +1804,15 @@ stage.addEventListener('pointermove', e => { if (e.pointerType === 'mouse' && !l
 stage.addEventListener('pointerleave', () => stage.classList.remove('can-lift'));
 
 /* ---------- ticket ---------- */
-function total(){ let t = state.bread ? ITEM[state.bread].price : 0; state.items.forEach(id => t += ITEM[id].price); return t; }
+function total(){ let t = state.bread ? ITEM[state.bread].price : 0; state.items.forEach(id => t += ITEM[id].price * qtyOf(id)); return t; }
+const lineName = id => ITEM[id].name + (qtyOf(id) > 1 ? ' × 2' : '');
+const linePrice = id => ITEM[id].price * (BREADS[id] ? 1 : qtyOf(id));
 function chosenByStep(){ return STEPS.map(s => ({ s, ids: s.items.map(i => i[0]).filter(id => s.single ? state.bread === id : state.items.has(id)) })).filter(x => x.ids.length); }
 function renderTicket(){
   const t = peso(total());
   ['#total-b', '#total-peek', '#total-chip', '#total-resume'].forEach(s => $(s).textContent = t);
   const groups = chosenByStep();
-  $('#lines').innerHTML = groups.length ? groups.map(({ s, ids }) => `<li><span class="k">${SHORT[s.key]}</span></li>` + ids.map(id => `<li><span>${ITEM[id].name}</span><span class="v">${ITEM[id].price}</span></li>`).join('')).join('')
+  $('#lines').innerHTML = groups.length ? groups.map(({ s, ids }) => `<li><span class="k">${SHORT[s.key]}</span></li>` + ids.map(id => `<li><span>${BREADS[id] ? ITEM[id].name : lineName(id)}</span><span class="v">${linePrice(id)}</span></li>`).join('')).join('')
     : `<li><span class="none">Nothing on the tray yet. Start with a bread.</span></li>`;
   const ready = !!state.bread;
   ['#btn-copy', '#btn-ig', '#btn-call'].forEach(s => $(s).setAttribute('aria-disabled', String(!ready)));
@@ -1760,7 +1825,7 @@ function orderText(){
   let out = 'MidKid: Build Your Own Sandwich\n';
   if (name) out += `Name: ${name}\n`;
   if (sandwichName()) out += `Sandwich name: ${sandwichName()}\n`;
-  chosenByStep().forEach(({ s, ids }) => ids.forEach(id => out += `${SHORT[s.key]}: ${ITEM[id].name} (${ITEM[id].price})\n`));
+  chosenByStep().forEach(({ s, ids }) => ids.forEach(id => out += `${SHORT[s.key]}: ${BREADS[id] ? ITEM[id].name : lineName(id)} (${linePrice(id)})\n`));
   return out + `Total: ${peso(total())}`;
 }
 async function copyOrder(){
@@ -1789,7 +1854,7 @@ $('#btn-print').addEventListener('click', () => {
   const name = $('#cust-name').value.trim().replace(/[<>&]/g, '');
   let h = `<img src="${$('.brand img').src}" alt=""><p class="ps-a">Build Your Own</p><p class="ps-b">SANDWICH</p><div class="ps-name">NAME: ${name}</div>${sandwichName() ? `<div class="ps-name">SANDWICH: ${sandwichName().replace(/[<>&]/g, '')}</div>` : ''}`;
   // only what was picked, grouped by step; steps with nothing picked are left off
-  chosenByStep().forEach(({ s, ids }) => { h += `<h4>${SHORT[s.key]}</h4><ul>`; ids.forEach(id => { h += `<li>${ITEM[id].name}<span>${ITEM[id].price}</span></li>`; }); h += '</ul>'; });
+  chosenByStep().forEach(({ s, ids }) => { h += `<h4>${SHORT[s.key]}</h4><ul>`; ids.forEach(id => { h += `<li>${BREADS[id] ? ITEM[id].name : lineName(id)}<span>${linePrice(id)}</span></li>`; }); h += '</ul>'; });
   $('#print-slip').innerHTML = h + `<div class="ps-tot"><span>TOTAL</span><span>${peso(total())}</span></div>`;
   window.print();
 });
@@ -1810,7 +1875,7 @@ function renderMatch(){
   $('#match-lbl').textContent = sigPrice < total() ? `Order the signature for ${peso(sigPrice)}` : 'See the real one';
 }
 
-function update(){ renderStage(); syncPans(); renderSteps(); syncNext(); renderTicket(); renderMatch(); lidHint(); $('#picker-quiz').hidden = !!state.bread; }
+function update(){ renderStage(); syncPans(); renderSteps(); syncNext(); renderTicket(); renderMatch(); lidHint(); }
 
 /* ---------- modes, sheet and receipt ---------- */
 function sheetHeight(){
@@ -1869,10 +1934,7 @@ function endSwipe(e){
 }
 picker.addEventListener('pointerup', endSwipe);
 picker.addEventListener('pointercancel', endSwipe);
-function openReceipt(){
-  if (!compact()){ $('#cust-name').focus({ preventScroll:true }); $('.paper').animate([{ transform:'rotate(1.2deg) translateY(0)' }, { transform:'rotate(1.2deg) translateY(-8px)' }, { transform:'rotate(1.2deg) translateY(0)' }], { duration:420 }); return; }
-  showFullReceipt();
-}
+function openReceipt(){ showFullReceipt(); }
 // a picture of the finished sandwich at the top of the full receipt
 function drawReceiptPic(){
   const pic = $('#rc-pic');
@@ -1886,10 +1948,17 @@ function drawReceiptPic(){
   pic.querySelectorAll('.spat').forEach(sp => sp.remove());
 }
 function showFullReceipt(){
+  const paper = $('.paper'), from = !compact() && counter.dataset.receipt !== 'open' ? paper.getBoundingClientRect() : null;
   drawReceiptPic();
-  $('#rc-back-txt').textContent = compact() ? 'Keep building' : 'Back to the counter';
+  $('#rc-back-txt').textContent = counter.dataset.quiz === 'on' ? 'Back to the quiz' : compact() ? 'Keep building' : 'Back to the counter';
   counter.dataset.receipt = 'open';
   document.documentElement.style.overflow = 'hidden';
+  if (from && !reduced){
+    const to = paper.getBoundingClientRect();
+    paper.animate([{ transform:`translate(${f(from.left - to.left)}px,${f(from.top - to.top)}px) scale(${f(from.width / to.width)}) rotate(1.2deg)`, transformOrigin:'0 0' },
+                   { transform:'none', transformOrigin:'0 0' }], { duration:560, easing:'cubic-bezier(.3,1,.35,1)' });
+    $('#receipt').animate([{ backgroundColor:'rgba(20,8,10,0)' }, { backgroundColor:'rgba(20,8,10,.72)' }], { duration:400 });
+  }
   $('#receipt').scrollTop = 0;
   setTimeout(() => $('#rc-close').focus({ preventScroll:true }), 60);
 }
@@ -1955,7 +2024,7 @@ $('#start-name').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.pr
 $('#btn-start').addEventListener('click', () => {
   syncName($('#start-name'));
   clearInterval(playTimer);
-  state.bread = null; state.items.clear();
+  state.bread = null; state.items.clear(); state.qty.clear();
   step = 0; renderPans(); setMode('build'); update();
   if (compact() && scrollY > 0) window.scrollTo({ top:0, behavior: reduced ? 'auto' : 'smooth' });
   setTimeout(() => { const first = $('#pans .pan'); if (first) first.focus({ preventScroll:true }); }, 450);
@@ -1965,7 +2034,7 @@ $('#btn-start').addEventListener('click', () => {
 let playTimer = null;
 function playBuild(build){
   clearInterval(playTimer);
-  state.bread = null; state.items.clear();
+  state.bread = null; state.items.clear(); state.qty.clear();
   if (reduced){ state.bread = build.bread; build.items.forEach(i => state.items.add(i)); update(); return; }
   update();
   const seq = [() => { state.bread = build.bread; pending.set('bb', { mode:'bread' }); pending.set('bt', { mode:'bread' }); }];
@@ -2025,7 +2094,7 @@ $('#btn-explode').addEventListener('click', () => {
 });
 $('#btn-reset').addEventListener('click', () => {
   clearInterval(playTimer);
-  state.bread = null; state.items.clear(); $('#status').textContent = '';
+  state.bread = null; state.items.clear(); state.qty.clear(); $('#status').textContent = '';
   if (counter.dataset.mode === 'build'){ step = 0; renderPans(); }
   update();
 });
@@ -2092,7 +2161,7 @@ function loadBuild(build, { order = false } = {}){
   setMode('build');
   if (order){
     clearInterval(playTimer);
-    state.bread = build.bread; state.items.clear(); build.items.forEach(id => state.items.add(id)); step = STEPS.length - 1; renderPans(); update();
+    state.bread = build.bread; state.items.clear(); state.qty.clear(); build.items.forEach(id => state.items.add(id)); step = STEPS.length - 1; renderPans(); update();
     counter.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block:'start' });
     setTimeout(openReceipt, compact() ? 560 : 120);
     return;
@@ -2273,7 +2342,7 @@ function qzApply(b){
   clearTimeout(qzTimer);
   const ids = Object.keys(b), bread = ids.find(id => BREADS[id]) || null, items = ids.filter(id => !BREADS[id]);
   let changed = false;
-  [...state.items].forEach(id => { if (!items.includes(id)){ state.items.delete(id); changed = true; } });
+  [...state.items].forEach(id => { if (!items.includes(id)){ state.items.delete(id); state.qty.delete(id); changed = true; } });
   if (bread !== state.bread){ state.bread = bread; if (bread){ pending.set('bb', { mode:'bread' }); pending.set('bt', { mode:'bread' }); } changed = true; }
   const add = stackOrder(items.filter(id => !state.items.has(id)));
   if (changed) update();
@@ -2299,20 +2368,25 @@ function qzRender(){
     $('#quiz-step').textContent = 'Question 1 of 7';
     q.textContent = 'What’s your sandwich budget?';
     $('#quiz-hint').textContent = 'We’ll keep your build within the upper amount. A good sandwich can cost less.';
-    QZ_BUDGETS.forEach(([v, label, sub]) => box.append(qzButton(label, sub, () => { qz.budget = v; qz.answers = []; qz.surprise = null; qz.index = 0; qzApply({}); qzRender(); qzFocus(); }, qz.answers.length && qz.budget === v)));
-    qzNav(qzTextBtn('Back', qzExit));
+    QZ_BUDGETS.forEach(([v, label, sub]) => box.append(qzButton(label, sub, () => {
+      qz.budget = v;
+      if (!qz.done){ qz.answers = []; qz.surprise = null; qzApply({}); }
+      qzAnswered(-1);
+    }, (qz.answers.length || qz.done) && qz.budget === v)));
+    qzNav(qz.done ? qzTextBtn('Back to my sandwich', qzResult) : qzTextBtn('Back', qzExit));
   } else if (i < QZ_Q.length){
     const [question, hint, opts] = QZ_Q[i], pre = qzAnswers();
     $('#quiz-step').textContent = `Question ${i + 2} of 7`;
     q.textContent = question;
     $('#quiz-hint').textContent = hint + (qz.budget === 'any' ? '' : ' Choices fit your budget; extras may be simplified.');
     opts.filter(o => o[0] === 'surprise' || qzEligible([...pre.slice(0, i), o[0]]).length).forEach(([v, label, sub]) => box.append(qzButton(label, sub, () => {
-      qz.answers[i] = v; qz.answers = qz.answers.slice(0, i + 1);
-      if (i === 0){ qz.surprise = null; if (v === 'surprise'){ const pool = [...new Set(qzEligible([]).map(c => c.a[0]))]; qz.surprise = pool[Math.floor(Math.random() * pool.length)]; } }
-      qzApply(qzDerive()); qzSay(1 + (qzSayN++ % 3));
-      qz.index++; qzRender(); qzFocus();
+      const was = qz.answers[i]; qz.answers[i] = v;
+      if (i === 0 && (v !== was || v === 'surprise')){ qz.surprise = null; if (v === 'surprise') qzRollSurprise(); }
+      qzSay(1 + (qzSayN++ % 3));
+      qzAnswered(i);
     }, qz.answers[i] === v)));
-    qzNav(qzTextBtn('Back', () => { qz.index--; qzRender(); qzFocus(); }));
+    const back = qzTextBtn('Back', () => { qz.index--; qzRender(); qzFocus(); });
+    qzNav(...(qz.done && qz.answers.length === QZ_Q.length ? [back, qzTextBtn('Back to my sandwich', qzResult, 'btn-ghost qz-home')] : [back]));
   } else {
     $('#quiz-step').textContent = 'The personal part';
     q.textContent = 'Wait. Who are we making this for?';
@@ -2324,6 +2398,22 @@ function qzRender(){
     box.append(label, input);
     qzNav(qzTextBtn('Back', () => { qz.index--; qzRender(); qzFocus(); }), qzTextBtn('Make my sandwich', qzMake, 'btn'));
   }
+}
+function qzRollSurprise(){ const pool = [...new Set(qzEligible([]).map(c => c.a[0]))]; qz.surprise = pool[Math.floor(Math.random() * pool.length)]; }
+/* after an answer: move on to the next question; or, when changing an answer on a finished sandwich,
+   keep the later answers that still work and go straight back to it (or to the first answer that no longer fits) */
+function qzAnswered(i){
+  if (qz.done){
+    if (qz.answers[0] === 'surprise' && !qzEligible([qz.surprise]).length) qzRollSurprise();
+    for (let j = Math.max(0, i + 1); j < QZ_Q.length; j++){
+      const pre = qzAnswers(), v = qz.answers[j];
+      const ok = v && (v === 'surprise' ? qzEligible([qz.surprise]).length : qzEligible([...pre.slice(0, j), v]).length);
+      if (!ok){ qz.answers = qz.answers.slice(0, j); qz.index = j; qzApply(qzDerive()); qzRender(); qzFocus(); return; }
+    }
+    qzApply(qzDerive()); qzResult(); return;
+  }
+  qz.answers = qz.answers.slice(0, i + 1); qz.index = i + 1;
+  qzApply(qzDerive()); qzRender(); qzFocus();
 }
 function qzFocus(){ setTimeout(() => $('#quiz-q').focus({ preventScroll:true }), 30); }
 function qzMake(){
@@ -2349,8 +2439,22 @@ function qzResult(){
   const what = document.createElement('p'); what.className = 'quiz-hint'; what.textContent = names.join(', ') + '.';
   box.append(what);
   if (qz.adjusted){ const n = document.createElement('p'); n.className = 'quiz-note'; n.textContent = qz.adjusted; box.append(n); }
-  const again = qzTextBtn('Take the quiz again', startQuiz, 'quiz-again'); box.append(again);
-  qzNav(qzTextBtn('Change layers', () => qzExit(true)), qzTextBtn('Order this', () => { qzExit(true); openReceipt(); }, 'btn'));
+  // your answers: change any one and the sandwich follows
+  const head = document.createElement('p'); head.className = 'qz-anshead'; head.textContent = 'Your answers'; box.append(head);
+  const rows = [['Budget', QZ_BUDGETS.find(b => b[0] === qz.budget)[1], -1]].concat(qz.answers.map((v, i) => {
+    const lab = o => (QZ_Q[i][2].find(x => x[0] === o) || [])[1];
+    return [['Craving', 'Hunger', 'Bread', 'Flavor', 'Greens', 'Detour'][i], v === 'surprise' ? 'Surprise me: ' + lab(qz.surprise) : lab(v), i];
+  }));
+  rows.forEach(([k, label, i]) => {
+    const r = document.createElement('button'); r.type = 'button'; r.className = 'qz-ans';
+    r.innerHTML = '<span></span><b></b><i>Change</i>'; r.querySelector('span').textContent = k; r.querySelector('b').textContent = label;
+    r.setAttribute('aria-label', `Change your ${k.toLowerCase()} answer: ${label}`);
+    r.addEventListener('click', () => { qz.index = i; qzRender(); qzFocus(); });
+    box.append(r);
+  });
+  box.append(qzTextBtn('Take the quiz again', startQuiz, 'quiz-again'));
+  qzNav(qzTextBtn('Change layers', () => qzExit(true)), qzTextBtn('Order this', openReceipt, 'btn'));
+  qz.done = true;
   qzFocus();
 }
 function startQuiz(){
@@ -2358,16 +2462,18 @@ function startQuiz(){
   if (exploded) $('#btn-explode').click();
   const from = qz ? qz.from : counter.dataset.mode;
   if ($('#start-name').value.trim()) syncName($('#start-name'));
-  qz = { budget:'any', answers:[], index:-1, surprise:null, adjusted:false, from };
-  state.bread = null; state.items.clear();
+  const saved = qz ? qz.saved : (state.bread ? { bread:state.bread, items:[...state.items], qty:[...state.qty] } : null);
+  qz = { budget:'any', answers:[], index:-1, surprise:null, adjusted:'', done:false, from, saved };
+  state.bread = null; state.items.clear(); state.qty.clear();
   counter.dataset.quiz = 'on'; setMode('build'); $('#peek-txt').textContent = 'Not sure? We’ll help'; $('#resume-b').textContent = 'Back to the quiz';
   qzSay(0); qzRender(); update(); qzFocus();
 }
 // leave the quiz: keep the sandwich to change it, or go back where you came from
 function qzExit(keep){
   clearTimeout(qzTimer);
-  const from = qz ? qz.from : 'build'; qz = null;
+  const from = qz ? qz.from : 'build', saved = qz && qz.saved; qz = null;
   counter.dataset.quiz = ''; delete counter.dataset.qphase; $('#resume-b').textContent = 'Resume building'; layoutCompact(); setTimeout(renderStage, 520);
+  if (!state.bread && saved){ state.bread = saved.bread; saved.items.forEach(id => state.items.add(id)); state.qty = new Map(saved.qty); }
   if (keep === true || state.bread){ step = state.bread ? 1 : 0; renderPans(); update(); return; }
   if (from === 'intro'){ setMode('intro'); playBuild(SIGS[1].build); return; }
   step = 0; renderPans(); update();
